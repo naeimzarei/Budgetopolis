@@ -9,6 +9,8 @@ At some point, Git will ask you to configure global variables and here is how to
 
 If you want to pull changes from the master branch to your own branch, you need to do the command: ```git checkout master```. This will change the working branch to the master branch. Then, you will need to do the follow command: ```git pull```. This will pull changes from the master branch to your local machine, under the master branch. Then, do: ```git checkout your-branch-name```. Finally, you will need to do: ```git merge master```. This will merge the master branch on your local branch, locally. 
 
+Keep in mind, each time you call: ```git checkout branch-name```, Git changes your working directory to reflect the files on that branch that you checked out to. For instance, if you were originally in the master branch, switching to your branch would only show your branch's files in the directory that it was switched to. Your code editor's directory will reflect the changes, as you will see. Essentially, the folder that you have Budgetopolis would only show the files on the branch that you checked to. At any time, you can switch back to the original branch by doing this: ```git checkout original-working-branch```. 
+
 # Markdown Basics
 
 Here is a link to a website that has a markdown cheat sheet, which I have found really useful: [Markdown Basics ](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet). 
