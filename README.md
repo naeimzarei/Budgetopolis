@@ -1,24 +1,24 @@
 # Budgetopolis 
 
-## <p style='color: #EBF5EE'>Contact Information</p>
+## Contact Information
 
 ## Meeting Schedules
 
 ## Group Roles
 
-### <p style='color: #D7816A'>Project Manager</p>
+### Project Manager
 Yashar Asgari
 
-### <p style='color: #D7816A'>Client and Instructor Contacts </p>
+### Client and Instructor Contacts
 Yashar Asgari
 
-### <p style='color: #D7816A'>Game Design Architect</p>
+### Game Design Architect
 Robert Anderson
 
-### <p style='color: #D7816A'>Software Architect</p>
+### Software Architect
 Naeim Zarei 
 
-### <p style='color: #D7816A'>Editor </p>
+### Editor
 Daniel Estrada
 
 ## Notes
