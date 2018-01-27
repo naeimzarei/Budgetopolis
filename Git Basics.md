@@ -13,4 +13,4 @@ Keep in mind, each time you call: ```git checkout branch-name```, Git changes yo
 
 # Markdown Basics
 
-Here is a link to a website that has a markdown cheat sheet, which I have found really useful: [Markdown Basics ](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet). 
+Here is a link to a website that has a markdown cheat sheet, which I have found really useful: [Markdown Basics](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet). 
