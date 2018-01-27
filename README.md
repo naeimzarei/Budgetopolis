@@ -1,15 +1,15 @@
 # Budgetopolis 
 
-# Contact Information
+## Contact Information
 
-# Meeting Schedules
+## Meeting Schedules
 
-# Group Roles
+## Group Roles
 
-1. Project Manager
-- Yashar Asgari
+### Project Manager
+Yashar Asgari
 
-2. Client and Instructor Contacts
+### Client and Instructor Contacts
 - Yashar Asgari
 
 3. Game Design Architect
