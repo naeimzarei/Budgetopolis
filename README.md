@@ -7,18 +7,18 @@
 # Group Roles
 
 1. Project Manager
-    - Yashar Asgari
+- Yashar Asgari
 
 2. Client and Instructor Contacts
-    - Yashar Asgari
+- Yashar Asgari
 
 3. Game Design Architect
-    - Robert Anderson
+- Robert Anderson
 
 4. Software Architect
-    - Naeim Zarei 
+- Naeim Zarei 
 
 5. Editor
-    - Daniel Estrada
+- Daniel Estrada
 
 # Notes
