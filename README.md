@@ -6,8 +6,19 @@
 * Medium: originally a physcial board game, now through a web app
 
 ## Contact Information
+*Team Members*
+* Yashar Asgari: yasgari@ad.unc.edu
+* Naeim Zarei: naeimz@live.unc.edu
+* Daniel Estrada: danimest@live.unc.edu
+* Robert Blanton: robertan@live.unc.edu
+
+*Client*
+Tracy Miles: tsmiles@sog.unc.edu 
 
 ## Meeting Schedules
+* Team:
+* Dr. Pozefsky: Fridays, 2:30-3:20 pm
+* Tracy (client): TBD at Monday's meeting
 
 ## Group Roles
 
@@ -28,7 +39,7 @@ Daniel Estrada
 
 ## Notes
 
-We are scheduled to have our first meeting with our client next week, sometime around 2:00 PM and 3:35 PM on Monday (01/29/18).
+We are scheduled to have our first meeting with our client next week, at 2:00 PM on Monday (01/29/18).
 
 We are scheduled to have our first meeting with the instructor next Friday (02/02/18).
 
