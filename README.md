@@ -3,6 +3,7 @@
 * Purpose: to get city and county council members to think about how to properly spend the local government budget
 * Target audience: city and county council members
 * Developer: UNC School of Government 
+* Medium: originally a physcial board game, now through a web app
 
 ## Contact Information
 
