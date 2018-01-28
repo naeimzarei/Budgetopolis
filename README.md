@@ -6,19 +6,19 @@
 * Medium: originally a physcial board game, now through a web app
 
 ## Contact Information
-*Team* 
+*Team Members*
 * Yashar Asgari: yasgari@ad.unc.edu
 * Naeim Zarei: naeimz@live.unc.edu
 * Daniel Estrada: danimest@live.unc.edu
-* Robert Anderson: robertan@live.unc.edu
+* Robert Blanton: robertan@live.unc.edu
 
 *Client*
-Tracy Miles: tsmiles@sog.unc.edu
+Tracy Miles: tsmiles@sog.unc.edu 
 
 ## Meeting Schedules
-* Team: 9:30-1030 am on Tuesdays
-* Dr. Pozefsky: 2:30-3:20pm on Fridays
-* Client: TBD at Monday's first meeting
+* Team:
+* Dr. Pozefsky: Fridays, 2:30-3:20 pm
+* Tracy (client): TBD at Monday's meeting
 
 ## Group Roles
 
