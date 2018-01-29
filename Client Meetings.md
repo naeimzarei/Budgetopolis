@@ -12,7 +12,9 @@ deciding the result of the game, based on the rules.
     to the users. Could be called different things, open to suggestions. Consider audience
     group. Six values are prioritized. Do the choices of the players reflect the community values? The game logic should point out potential conflicts of values versus choices.
     3. Powerpoint: budgeting 101, required funding, average cuts and how cuts are decided
-* Game mechanics: both games are same but the categories (services) change between Bottom Line! and Budgetopolis. This is just some of the game information. 
+* Game logic: both games are same but the categories (services) change between Bottom Line! and Budgetopolis. This is just some of the game information, not an all-inclusive list. Also,
+this part of the game is the most difficult to keep track of, but once this part is done, the 
+facilitator's role is simplified so much. 
     1. Media: the facilitator plays this role, opinions captured in Twitter, news
     2. Rounds: no set number of rounds, choose by asking 
     3. Winning: there is no clear winner or loser, just a chance to reflect on choices
@@ -33,3 +35,4 @@ about syncing groups. Facilitator IDs and session ID. Store the session IDs on t
 it is static and doesn't change each time. 
 * Decisions: what will be used to produce the game logic, where will the game be hosted
 * Other notes: do not need to worry about UNC logins, and may not have to worry about SSL. Also consider Wi-Fi availability: downloadable component that could link back to web platform if the game shuts down unexpectedly all of a sudden. Do not worry about graphics.
+
