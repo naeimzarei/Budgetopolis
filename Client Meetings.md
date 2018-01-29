@@ -18,7 +18,8 @@ deciding the result of the game, based on the rules.
     3. Winning: there is no clear winner or loser, just a chance to reflect on choices
     and their respective outcomes. 
 * Database and scoring: log each action and decision made by the groups and store in database. Allow users to pull information about the game, that can be possibly downloaded as PDF or CSV. Can have a highscore database path as well. Don't worry about outputing the 
-actions. Just store them for future use and reference. 
+actions. Just store them for future use and reference. May not have interface right now, but
+may think about having access to the information later.
 * Our roles: must simplify the game as much as possible. Must code the game. Must log actions.
 Must determine game logic. Emulate social media. 
 * This is a group game. So one laptop per group. 
