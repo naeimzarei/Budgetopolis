@@ -18,7 +18,7 @@ Tracy Miles: tsmiles@sog.unc.edu
 ## Meeting Schedules
 * Team: Tuesdays, 9:30-10:30 am
 * Dr. Pozefsky: Fridays, 2:30-3:20 pm
-* Tracy (client): TBD at Monday's meeting
+* Tracy (client): Mondays, 2-3pm (preliminary)
 
 ## Group Roles
 
