@@ -35,5 +35,6 @@ about syncing groups. Facilitator IDs and session ID. Store the session IDs on t
 it is static and doesn't change each time. 
 * Decisions: what will be used to produce the game logic, where will the game be hosted
 * Other notes: do not need to worry about UNC logins, and may not have to worry about SSL. Also consider Wi-Fi availability: downloadable component that could link back to web platform if the game shuts down unexpectedly all of a sudden. Do not worry about graphics. Could change the values of the games as we go down the timeline. Values stored in database. Working with different groups but sotring what is displayed on the database as a facilitator. Facilitator could pick a profile to fit his or her jurisdiction. Maybe some places have other roles than other ones, so this makes sense. We cannot capture how many resources are in each community role? How does that impact the gameplay? This is where Twitter comes in. The actions of other groups would trigger what is updated on the prototype Twitter that the 
-players would see as a group on their device. 
+players would see as a group on their device. How to display the values and the options to
+the users without having to pass out the documents? 
 * Editorial page: newspaper article, it's own page or on the page itself?
