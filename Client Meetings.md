@@ -1,3 +1,25 @@
+### Friday, 02/09/18
+
+* Instructions: there should be some process explaining budgeting in general to those
+playing Budgetopolis, prior or during the actual gameplay of Budgetopolis. Should 
+explain why they can make a particular choice or why they cannot make a choice. Don't
+assume the players will already know how to budget well. Explain it to them. 
+* Think about changing the name of the game as well. 
+* Individual groups are running their own games and do not have to wait for the other 
+groups. Facilitator must only have access to group scoring. The groups don't even need
+the same sequence of events. Consider the audience of a live audience component, and 
+feedback they usually would have gotten if they were all playing as multiple groups. 
+Whatever decision they make, the computer will decide what type of media feedback they
+get: newspaper, social media, opinion pieces (to consider multiple audience responses).
+Scale issue: different community sizes (resources, finances). Have an option to set the
+municipality at the beginning of the game. Size of county should be set at the beginning 
+of the game. Assign the community to the people at the beginning of the game. However,
+the people can still pick their values. But they must consider the community that they
+are given. 
+* Budgeting: set the budget at the beginning of the game, depending on the municipality
+that is selected for the group. 
+* Design concept: kids versus adults, chips, actual gameplay. 
+
 ### Monday, 01/29/18
 
 * Game for newly elected officials: don't have the resources to expand and increase
