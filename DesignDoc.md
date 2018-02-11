@@ -58,7 +58,7 @@ students (K-12).
 
 * __Audio, Music, Sound effects:__ During the game, sound will be kept to a minimal in order to prevent distraction during group discussions. Alert sounds for the tool tips, social media posts, op-ed articles, and headlines would be a good way to draw attention to the publics responses after budget decisions are made.
 
-* __Game Art: __ The game art style will be similar to what is on the current game board; simple, colorful, and cartoonish. A simple style will help keep the focus of players on the discussions about budget decisions rather than fancy or distracting animations. 
+* __Game Art:__ The game art style will be similar to what is on the current game board; simple, colorful, and cartoonish. A simple style will help keep the focus of players on the discussions about budget decisions rather than fancy or distracting animations. 
 
-* __Help System: __ Having a button with a question mark on the page at all times that can be pressed to bring up a rundown of the objective of the game and basic guidelines of how to play will be present. Additionally, a small bar with a <10 word summary of what to do will be present (ex: 'allocate funds and submit budget decision' or 'select values', etc.)
+* __Help System:__ Having a button with a question mark on the page at all times that can be pressed to bring up a rundown of the objective of the game and basic guidelines of how to play will be present. Additionally, a small bar with a <10 word summary of what to do will be present (ex: 'allocate funds and submit budget decision' or 'select values', etc.)
 
