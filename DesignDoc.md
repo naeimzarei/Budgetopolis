@@ -1,5 +1,5 @@
-### Design Document
-# 1) Title Page
+# Design Document
+## 1) Title Page
 # 2) Game Overview
 # 3) Gameplay
 # 4) Mechanics
