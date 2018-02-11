@@ -38,6 +38,27 @@ students (K-12).
 ## 5) Story and Narrative
 ## 6) Game World
 ## 7) Characters
+
 ## 8) Levels
+
+* __How Levels are Used:__ There are no levels in budgetopolis like in other games, but there will be different variations of the game based on who the players are. The vast majority of Budgetopolis players are adults, so the first priority will be to make the game with an adult audience in mind. This will mean allowing for more control over the budgeting decisions. In the default version, players would be able to distribute funds however they wanted, down to the last dollar while also dealing with pools of funds that more accurately represent what a town or municipality would deal with. In later versions of the game, there would be different settings to allow for a simpler version of the game intended for elementary or middle school students. In these versions, the pool of funds would be set at a lower amount (possibly $100 in total) in order to simplify and streamline the experience for a younger audience.
+
+* __Introductory Material:__ In the current Budgetopolis boardgame, there is an introductory information session about budgeting and community management. In the web application version, the information will be built in via collapsable tool tips. 
+
 ## 9) Interface
+
+* __Visual System:__ Each game of Budgetopolis will have one person inputting all of the agreed upon decisions while the other members will be able to see a view of the game board, but will not be able to interact. The look of the game will be like the board game, but oriented so that all of the text isn't upside down. 
+* __HUD:__ The circular board consists of different areas for different public services that need funding. Each area will show how much funding is allocated to that particular service. In the middle of the board, there is an area that displays the values that the group is to be focusing on.
+
+* __Menus:__ After visiting a main landing screen, an option to begin a game of Budgetopolis will be presented. Once a game is begun, an access code will be generated for that particular game which can be used by other players to join the game. Once the game begins, the game board, values, and resources will be shown. Upon completion of the game, a game summary will be shown that reviews the decisions that were made during the game along with the impact of those decisions through op-eds, social media responses, and news headlines.
+
+* __Camera Model:__ The camera in Budgetopolis will be an aerial view of the gameboard.
+
+* __Control System:__ As mentioned above, only one group member will input the budget decisions. They will do so by either typing the desired amount of funding or clicking on an arrow that decreases or increases funding for a particular resource.
+
+* __Audio, Music, Sound effects:__ During the game, sound will be kept to a minimal in order to prevent distraction during group discussions. Alert sounds for the tool tips, social media posts, op-ed articles, and headlines would be a good way to draw attention to the publics responses after budget decisions are made.
+
+* __Game Art: __ The game art style will be similar to what is on the current game board; simple, colorful, and cartoonish. A simple style will help keep the focus of players on the discussions about budget decisions rather than fancy or distracting animations. 
+
+* __Help System: __ Having a button with a question mark on the page at all times that can be pressed to bring up a rundown of the objective of the game and basic guidelines of how to play will be present. Additionally, a small bar with a <10 word summary of what to do will be present (ex: 'allocate funds and submit budget decision' or 'select values', etc.)
 
