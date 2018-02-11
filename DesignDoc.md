@@ -1,9 +1,11 @@
 # Design Document
 ## 1) Title Page
 Budgetopolis
+
 "Don't cross the bottom line!"
 ### Team:
 Yashar Asgari, Naeim Zarei, Daniel Estrada, Robert Anderson
+
 Last Updated: 2/10/2018
 
 ## 2) Game Overview
