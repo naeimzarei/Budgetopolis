@@ -1,6 +1,6 @@
 # Design Document
 ## 1) Title Page
-Budgetopolis
+__Budgetopolis__
 
 "Don't cross the bottom line!"
 ### Team:
