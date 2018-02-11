@@ -32,10 +32,66 @@ students (K-12).
 
 * __Mission/Challenge Structure:__ The main challenge in this game is to efficiently and effectively maintain a balanced budget while staying true to the values selected. Any action taken that may contradict these values are subject to scrutiny in the media and general populace, which can lead to increased pressure facing the administration. Throughout the game, scenarios (simulating real life issues) are imposed on the group where they then must decide how to re-allocate their funds, all while appeasing their constituents.
 
-
-
 ## 4) Mechanics
+
+* __Rules:__ The rules are centered around community values and budgeting. Therefore, the players are reminded
+of what roles they chose at the beginning of the game and must continously maintain them throughout the course
+of the game. If they make a decision that diverges from their original values, then they are reminded by the
+game logic. In addition, the players must remember that they only have a set budget that cannot be exceeded. 
+In order to make budgeting work, the players have to effectively make budget cuts or increases. Again, the 
+group must ensure that they do not exceed the budget and that they should use as much of the budget as needed.
+The computer logic, of course, will take care of ensuring that this process is carried out the way it should. 
+
+* __Model of the Game Universe:__ This game simulates local government budgeting. The players (government officials) must work together to make budgetary decisions. 
+
+* __Physics:__ For the purpose of this game, there is no need for a physics engine. 
+
+* __Economy:__ The game involves budgeting, so there will be a need to keep track of some numbers. The main
+number to keep track of is the budget that is left and how much of it has been spent. In addition, the 
+budget cuts and increases need to be kept track of as well. 
+
+* __Character Movement in the Game:__ There is no need for character momvement.
+
+* __Objects:__ In the original game, the chips and values were used as resources. However, in the virtual
+game, there is no need to pick up and move objects. 
+
+* __Actions:__ The players must input values and select budget cuts and increases using the mouse and 
+keyboard. The players must communicate outside the game in the physical environment to decide what
+community values and budgetary decisions they will pursue. 
+
+* __Combat:__ There is no combat in this game. 
+
+* __Screen Flow:__ The screen will show the gameboard in circular format, with the values displayed. As the
+game progresses, the screen will have options for the group to select whether or not they want to make 
+budget cuts or increases for certain values and options. Some sort of social media component will be 
+incorporated to simulate community feedback. The social media will be displayed in screen flow. For the 
+most part, the screen will be constant until some popup asks for input.
+
+* __Game Options:__ The groups have the option to choose their community values and make their own
+budgetary decisions. The budget is affected as the group makes these decisions, which determines 
+whether or not the group can spend more on or cut certain options.
+
+* __Replaying and Saving:__ There is no option to save the game. However, the user can go back to the game
+session they opened earlier, either through web caching or by inputting a randomly generated session ID. 
+
+* __Cheats and Easter Eggs:__ For the purpose of this game, there will be no cheats or Easter Eggs. 
+
 ## 5) Story and Narrative
+
+* __Back Story:__ The School of Government at UNC originally built this game to help newly elected city
+and council members to think about how to properly spend hte local government budget. This game was originally
+a board game and is now being transformed into a web app. 
+
+* __Plot Elements:__ There is no clear plot in the game as it is instructional in manner. However, there are
+rounds of gameplay. Each round will consist of each group making budgetary decisions. There is no winner in the
+game, so there is no distinct conclusion. The game ends with the group reflecting on their budgetary choices and
+seeing how well they were able to maintain their community values. 
+
+* __Game Story Progression:__ There is no game story progression. There are only rounds.
+
+* __Cut Scenes:__ There will be no cut scenes. There will be rounds where the game pauses and waits for the
+group to make a decision. 
+
 ## 6) Game World
 ## 7) Characters
 ## 8) Levels
