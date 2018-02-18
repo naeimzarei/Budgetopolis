@@ -1,0 +1,42 @@
+body {
+    background-color: #F1F1F2;
+    font-family: "EB Garamond", serif;
+    font-size: 18px;
+}
+
+.values-container {
+    display: flex;
+    justify-content: center;
+}
+
+.values-container-inner {
+    background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    color: black;
+    width: 75%;
+    padding: 10px;
+}
+
+.values-text {
+    position: absolute;
+    top: 1%;
+}
+
+.values {
+    width: 75px;
+    height: 100px;
+    background-color: lightgray;
+    border-radius: 5px;
+    margin: 10px;
+    text-align: center;
+    font-size: 0.60em;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
