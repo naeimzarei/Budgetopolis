@@ -20,6 +20,14 @@ $(document).ready(function() {
             $(".values-container-cards-2").append($("<div class='values-2'>" + current_value + "</div>"));
         }
     }
+
+    /**
+     * Returns the selected community values 
+     * @returns {string[]} array with selected community values 
+     */
+    function get_gameboard_values() {
+        return Client.selected_community_values;
+    }
     
     /**
      * Generate the community values at the
@@ -110,7 +118,7 @@ $(document).ready(function() {
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
                 increment_num_values_selected();
                 if (get_num_values_selected() === 5) {
-                    updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.');
+                    updateValuesContainerText('Great! Enter the four-digit session code given to you by the facilitator to continue.');
                     $('.session-container').show();
                 } else {
                     updateValuesContainerText('');   
