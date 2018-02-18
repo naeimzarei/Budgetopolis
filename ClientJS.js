@@ -29,6 +29,44 @@ $(document).ready(function() {
     }
 
     /**
+     * Gets the number of values currently selected. 
+     * @returns {number} the number of values selected
+     */
+    function get_num_values_selected() {
+        return Client.num_values_selected;
+    }
+
+    /**
+     * Increases the number of values currently selected by 1.
+     */
+    function increment_num_values_selected() {
+        Client.num_values_selected++;
+    }
+
+    /**
+     * Decreases the number of values currently selected by 1. 
+     */
+    function decrement_num_values_selected() {
+        Client.num_values_selected--;
+    }
+
+    /**
+     * Returns the number of pages in ClientHTML.html
+     * @returns {number} the number of pages
+     */
+    function get_num_pages() {
+        return Client.num_pages;
+    }
+
+    /**
+     * Sets the number of pages the ClientHTML.html has. 
+     * @param {number} num_pages the number of pages to be set
+     */
+    function set_num_pages(num_pages) {
+        Client.num_pages = num_pages;
+    }
+
+    /**
      * Updates the text mmessage regarding 
      * community values at startup.
      * @param {string} text the updated text message
@@ -51,20 +89,20 @@ $(document).ready(function() {
             if (isSelected) {
                 $(event.currentTarget).removeClass('selected-value');
                 $(event.currentTarget).css({boxShadow: ''});
-                Client.num_values_selected--;
+                decrement_num_values_selected();
                 updateValuesContainerText('');
                 $('.session-container').hide();
-            } else if (Client.num_values_selected < 5) {
+            } else if (get_num_values_selected() < 5) {
                 $(event.currentTarget).addClass('selected-value');
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
-                Client.num_values_selected++;
-                if (Client.num_values_selected === 5) {
+                increment_num_values_selected();
+                if (get_num_values_selected() === 5) {
                     updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.')
                     $('.session-container').show();
                 } else {
                     updateValuesContainerText('');   
                 }
-            } else if (Client.num_values_selected >= 5) {
+            } else if (get_num_values_selected() >= 5) {
                 updateValuesContainerText('You may not select more than 5 community values.');
             }
         });
