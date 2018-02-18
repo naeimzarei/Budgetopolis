@@ -2,11 +2,24 @@ $(document).ready(function() {
     Client = {
         // array with all community values 
         community_values: [],
+        // array with selected community values
+        selected_community_values: [],
         // the number of values currently selected by the user
         num_values_selected: 0,
         // the number of pages 
         num_pages: 2
     };
+
+    /**
+     * Sets the gameboard values on page 2.
+     * @param {array({})} values array of selected community values 
+     */
+    function set_gameboard_values(values) {
+        for (var i = 0; i < values.length; i++) {
+            var current_value = $(values[i]).text();
+            $(".values-container-cards-2").append($("<div class='values-2'>" + current_value + "</div>"));
+        }
+    }
     
     /**
      * Generate the community values at the
@@ -97,7 +110,7 @@ $(document).ready(function() {
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
                 increment_num_values_selected();
                 if (get_num_values_selected() === 5) {
-                    updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.')
+                    updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.');
                     $('.session-container').show();
                 } else {
                     updateValuesContainerText('');   
@@ -111,11 +124,13 @@ $(document).ready(function() {
         $(".session-container-id").on('input', function(event) {
             var input_length = $(event.target).val().length;
             if (input_length === 4) {
-                // Go to page 2
+                // Set gameboard values on page 2
+                set_gameboard_values($(".selected-value").toArray());
+                // Go to page 2 
                 setTimeout(function() {
                     $('.page1').hide();
                     $('.page2').show();
-                }, 250);
+                }, 500);
             }
         });
     }
@@ -144,12 +159,10 @@ $(document).ready(function() {
         event_handlers();
 
         // Hide other pages besides startup page
-        for (var i = 2; i <= Client.num_pages; i++) {
+        for (var i = 2; i <= get_num_pages(); i++) {
             var current_page = 'page' + i;
             $('.page' + i).hide();
         }
     }
-
-    // Run the main function 
      main();
 });

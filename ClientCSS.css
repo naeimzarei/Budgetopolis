@@ -37,8 +37,7 @@ body {
     width: 75%;
     padding: 10px;
     flex-wrap: wrap;
-    flex-grow: 5;
-    flex-shrink: 5;
+    flex-grow: 1;
 }
 
 .values {
@@ -55,7 +54,7 @@ body {
     font-weight: bold;
     color: gray;
     box-sizing: border-box;
-    flex-basis: 15%;
+    width: 150px;
 }
 
 .values:hover {
@@ -115,4 +114,114 @@ body {
     height: 50px;
     text-align: center;
     font-size: 1.5em;
+}
+
+.game-container {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 7.5%;
+    left: 5%;
+}
+
+.game-container-board {
+    width: 750px;
+    height: 750px;
+    border-radius: 375px;
+    box-shadow: 0 0 0 1px #555;
+}
+
+.title-container-2 {
+    font-family: "Cookie";
+    font-size: 6em;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.values-container-2 {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 10%;
+    left: 25%;
+}
+
+.values-container-cards-2 {
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: black;
+    width: 75%;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.values-2 {
+    height: 50px;
+    width: 75px;
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    text-align: center;
+    font-size: 0.8em;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: gray;
+    box-sizing: border-box;
+}
+
+.values-2:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 1px gray;
+}
+
+.main-menu-container-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    background-color: #3a3e3f;
+    margin: 2%;
+    position: fixed;
+    color: white;
+    z-index: 1;
+}
+
+.main-menu-container-element:hover {
+    cursor: pointer;
+}
+
+.values-container-title-text {
+    display: flex;
+    position: fixed;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    top: 12%;
+    left: 25%;
+    font-size: 2em;
+}
+
+.community-info-title-container-text {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 12%;
+    left: 15%;
+    font-size: 2em;
 }
