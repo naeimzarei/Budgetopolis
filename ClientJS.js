@@ -1,6 +1,7 @@
 $(document).ready(function() {
     Client = {
-        community_values: []
+        community_values: [],
+        num_values_selected: 0
     };
     
     /**
@@ -10,7 +11,7 @@ $(document).ready(function() {
      */
     function set_values(community_values) {
         for (var i = 0; i < community_values.length; i++) {
-            $(".values-container-inner").append($("<div class='values'>" + community_values[i] + "</div>"));
+            $(".values-container-cards").append($("<div class='values'>" + community_values[i] + "</div>"));
         }
         Client.community_values = community_values;
     }
@@ -24,6 +25,19 @@ $(document).ready(function() {
     }
 
     /**
+     * Updates the text mmessage regarding 
+     * community values at startup.
+     * @param {string} text the updated text message
+     */
+    function updateValuesContainerText(text) {
+        if (text === '') {
+            $('.values-container-text').text('Select exactly 5 community values');
+        } else {
+            $('.values-container-text').text(text);
+        }
+    }
+
+    /**
      * Sets up event handlers during startup.
      */
     function event_handlers() {
@@ -32,9 +46,19 @@ $(document).ready(function() {
             if (isSelected) {
                 $(event.currentTarget).removeClass('selected-value');
                 $(event.currentTarget).css({boxShadow: ''});
-            } else {
+                Client.num_values_selected--;
+                updateValuesContainerText('');
+            } else if (Client.num_values_selected < 5) {
                 $(event.currentTarget).addClass('selected-value');
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
+                Client.num_values_selected++;
+                if (Client.num_values_selected === 5) {
+                    updateValuesContainerText('Great!')
+                } else {
+                    updateValuesContainerText('');   
+                }
+            } else if (Client.num_values_selected >= 5) {
+                updateValuesContainerText('You may not select more than 5 community values.');
             }
         });
     }
