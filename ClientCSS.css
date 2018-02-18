@@ -3,6 +3,7 @@ body {
     font-family: "EB Garamond";
     font-size: 18px;
     position: fixed;
+    user-select: none;
 }
 
 .title-container {
@@ -27,7 +28,6 @@ body {
 }
 
 .values-container-cards {
-    /* background: linear-gradient(to right, #c9d6ff, #e2e2e2); */
     border-radius: 10px;
     display: flex;
     justify-content: center;
@@ -36,25 +36,83 @@ body {
     color: black;
     width: 75%;
     padding: 10px;
+    flex-wrap: wrap;
+    flex-grow: 5;
+    flex-shrink: 5;
 }
 
 .values {
-    width: 75px;
     height: 100px;
     background-color: white;
     border-radius: 10px;
     margin: 10px;
     text-align: center;
-    font-size: 0.70em;
+    font-size: 1em;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
     color: gray;
+    box-sizing: border-box;
+    flex-basis: 15%;
 }
 
 .values:hover {
     cursor: pointer;
     box-shadow: 0 0 0 1px gray;
+}
+
+.triangle-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 65%;
+    z-index: -1;
+}
+
+.triangle-container-shape {
+    width: 0;
+    height: 0;
+    border-left: 250px solid transparent;
+    border-right: 250px solid transparent;
+    border-top: 250px solid #3a3e3f;
+}
+
+.startup-message-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 16%;
+}
+
+.startup-message-container-text {
+    background-color: #3a3e3f;
+    width: 90%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: center;
+    font-size: 1.05em;
+}
+
+.session-container {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    position: fixed;
+    left: 45%;
+    top: 23%;
+    z-index: 1;
+}
+
+.session-container-id {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5em;
 }

@@ -31,9 +31,9 @@ $(document).ready(function() {
      */
     function updateValuesContainerText(text) {
         if (text === '') {
-            $('.values-container-text').text('Select exactly 5 community values');
+            $('.startup-message-container-text').text('Select exactly 5 community values.');
         } else {
-            $('.values-container-text').text(text);
+            $('.startup-message-container-text').text(text);
         }
     }
 
@@ -48,18 +48,24 @@ $(document).ready(function() {
                 $(event.currentTarget).css({boxShadow: ''});
                 Client.num_values_selected--;
                 updateValuesContainerText('');
+                $('.session-container-id').hide();
             } else if (Client.num_values_selected < 5) {
                 $(event.currentTarget).addClass('selected-value');
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
                 Client.num_values_selected++;
                 if (Client.num_values_selected === 5) {
-                    updateValuesContainerText('Great!')
+                    updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.')
+                    $('.session-container-id').show();
                 } else {
                     updateValuesContainerText('');   
                 }
             } else if (Client.num_values_selected >= 5) {
                 updateValuesContainerText('You may not select more than 5 community values.');
             }
+        });
+
+        $(".session-container-id").on('change', function(event) {
+            
         });
     }
     
