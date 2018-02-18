@@ -1,7 +1,11 @@
 $(document).ready(function() {
     Client = {
+        // array with all community values 
         community_values: [],
-        num_values_selected: 0
+        // the number of values currently selected by the user
+        num_values_selected: 0,
+        // the number of pages 
+        num_pages: 2
     };
     
     /**
@@ -41,6 +45,7 @@ $(document).ready(function() {
      * Sets up event handlers during startup.
      */
     function event_handlers() {
+        // Check which community value cards have been selected
         $(".values").on('click', function(event) {
             var isSelected = $(event.currentTarget).hasClass('selected-value');
             if (isSelected) {
@@ -48,14 +53,14 @@ $(document).ready(function() {
                 $(event.currentTarget).css({boxShadow: ''});
                 Client.num_values_selected--;
                 updateValuesContainerText('');
-                $('.session-container-id').hide();
+                $('.session-container').hide();
             } else if (Client.num_values_selected < 5) {
                 $(event.currentTarget).addClass('selected-value');
                 $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
                 Client.num_values_selected++;
                 if (Client.num_values_selected === 5) {
                     updateValuesContainerText('Great! Enter four-digit the session code given to you by the facilitator to continue.')
-                    $('.session-container-id').show();
+                    $('.session-container').show();
                 } else {
                     updateValuesContainerText('');   
                 }
@@ -64,19 +69,49 @@ $(document).ready(function() {
             }
         });
 
-        $(".session-container-id").on('change', function(event) {
-            
+        // Check session ID values inputted by the user
+        $(".session-container-id").on('input', function(event) {
+            var input_length = $(event.target).val().length;
+            if (input_length === 4) {
+                // Go to page 2
+                setTimeout(function() {
+                    $('.page1').hide();
+                    $('.page2').show();
+                }, 250);
+            }
         });
     }
-    
+
     /**
-     * Test
+     * Main Method
+     * Run any and all initiation code in the main
+     * function below. 
      */
-     set_values([
-        'Value 1', 'Value 2', 'Value 3', 
-        'Value 4', 'Value 5', 'Value 6',
-        'Value 7', 'Value 8', 'Value 9',
-        'Value 10'
-    ]);
-    event_handlers();
+     function main() {
+        // Populate community value cards using set_values.
+        // It is given an array of strings, each string 
+        // being a particular community value. 
+        set_values([
+            'Police', 'Fire', 'Solid Waste', 
+            'Streets', 'Recreation', 'Capital',
+            'Housing', 'Planning', 'Reserves',
+            'Property Taxes'
+        ]);
+
+        // Hide session ID container
+        $('.session-container').hide();
+
+        // Add event handlers. Note: add more event handlers
+        // as needed in event_handlers() function
+        event_handlers();
+
+        // Hide other pages besides startup page
+        for (var i = 2; i <= Client.num_pages; i++) {
+            var current_page = 'page' + i;
+            $('.page' + i).hide();
+        }
+    }
+
+    // Run the main function 
+     main();
 });
