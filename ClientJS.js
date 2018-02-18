@@ -16,11 +16,27 @@ $(document).ready(function() {
     }
     
     /** 
-     * Return the community values
-     * @returns {string[]} 
+     * Return the community values.
+     * @returns {string[]} return the community values
     */
     function get_values() {
         return Client.community_values;
+    }
+
+    /**
+     * Sets up event handlers during startup.
+     */
+    function event_handlers() {
+        $(".values").on('click', function(event) {
+            var isSelected = $(event.currentTarget).hasClass('selected-value');
+            if (isSelected) {
+                $(event.currentTarget).removeClass('selected-value');
+                $(event.currentTarget).css({boxShadow: ''});
+            } else {
+                $(event.currentTarget).addClass('selected-value');
+                $(event.currentTarget).css({boxShadow: '0 0 0 1px gray'});
+            }
+        });
     }
     
     /**
@@ -32,4 +48,5 @@ $(document).ready(function() {
         'Value 7', 'Value 8', 'Value 9',
         'Value 10'
     ]);
+    event_handlers();
 });
