@@ -16,7 +16,7 @@ body {
 }
 
 .values-container {
-    width: 900px;
+    width: 725px;
     height: 500px;
     position: fixed;
     overflow: auto;
@@ -37,10 +37,10 @@ body {
 }
 
 .values {
-    height: 150px;
-    width: 150px;
+    height: 100px;
+    width: 100px;
     background-color: white;
-    border-radius: 75px;
+    border-radius: 50px;
     margin: 10px;
     text-align: center;
     font-size: 1em;
@@ -85,7 +85,7 @@ body {
     position: fixed;
     justify-content: center;
     z-index: 1;
-    top: 625px;
+    top: 525px;
 }
 
 .session-container-id {
@@ -102,9 +102,9 @@ body {
 }
 
 .game-container-board {
-    width: 400px;
-    height: 400px;
-    border-radius: 200px;
+    width: 300px;
+    height: 300px;
+    border-radius: 150px;
     box-shadow: 0 0 0 1px #555;
 }
 
