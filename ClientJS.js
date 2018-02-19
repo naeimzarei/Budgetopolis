@@ -7,7 +7,9 @@ $(document).ready(function() {
         // the number of values currently selected by the user
         num_values_selected: 0,
         // the number of pages 
-        num_pages: 2
+        num_pages: 2,
+        // the facilitator's session id
+        session_id: ''
     };
 
     /**
@@ -88,6 +90,22 @@ $(document).ready(function() {
     }
 
     /**
+     * Sets the session id given by the facilitator.
+     * @param {string} session_id the session id given by facilitator
+     */
+    function set_session_id(session_id) {
+        Client.session_id = session_id;
+    }
+
+    /**
+     * Returns the session id given by the facilitator
+     * @returns {string} the session id given by facilitator
+     */
+    function get_session_id() {
+        return Client.session_id;
+    }
+
+    /**
      * Updates the text mmessage regarding 
      * community values at startup.
      * @param {string} text the updated text message
@@ -134,6 +152,8 @@ $(document).ready(function() {
             if (input_length === 4) {
                 // Set gameboard values on page 2
                 set_gameboard_values($(".selected-value").toArray());
+                // Save the session ID
+                set_session_id($(event.target).val());
                 // Go to page 2 
                 setTimeout(function() {
                     $('.page1').hide();
