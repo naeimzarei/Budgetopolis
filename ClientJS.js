@@ -1,7 +1,10 @@
 $(document).ready(function() {
     Client = {
         // array with all community values 
-        community_values: [],
+        community_values: ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate', 
+        'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City', 
+        'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets' ,'Support Cultural Diversity',
+        'Support Public Education Growth'],
         // array with selected community values
         selected_community_values: [],
         // the number of values currently selected by the user
