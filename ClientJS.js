@@ -175,12 +175,10 @@ $(document).ready(function() {
         // Populate community value cards using set_values.
         // It is given an array of strings, each string 
         // being a particular community value. 
-        set_values([
-            'Police', 'Fire', 'Solid Waste', 
-            'Streets', 'Recreation', 'Capital',
-            'Housing', 'Planning', 'Reserves',
-            'Property Taxes'
-        ]);
+        set_values(['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate', 
+        'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City', 
+        'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets' ,'Support Cultural Diversity',
+        'Support Public Education Growth']);
 
         // Hide session ID container
         $('.session-container').hide();
