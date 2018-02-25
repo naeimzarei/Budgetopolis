@@ -120,7 +120,45 @@ $(document).ready(function() {
             $('.startup-message-container-text').text(text);
         }
     }
+    /**
+     * Create gameboard circle function
+     */
 
+    function createBoard(){
+        var canvas = document.getElementById("game-canvas");
+        var ctx = canvas.getContext("2d");
+        
+        // Colors
+        var colors = ['#4CAF50', '#00BCD4', '#E91E63', '#FFC107', '#9E9E9E', '#CDDC39', '#42f4f1', '#f49d41'];
+        
+        // List of Angles
+        var angles = [Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, Math.PI*.25, Math.PI*.25, Math.PI*.25];
+        
+        // Temporary variables, to store each arc angles
+        var beginAngle = 0;
+        var endAngle = 0;
+        
+        // Iterate through the angles
+        for(var i = 0; i < angles.length; i = i + 1) {
+          // Begin where we left off
+          beginAngle = endAngle;
+          // End Angle
+          endAngle = endAngle + angles[i];
+          
+          ctx.beginPath();
+          // Fill color
+          ctx.fillStyle = colors[i % colors.length];
+          
+          ctx.moveTo(200, 200);
+          ctx.arc(200, 200, 120, beginAngle, endAngle);
+          ctx.lineTo(200, 200);
+          ctx.stroke();
+          
+          // Fill
+          ctx.fill();
+        }
+
+    }
     /**
      * Sets up event handlers during startup.
      */
@@ -192,6 +230,7 @@ $(document).ready(function() {
             var current_page = 'page' + i;
             $('.page' + i).hide();
         }
+         createBoard();
     }
      main();
 });
