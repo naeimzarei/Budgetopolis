@@ -43,7 +43,7 @@ body {
     border-radius: 50px;
     margin: 10px;
     text-align: center;
-    font-size: 1em;
+    font-size: 0.80em;
     position: relative;
     display: flex;
     justify-content: center;
@@ -79,13 +79,11 @@ body {
 }
 
 .session-container {
-    width: 100%;
-    height: 50px;
-    display: flex;
     position: fixed;
-    justify-content: center;
     z-index: 1;
-    top: 525px;
+    top: 250px;
+    left: 50%;
+    margin-left: -50px;
 }
 
 .session-container-id {
@@ -177,6 +175,7 @@ body {
 
 .main-menu-container-element:hover {
     cursor: pointer;
+    box-shadow: 0 0 0 1px gray;
 }
 
 .values-container-title-text {
@@ -191,4 +190,27 @@ body {
     top: 150px;
     left: 150px;
     font-size: 1.5em;
+}
+
+.play-game-container-button {
+    position: fixed;
+    width: 75px;
+    height: 50px;
+    margin-left: -37.5px;
+    margin-top: -25px;
+    left: 50%;
+    bottom: 8%;
+    border-radius: 10px;
+    outline: none;
+    background-color: white;
+    z-index: 1;
+    border: 1px solid transparent;
+    font-size: 0.80em;
+    color: gray;
+}
+
+.play-game-container-button:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 1px gray;
+    color: black;
 }

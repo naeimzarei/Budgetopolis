@@ -7,6 +7,7 @@
 <head>
     <script src="./jquery-3.3.1.min.js"></script>
     <script src="./ClientJS.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <link rel="stylesheet" type="text/css" href="./ClientCSS.css">
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
@@ -21,20 +22,24 @@
                 Budgetopolis
             </div>
         </div>
-        <!-- Page1: put session code here -->
+        <!-- Page 1: put session code here -->
         <div class="session-container">
             <input type="text" name="session-id" class="session-container-id" placeholder="0000" maxlength="4">
             <br/>
         </div>
-        <!-- Page1: put startup message here -->
+        <!-- Page 1: put startup message here -->
         <div class="startup-message-container">
             <div class="startup-message-container-text">
-                Select exactly 5 community values.
+                Enter the four-character session ID provided by your facilitator to continue.
             </div>
         </div>
         <!-- Page 1: put community values here -->
         <div class="values-container">
             <div class="values-container-cards"></div>
+        </div>
+        <!-- Page 1: put play game button here -->
+        <div class="play-game-container" hidden>
+            <button class="play-game-container-button">Continue</button>
         </div>
     </div>
     <!-- Page 2: Game Page -->
@@ -63,7 +68,7 @@
         </div>
         <!-- Page 2: put the actual gameboard here -->
         <div class="game-container">
-            <div class="game-container-board"></div>
+                <div id="game-container-board" style="width: 900px; height: 500px;"></div>
         </div>
         <!-- Page 2: put community values title here -->
         <div class="values-container-title">
