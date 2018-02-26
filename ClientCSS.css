@@ -20,7 +20,7 @@ body {
     height: 500px;
     position: fixed;
     overflow: auto;
-    top: 250px;
+    top: 200px;
     left: 50%;
     transform: translate(-50%, 0);
 }
@@ -95,7 +95,7 @@ body {
 
 .game-container {
     position: fixed;
-    top: 300px;
+    top: 190px;
     left: -7.5%;
 }
 
@@ -197,7 +197,7 @@ body {
     margin-left: -37.5px;
     margin-top: -25px;
     left: 50%;
-    bottom: 8%;
+    bottom: 1%;
     border-radius: 10px;
     outline: none;
     background-color: white;
