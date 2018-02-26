@@ -74,7 +74,7 @@ body {
     justify-content: center;
     color: white;
     align-items: center;
-    font-size: 1.05em;
+    font-size: 0.95em;
     border-radius: 10px;
 }
 
@@ -96,12 +96,10 @@ body {
 .game-container {
     position: fixed;
     top: 300px;
-    left: 50px;
+    left: -7.5%;
 }
 
 .game-container-board {
-    width: 300px;
-    height: 300px;
     border-radius: 150px;
     box-shadow: 0 0 0 1px #555;
 }
@@ -119,11 +117,11 @@ body {
 .values-container-2 {
     display: flex;
     justify-content: center;
-    width: 650px;
+    width: 350px;
     height: 250px;
     position: fixed;
-    left: 435px;
-    top: 115px;
+    right: 1%;
+    top: 125px;
 }
 
 .values-container-cards-2 {
@@ -144,7 +142,7 @@ body {
     border-radius: 30px;
     margin: 3px;
     text-align: center;
-    font-size: 0.8em;
+    font-size: 0.5em;
     position: relative;
     display: flex;
     justify-content: center;
@@ -181,14 +179,14 @@ body {
 .values-container-title-text {
     position: fixed;
     top: 150px;
-    left: 670px;
+    right: 5%;
     font-size: 1.5em;
 }
 
 .community-info-title-container-text {
     position: fixed;
     top: 150px;
-    left: 150px;
+    left: 5%;
     font-size: 1.5em;
 }
 
@@ -213,4 +211,16 @@ body {
     cursor: pointer;
     box-shadow: 0 0 0 1px gray;
     color: black;
+}
+
+#budget-container-bar {
+    box-shadow: 0 0 0 1px #555555;
+    position: fixed;
+    bottom: 3%;
+    left: 50%;
+    margin-left: -40%;
+}
+
+svg > g > g:last-child { 
+    pointer-events: none 
 }

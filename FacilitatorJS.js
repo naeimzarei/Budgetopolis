@@ -18,3 +18,10 @@ function get_session_id() {
     return Facilitator.session_id;
 }
 
+/**
+ * The main function 
+ */
+functino main() {
+
+}
+main();

@@ -5,10 +5,15 @@
 <!-- Imports -->
 
 <head>
+    <!-- Import jQuery -->
     <script src="./jquery-3.3.1.min.js"></script>
+    <!-- Import external JavaScript -->
     <script src="./ClientJS.js"></script>
+    <!-- Import Google Visualization API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <!-- Import external stylesheets -->
     <link rel="stylesheet" type="text/css" href="./ClientCSS.css">
+    <!-- Import fonts -->
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
 </head>
@@ -79,6 +84,11 @@
         <!-- Page 2: put community values here -->
         <div class="values-container-2">
             <div class="values-container-cards-2"></div>
+        </div>
+        <!-- Page 2: put budget bar here -->
+        <div class="budget-container">
+            <!-- <div class="budget-container-bar"></div> -->
+            <canvas id="budget-container-bar" width="500" height="100"></canvas>
         </div>
     </div>
 </body>

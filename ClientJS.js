@@ -1,10 +1,7 @@
 $(document).ready(function () {
     Client = {
         // array with all community values 
-        community_values: ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-            'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-            'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-            'Support Public Education Growth'],
+        community_values: [],
         // array with selected community values
         selected_community_values: [],
         // the number of values currently selected by the user
@@ -12,8 +9,28 @@ $(document).ready(function () {
         // the number of pages 
         num_pages: 2,
         // the facilitator's session id
-        session_id: ''
+        session_id: '',
+        // the total budget
+        total_budget: 50000000,
+        // the budget breakdown by value
+        budget_breakdown: [{}]
     };
+
+    /**
+     * Gets the amount of budget left
+     * @returns {number} the budget
+     */
+    function get_total_budget() {
+        return Client.budget;
+    }
+
+    /**
+     * Sets the amount of budget left
+     * @param {number} total_budget the budget left
+     */
+    function set_total_budget(total_budget) {
+        Client.budget = budget;
+    }
 
     /**
      * Sets the gameboard values on page 2.
@@ -37,13 +54,21 @@ $(document).ready(function () {
     /**
      * Generate the community values at the
      * beggining of the game and save them.
+     * In addition, sets the initial community value
+     * budget.
      * @param {string[]} community_values array with community values
      */
     function set_values(community_values) {
+        var budget_breakdown = [];
         for (var i = 0; i < community_values.length; i++) {
             $(".values-container-cards").append($("<div class='values' title=>" + community_values[i] + "</div>"));
+            budget_breakdown.push({
+                name: community_values[i],
+                value: Client.total_budget / community_values.length
+            });
         }
         Client.community_values = community_values;
+        Client.budget_breakdown = budget_breakdown;
     }
 
     /** 
@@ -156,22 +181,20 @@ $(document).ready(function () {
         }
     }
 
+    /**
+     * Create a Google Pie Chart
+     */
     function createGooglePieChart() {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
   
         function drawChart() {
-          var data = google.visualization.arrayToDataTable([
-            ['Category', 'Description'],
-            [Client.community_values[0], 1],
-            [Client.community_values[1], 1],
-            [Client.community_values[2], 1],
-            [Client.community_values[3], 1],
-            [Client.community_values[4], 1],
-            [Client.community_values[5], 1],
-            [Client.community_values[6], 1],
-            [Client.community_values[7], 1]
-          ]);
+          var data_values = [];
+          data_values.push(['Category', 'Description']);
+          for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            data_values.push([ Client.community_values[i], Client.budget_breakdown[i].value ]);
+          }  
+          var data = google.visualization.arrayToDataTable(data_values);
   
           var options = {
             backgroundColor: 'transparent',
@@ -181,42 +204,56 @@ $(document).ready(function () {
                 width: 600,
                 height: 300
             },
-            pieSliceText: "label",
+            fontSize: 14,
+            pieSliceText: "percentage",
             pieSliceTextStyle: {
-                fontSize: 14,
+                fontSize: 18,
                 color: 'black',
                 bold: false,
-                fontName: 'Cookie'
+                fontName: 'Didot'
             },
             pieStartAngle: 95,
-            legend: 'none',
             tooltip: {
-                trigger: "selection",
+                trigger: "focus",
                 isHTML: true,
                 text: 'none'
-            }
+            },
+            legend: 'none'
           };
   
           var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));  
           chart.draw(data, options);
+        }
+    }
 
-          chart.setAction({
-            id: 'sample',
-            text: 'See description',
-            action: function() {
-              selection = chart.getSelection();
-              switch (selection[0].row) {
-                case 0: alert(Client.community_values[0]); break;
-                case 1: alert(Client.community_values[1]); break;
-                case 2: alert(Client.community_values[2]); break;
-                case 3: alert(Client.community_values[3]); break;
-                case 4: alert(Client.community_values[4]); break;
-                case 5: alert(Client.community_values[5]); break;
-                case 6: alert(Client.community_values[6]); break;
-                case 7: alert(Client.community_values[7]); break;
-              }
-            }
-          });
+    // TODO
+    /**
+     * Updates the size and the values of the budget bar
+     * dynamically.
+     */
+    function updateBudgetBar() {
+        // Obtain reference to canvas from DOM
+        var ctx = document.getElementById("budget-container-bar").getContext("2d");
+        // Adjust canvas size as the window size changes horizontally
+        ctx.canvas.width = 0.8 * window.innerWidth;
+        // Do not continue if community values have not been set yet
+        if (Client.community_values.length === 0) { return; }
+        // Draw the rectangles
+        var beginX = 0;
+        for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            var relative_width = find_relative_width(Client.budget_breakdown[i]);
+            ctx.rect(0, 0, beginX + relative_width, ctx.canvas.height);
+            beginX += relative_width;
+            ctx.stroke();
+        }
+
+        /**
+         * Helper function to find relative width of budget component on canvas
+         * @param {{}} budget_value object with value's name and budget amount
+         * @returns {number} the relative width of budget component 
+         */
+        function find_relative_width(budget_value) {
+            return ctx.canvas.width * (budget_value.value / Client.total_budget);
         }
     }
 
@@ -240,9 +277,11 @@ $(document).ready(function () {
                     'Support Public Education Growth']);
                     // Check which community value cards have been selected
                     set_values_click_handler();
+                    // Create the initial gameboard using canvas
+                    createGooglePieChart();
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
-                }, 400);
+                }, 150);
             }
         });
 
@@ -284,11 +323,19 @@ $(document).ready(function () {
         $('.play-game-container-button').on('click', function(event) {
             // Set gameboard values on page 2
             set_gameboard_values($(".selected-value").toArray());
+            // Initial update of the budget bar
+            updateBudgetBar();
             // Go to page 2 
             setTimeout(function () {
                 $('.page1').hide();
                 $('.page2').show();
-            }, 500);
+            }, 150);
+        });
+
+        // Resize the budget bar as window width changes
+        $(window).on('resize', function() {
+            // Updates the budget bar dynamically
+            updateBudgetBar();
         });
     }
 
@@ -307,10 +354,6 @@ $(document).ready(function () {
             var current_page = 'page' + i;
             $('.page' + i).hide();
         }
-
-        // Create the gameboard using canvas
-        // createBoard();
-        createGooglePieChart();
     }
     main();
 });
