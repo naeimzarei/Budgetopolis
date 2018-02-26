@@ -93,7 +93,18 @@ seeing how well they were able to maintain their community values.
 group to make a decision. 
 
 ## 6) Game World
+
+*__General Look and Feel of the World:__ There is no real "world" in Budgetopolis.
+
+#__Areas:__ The only areas for this online game is really the game board and the different parts of the webpage that can be interacted with.
+
 ## 7) Characters
+
+*__Characters:__ There aren't any characters in the game because it is a board game.
+
+*__Artificial Intelligence Use in Opponent and Enemy:__ There are no opponents in this game, but random events will occur that will cause the players to make decisions about the current working budget.
+
+*__Non-combat and Friendly Characters:__ There aren't any characters.
 
 ## 8) Levels
 
