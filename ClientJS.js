@@ -271,10 +271,11 @@ $(document).ready(function () {
                     // Hide the session ID icon
                     $('.session-container').hide();
                     // Show the community values, obtained from the database
-                    set_values(['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-                    'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-                    'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-                    'Support Public Education Growth']);
+                    set_values([
+                        'Fire', 'Parks and Rec', 'Police',
+                        'Housing', 'Streets', 'Capital',
+                        'Planning and Economic Development', 'Debt Services', 'Solid Waste'
+                    ]);
                     // Check which community value cards have been selected
                     set_values_click_handler();
                     // Create the initial gameboard using canvas
