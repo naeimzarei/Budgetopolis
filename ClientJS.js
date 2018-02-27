@@ -59,16 +59,10 @@ $(document).ready(function () {
      * @param {string[]} community_values array with community values
      */
     function set_values(community_values) {
-        var budget_breakdown = [];
         for (var i = 0; i < community_values.length; i++) {
             $(".values-container-cards").append($("<div class='values' title=>" + community_values[i] + "</div>"));
-            budget_breakdown.push({
-                name: community_values[i],
-                value: Client.total_budget / community_values.length
-            });
         }
         Client.community_values = community_values;
-        Client.budget_breakdown = budget_breakdown;
     }
 
     /** 
@@ -183,16 +177,18 @@ $(document).ready(function () {
 
     /**
      * Create a Google Pie Chart
+     * @param {string[]} community_resources the resource values 
      */
-    function createGooglePieChart() {
+    function createGooglePieChart(community_resources) {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
-  
+
         function drawChart() {
           var data_values = [];
           data_values.push(['Category', 'Description']);
-          for (var i = 0; i < Client.budget_breakdown.length; i++) {
-            data_values.push([ Client.community_values[i], Client.budget_breakdown[i].value ]);
+          
+          for (var i = 0; i < community_resources.length; i++) {
+            data_values.push([ community_resources[i].name, community_resources[i].value ]);
           }  
           var data = google.visualization.arrayToDataTable(data_values);
   
@@ -226,7 +222,6 @@ $(document).ready(function () {
         }
     }
 
-    // TODO
     /**
      * Updates the size and the values of the budget bar
      * dynamically.
@@ -271,18 +266,33 @@ $(document).ready(function () {
                     // Hide the session ID icon
                     $('.session-container').hide();
                     // Show the community values, obtained from the database
-                    set_values([
-                        'Fire', 'Parks and Rec', 'Police',
-                        'Housing', 'Streets', 'Capital',
-                        'Planning and Economic Development', 'Debt Services', 'Solid Waste'
-                    ]);
+                    set_values(['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
+                    'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
+                    'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
+                    'Support Public Education Growth']);
                     // Check which community value cards have been selected
                     set_values_click_handler();
                     // Create the initial gameboard using canvas
-                    createGooglePieChart();
+                    set_budget_breakdown([
+                        'Fire', 'Parks and Rec', 'Police', 'Housing',
+                        'Streets', 'Capital', 'Planning and Economic Development',
+                        'Debt Services', 'Solid Waste'
+                    ]);
+                    createGooglePieChart(Client.budget_breakdown);
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
                 }, 150);
+            }
+
+            function set_budget_breakdown(community_resources) {
+                var budget_breakdown = [];
+                for (var i = 0; i < community_resources.length; i++) {
+                    budget_breakdown.push({
+                        name: community_resources[i],
+                        value: Client.total_budget / community_resources.length
+                    });
+                }
+                Client.budget_breakdown = budget_breakdown;
             }
         });
 
