@@ -1,0 +1,71 @@
+body {
+    background-color: #F1F1F2;
+    font-family: "EB Garamond";
+    font-size: 18px;
+    position: fixed;
+    user-select: none;
+}
+
+.title-container {
+    font-family: "Cookie";
+    font-size: 6em;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+}
+
+.startup-message-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 150px;
+}
+
+.startup-message-container-text {
+    background-color: #3a3e3f;
+    width: 90%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: center;
+    font-size: 0.95em;
+    border-radius: 10px;
+}
+
+.session-code-container-id {
+    position: fixed;
+    width: 100px;
+    height: 50px;
+    margin-left: -50px;
+    margin-top: -25px;
+    left: 50%;
+    top: 250px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.generate-session-button {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    left: 50%;
+    top: 325px;
+    margin-left: -30px;
+    margin-top: -30px;
+    border-radius: 30px;
+    outline: none;
+    background-color: white;
+    z-index: 1;
+    border: 1px solid transparent;
+    font-size: 0.6em;
+    color: gray;
+}
+
+.generate-session-button:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 1px gray;
+    color: black;
+}
