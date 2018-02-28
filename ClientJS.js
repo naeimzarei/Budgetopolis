@@ -207,7 +207,7 @@ $(document).ready(function () {
     }
     function buildMediaBox(){
         
-        $('.media-container').append("<textarea id = 'socialMediaBox' rows = '30' cols = '50'> Welcome to Budgetopolis!\n Scenarios and other communications will be displayed here. </textarea>");
+        $('.media-container').append("<textarea id = 'socialMediaBox' rows = '15' cols = '40'> Welcome to Budgetopolis!\n Scenarios and other communications will be displayed here. </textarea>");
         document.getElementById('socialMediaBox').readOnly = true;
     }
     /**

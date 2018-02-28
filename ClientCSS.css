@@ -227,8 +227,13 @@ svg > g > g:last-child {
 
 .media-container{
     position: fixed;
-    bottom: 15%;
+    bottom: 25%;
     right: 40%;
     top: 20%;
-    font-family: "Poppins"
+}
+
+textarea{
+    font-family: "Playfair Display";
+    resize: none;
+    font-size: 18px;
 }
