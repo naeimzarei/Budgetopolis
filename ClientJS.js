@@ -32,15 +32,46 @@ $(document).ready(function () {
         Client.budget = budget;
     }
 
+
     /**
      * Sets the gameboard values on page 2.
      * @param {array({})} values array of selected community values 
      */
+    
     function set_gameboard_values(values) {
         for (var i = 0; i < values.length; i++) {
             var current_value = $(values[i]).text();
-            $(".values-container-cards-2").append($("<div class='values-2'>" + current_value + "</div>"));
+            var currentValId = current_value.replace(/\s/g, '');
+            var cardDiv = $("<div class='values-2' id = " + currentValId + " > " + current_value + "</div > ")
+            $(".values-container-cards-2").append(cardDiv)
+            //$(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         }
+    }
+
+    /**
+     * Opens popup with description of the selected value
+     */
+
+    function showValueDescription() {
+        console.log('clicked value card' + this.id)
+        var values = ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
+            'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
+            'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
+            'Support Public Education Growth'];
+        var valueDescriptions = ['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
+            'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
+            'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
+            'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
+            'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
+            'Support bills, legislation, etc for public education (schools , daycares, etc)'];
+
+        for (var i = 0; i < values.length; i++) {
+            if (values[i].replace(/\s/g, '') == this.id) {
+                alert('Description for ' + values[i] + ': \n' + valueDescriptions[i])
+                return;
+            }
+        }
+        
     }
 
     /**
@@ -190,6 +221,7 @@ $(document).ready(function () {
           for (var i = 0; i < community_resources.length; i++) {
             data_values.push([ community_resources[i].name, community_resources[i].value ]);
           }  
+            console.log(data_values)
           var data = google.visualization.arrayToDataTable(data_values);
   
           var options = {
@@ -217,7 +249,38 @@ $(document).ready(function () {
             legend: 'none'
           };
   
-          var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));  
+          var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
+
+          //below is creating a description array for each community resource, and attaching event handlers 
+          //to each section of the pie chart in order to show their description if clicked
+
+        var resourcesDescriptions = []
+        resourcesDescriptions.push({ 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' })
+        resourcesDescriptions.push({ 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' })
+        resourcesDescriptions.push({ 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' })
+        resourcesDescriptions.push({ 'Housing': 'Funding for housing developments and their maintenance' })
+        resourcesDescriptions.push({ 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' })
+        resourcesDescriptions.push({ 'Capital': 'Expenditures on utilities, construction, and government equipment' })
+        resourcesDescriptions.push({ 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' })
+        resourcesDescriptions.push({ 'Reserves': 'Allocated funds for savings' })
+        resourcesDescriptions.push({ 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' })
+            
+        function selectHandler() {
+              console.log('pie chart clicked')
+              var selectedItem = chart.getSelection()[0];
+              if (selectedItem) {
+                  var resourceClick = data.getValue(selectedItem.row, 0);
+                  resourcesDescriptions.forEach(function(resource) {
+                      for(var j in resource)
+                      if (j == resourceClick) {
+                          alert(j + ' description :\n ' + resource[j])
+                      }
+                  })
+
+              }
+          }
+
+          google.visualization.events.addListener(chart, 'select', selectHandler);
           chart.draw(data, options);
         }
     }
@@ -276,7 +339,7 @@ $(document).ready(function () {
                     set_budget_breakdown([
                         'Fire', 'Parks and Rec', 'Police', 'Housing',
                         'Streets', 'Capital', 'Planning and Economic Development',
-                        'Debt Services', 'Solid Waste'
+                        'Reserves', 'Solid Waste'
                     ]);
                     createGooglePieChart(Client.budget_breakdown);
                     // Update message container text value 
@@ -348,6 +411,9 @@ $(document).ready(function () {
             // Updates the budget bar dynamically
             updateBudgetBar();
         });
+
+        $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
+        
     }
 
     /**
