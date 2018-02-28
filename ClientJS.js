@@ -205,11 +205,7 @@ $(document).ready(function () {
             ctx.fill();
         }
     }
-    function buildMediaBox(){
-        
-        $('.media-container').append("<textarea id = 'socialMediaBox' rows = '15' cols = '40'> Welcome to Budgetopolis!\n Scenarios and other communications will be displayed here. </textarea>");
-        document.getElementById('socialMediaBox').readOnly = true;
-    }
+    
     /**
      * Create a Google Pie Chart
      * @param {string[]} community_resources the resource values 
@@ -225,7 +221,6 @@ $(document).ready(function () {
           for (var i = 0; i < community_resources.length; i++) {
             data_values.push([ community_resources[i].name, community_resources[i].value ]);
           }  
-            console.log(data_values)
           var data = google.visualization.arrayToDataTable(data_values);
   
           var options = {
@@ -431,7 +426,6 @@ $(document).ready(function () {
         // as needed in event_handlers() function
         event_handlers();
 
-        buildMediaBox();
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
             var current_page = 'page' + i;

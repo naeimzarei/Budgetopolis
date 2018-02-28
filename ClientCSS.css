@@ -225,15 +225,23 @@ svg > g > g:last-child {
     pointer-events: none 
 }
 
-.media-container{
+.media-container-box {
     position: fixed;
-    bottom: 25%;
-    right: 35%;
-    top: 20%;
-}
-
-textarea{
     font-family: "Playfair Display";
     resize: none;
     font-size: 18px;
+    width: 300px;
+    height: 200px;
+    right: 2%;
+    top: 285px;
+    outline: none;
+    text-align: left;
+    font-size: 0.8em;
+    text-align: center;
+    background-color: white;
+    text-align: left;
+    overflow: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 5px;
 }
