@@ -197,7 +197,7 @@ body {
     margin-left: -37.5px;
     margin-top: -25px;
     left: 50%;
-    bottom: 1%;
+    bottom: 2%;
     border-radius: 10px;
     outline: none;
     background-color: white;
@@ -244,4 +244,54 @@ svg > g > g:last-child {
     padding-left: 15px;
     padding-right: 15px;
     border-radius: 5px;
+}
+
+.popup {
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-value {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-description {
+    padding: 10px;
+}
+
+.popup-button {
+    position: absolute;
+    left: 50%;
+    margin-left: -25px;
+    width: 50px;
+    height: 50px;
+    bottom: 5%;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.popup-button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
 }

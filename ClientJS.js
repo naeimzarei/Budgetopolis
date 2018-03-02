@@ -53,7 +53,6 @@ $(document).ready(function () {
      */
 
     function showValueDescription() {
-        console.log('clicked value card' + this.id)
         var values = ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
             'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
             'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
@@ -67,11 +66,49 @@ $(document).ready(function () {
 
         for (var i = 0; i < values.length; i++) {
             if (values[i].replace(/\s/g, '') == this.id) {
-                alert('Description for ' + values[i] + ':\n' + valueDescriptions[i])
+                openPopup(values[i], valueDescriptions[i]);
                 return;
             }
         }
-        
+    }
+
+    /**
+     * Helper function to open popup with description of the selected value.
+     * @param {string} value the community value
+     * @param {string} description the description of the community value 
+     */
+    function openPopup(value, description) {
+        // blur the rest of the screen
+        blur();
+        // populate popup with value and description
+        $('.popup-value').text(value);
+        $('.popup-description').text(description);
+        // show the popup dialogue
+        $('.page2-popup').show();
+    }
+
+    /**
+     * Helper function to close popup with description of the selected value.
+     */
+    function closePopup() {
+        // unblur the rest of the screen
+        unblur();
+        // hide the popup dialogue
+        $('.page2-popup').hide();
+    }
+
+    /**
+     * Blurs the second page.
+     */
+    function blur() {
+        $('.page2').css({ filter: 'blur(10px)' });
+    }
+
+    /**
+     * Unblurs the second page.
+     */
+    function unblur() {
+        $('.page2').css({ filter: 'blur(0px)' })
     }
 
     /**
@@ -265,14 +302,13 @@ $(document).ready(function () {
         resourcesDescriptions.push({ 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' })
             
         function selectHandler() {
-              console.log('pie chart clicked')
               var selectedItem = chart.getSelection()[0];
               if (selectedItem) {
                   var resourceClick = data.getValue(selectedItem.row, 0);
                   resourcesDescriptions.forEach(function(resource) {
                       for(var j in resource)
                       if (j == resourceClick) {
-                          alert(j + ' description :\n ' + resource[j])
+                          openPopup(j, resource[j]);
                       }
                   })
 
@@ -412,8 +448,13 @@ $(document).ready(function () {
             updateBudgetBar();
         });
 
+        // Shows value description after it has been clicked
         $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         
+        // Close the popup dialogue after the button has been clicked
+        $('.popup-button').on('click', function() {
+            closePopup();
+        });
     }
 
     /**
