@@ -276,13 +276,13 @@ $(document).ready(function () {
                 bold: false,
                 fontName: 'Didot'
             },
-            pieStartAngle: 95,
             tooltip: {
                 trigger: "focus",
                 isHTML: true,
                 text: 'none'
             },
-            legend: 'none'
+            legend: 'none',
+            is3D: true
           };
   
           var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
