@@ -20,6 +20,38 @@ $(document).ready(function () {
         budget_breakdown: [{}]
     };
 
+    //prep server connection
+    const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
+    var client;
+    var db;
+
+    /**
+     * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
+     * resources_description, scenarios, budget)
+     * @param {dict} query //query to execute
+     * @param {boolean} city //boolean: true if city, false if county
+     */
+    function connect(query, city){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+          
+            return client.login().then(getCommunityInfo(query, city))
+        });
+    }
+
+    function getCommunityInfo(query, city){
+        var collection;
+        if(city){
+            collection = db.collection('City')
+        }else{
+            collection = db.collection('County')
+        }
+        collection.find(query).execute().then(result => {
+            console.log(result.length);
+        });
+    }
+
     /**
      * Gets the amount of budget left
      * @returns {number} the budget
@@ -512,7 +544,7 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
-
+        connect({}, true);
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
             var current_page = 'page' + i;
