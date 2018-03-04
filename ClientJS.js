@@ -6,9 +6,9 @@ $(document).ready(function () {
         community_values_description: [],
         // array with selected community values
         selected_community_values: [],
-        // the number of values currently selected by the user
-        // TODO: value and description of resources
+        // value and description of resources
         resources: [],
+        // the number of values currently selected by the user
         num_values_selected: 0,
         // the number of pages 
         num_pages: 2,
@@ -17,7 +17,13 @@ $(document).ready(function () {
         // the total budget
         total_budget: 50000000,
         // the budget breakdown by value
-        budget_breakdown: [{}]
+        budget_breakdown: [{}],
+        // array with colors of chart
+        chart_colors: [
+            '#89882A', '#e69f00', '#56b4e9', 
+            '#009e73', '#f0e442', '#0072b2', 
+            '#d55e00', '#cc79a7', '#5E60B1'
+        ]
     };
 
     /**
@@ -288,8 +294,7 @@ $(document).ready(function () {
             },
             legend: 'none',
             is3D: true,
-            // TODO: depends on size of the chart!
-            colors: ['#89882A', '#e69f00', '#56b4e9', '#009e73', '#f0e442', '#0072b2', '#d55e00', '#cc79a7', '#5E60B1']
+            colors: Client.chart_colors
           };
   
           var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
@@ -316,6 +321,7 @@ $(document).ready(function () {
         }
     }
 
+    // TODO
     /**
      * Updates the size and the values of the budget bar
      * dynamically.
@@ -329,11 +335,14 @@ $(document).ready(function () {
         if (Client.community_values.length === 0) { return; }
         // Draw the rectangles
         var beginX = 0;
+        var shiftX = 0;
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
             var relative_width = find_relative_width(Client.budget_breakdown[i]);
-            ctx.rect(0, 0, beginX + relative_width, ctx.canvas.height);
+
+            ctx.fillStyle = Client.chart_colors[i];
+            ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
             beginX += relative_width;
-            ctx.stroke();
+            shiftX += relative_width;
         }
 
         /**
@@ -384,7 +393,6 @@ $(document).ready(function () {
                     'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
                     'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
                     'Support bills, legislation, etc for public education (schools , daycares, etc)']);
-                    // TODO: set the game resources
                     set_resources([
                         { 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' },
                         { 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' },
