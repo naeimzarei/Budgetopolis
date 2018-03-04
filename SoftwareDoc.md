@@ -2,7 +2,7 @@
 
 ## Architecture
 
-![Budgetopolis Diagram](https://imgur.com/a/rU43O "Budgetopolis")
+[Budgetopolis Diagram](https://imgur.com/a/rU43O)
 
 * Budgetopolis consists primarily of a JavaScript (jQuery) front-end with a MongoDB Atlas database on the back-end. 
 
@@ -32,7 +32,7 @@
 ##### MongoDB Atlas Back-end
 * The database is powered by MongoDB atlas and contains the following schemas:
 
-
+```
 	facilitator = {
 		"_id" references facilitator\_id
 		"name"
@@ -54,7 +54,7 @@
 		"scenarios"
 		"budget"
 	}
-
+```
 
 
 ### Detailed Module Definitions
