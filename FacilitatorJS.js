@@ -2,6 +2,44 @@ $(document).ready(function () {
     Facilitator = {
         session_id: ''
     };
+    //prep server connection
+    const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
+    var client;
+    var db;
+    let stitchClient;
+    /**
+     * Connects to DB and can retrieve a facilitator's existing id, or create a new one (if name doesnt exist in db)
+     * @param {dict} name //name to find or insert
+     */
+    function connect(name){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+          
+            return client.login().then(getFacilitatorID(name))
+        });
+    }
+    function getFacilitatorID(name){
+        db.collection('Facilitators').find(name).execute().then(result => {
+            if(result.length == 0){
+                //create a facilitator object in db if doesn't exist
+                db.collection("Facilitators").insert(name).execute().then(result1 => {
+                    //now get the newly added Facilitator's ID
+                    console.log('created new user')
+                    db.collection('Facilitators').find(name).execute().then(result2 => {
+                        var fullId = result[0]['_id']
+                        Facilitator.session_id = fullId.toString().slice(-4)
+                        updateMessageBar("Your new session id is: " + Facilitator.session_id)
+                    });
+                });
+            }else{
+                var fullId = result[0]['_id']
+                Facilitator.session_id = fullId.toString().slice(-4) //says undefined
+                updateMessageBar("Your session id is: " + Facilitator.session_id)
+            }
+        });
+    }
+    
 
     /**
      * Sets the facilitator's session id.
@@ -63,29 +101,35 @@ $(document).ready(function () {
         // Click event for button that generates session ID 
         $('.generate-session-button').on('click', function (event) {
             // Prevent further generation of session IDs
-            if (get_session_id().length === 4) { return; }
+            //if (get_session_id().length === 4) { return; }
             // Generate the session ID and view it to the user
-            $('.session-code-container-id').val(random_session_id());
+            
+            //$('.session-code-container-id').val(random_session_id());
+            
             // Prevent the user from making changes to the code displayed 
             $('.session-code-container-id').attr('disabled', 'disabled');
             // Obtain information from the database 
-            updateMessageBar('Obtaining data from the database. Please wait...');
+            //updateMessageBar('Obtaining data from the database. Please wait...');
+            connect({"name":$("#nameInput").val()})
+            
+            //use nameInput value to query name from DB and return their 4 digit id
+            updateMessageBar("Your session id is: ")
         });
 
         // Input event for sesion ID 
-        $('.session-code-container-id').on('input', function(event) {
-            // Current length of the session ID
-            var input_length = $(event.target).val().length;
-            // Update the session ID on the go
-            set_session_id($(event.target).val());
-            if (input_length === 4) {
-                // Prevent further changes to session ID 
-                $('.session-code-container-id').attr('disabled', 'disabled');
-                // Update message bar
-                updateMessageBar('Updating database. Please wait...');
-                // TODO: update the database, return initial stats
-            }
-        });
+        // $('.session-code-container-id').on('input', function(event) {
+        //     // Current length of the session ID
+        //     var input_length = $(event.target).val().length;
+        //     // Update the session ID on the go
+        //     set_session_id($(event.target).val());
+        //     if (input_length === 4) {
+        //         // Prevent further changes to session ID 
+        //         $('.session-code-container-id').attr('disabled', 'disabled');
+        //         // Update message bar
+        //         updateMessageBar('Updating database. Please wait...');
+        //         // TODO: update the database, return initial stats
+        //     }
+        // });
     }
 
     /**
