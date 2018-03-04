@@ -59,7 +59,6 @@ $(document).ready(function () {
         for (var i = 0; i < Client.community_values.length; i++) {
             if (Client.community_values[i].replace(/\s/g, '') == this.id) {
                 openPopup(Client.community_values[i], Client.community_values_description[i]);
-                return;
             }
         }
     }
