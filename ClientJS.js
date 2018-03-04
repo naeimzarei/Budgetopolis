@@ -321,7 +321,6 @@ $(document).ready(function () {
         }
     }
 
-    // TODO
     /**
      * Updates the size and the values of the budget bar
      * dynamically.
