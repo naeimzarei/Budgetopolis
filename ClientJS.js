@@ -53,16 +53,34 @@ $(document).ready(function () {
      */
 
     function showValueDescription() {
-        var values = ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-            'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-            'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-            'Support Public Education Growth'];
-        var valueDescriptions = ['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
-            'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
-            'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
-            'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
-            'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
-            'Support bills, legislation, etc for public education (schools , daycares, etc)'];
+        var values = 
+          ['Affordable Housing',
+          'Enviornmentally Friendly',
+          'Financially Conservative',
+          'High Employment Rate',
+
+          'City infrastructure growth',
+          'Preservation of Neighborhoods',
+          'Family-Friendly City',
+
+          'Safe and Secure Community',
+          'Well-Maintained Streets',
+          'Support Cultural Diversity',
+          'Support Public Education Growth'];
+        var valueDescriptions = 
+          ['Support bills, policies, and other measures to ensure every citizen has access to affordable public housing.',
+          'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset.',
+          'Budget is used in a supporting manner to sustain the well being of the community. Smaller government expenditures.',
+          'Support bills and organizations that help unemployed individuals acquire a job. High employment rates give bring great morale to the community.',
+
+          'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc.',
+          'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects.',
+          'Foster activities, increase funding for public parks, improvement projects, and host community wide entertainment events.',
+
+          'Support strict surveillance of criminal activity. Heavy support for law enforcement. Increased funding for community watch programs.',
+          'Support public road and infrastructure projects to ensure roads, bridges, etc. are working properly.',
+          'Support initiatives for education on various cultures and their relevance to a productive society.',
+          'Support bills, legislation, etc. for public education (schools , daycares, etc.) education programs (Sex Ed, Mental Awareness, etc.) for the community.'];
 
         for (var i = 0; i < values.length; i++) {
             if (values[i].replace(/\s/g, '') == this.id) {
@@ -329,10 +347,9 @@ $(document).ready(function () {
                     // Hide the session ID icon
                     $('.session-container').hide();
                     // Show the community values, obtained from the database
-                    set_values(['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-                    'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-                    'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-                    'Support Public Education Growth']);
+                    set_values(['Affordable Housing', 'Enviornmentally Friendly', 'Financially Conservative', 'High Employment Rate',
+                      'City infrastructure growth', 'Preservation of Neighborhoods', 'Family-Friendly City', 'Safe and Secure Community',
+                      'Well-Maintained Streets', 'Support Cultural Diversity', 'Support Public Education Growth']);
                     // Check which community value cards have been selected
                     set_values_click_handler();
                     // Create the initial gameboard using canvas
