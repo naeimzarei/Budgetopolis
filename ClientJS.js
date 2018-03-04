@@ -2,9 +2,13 @@ $(document).ready(function () {
     Client = {
         // array with all community values 
         community_values: [],
+        // array with all community values descriptions 
+        community_values_description: [],
         // array with selected community values
         selected_community_values: [],
         // the number of values currently selected by the user
+        // TODO: value and description of resources
+        resources: [],
         num_values_selected: 0,
         // the number of pages 
         num_pages: 2,
@@ -51,22 +55,10 @@ $(document).ready(function () {
     /**
      * Opens popup with description of the selected value
      */
-
     function showValueDescription() {
-        var values = ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-            'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-            'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-            'Support Public Education Growth'];
-        var valueDescriptions = ['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
-            'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
-            'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
-            'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
-            'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
-            'Support bills, legislation, etc for public education (schools , daycares, etc)'];
-
-        for (var i = 0; i < values.length; i++) {
-            if (values[i].replace(/\s/g, '') == this.id) {
-                openPopup(values[i], valueDescriptions[i]);
+        for (var i = 0; i < Client.community_values.length; i++) {
+            if (Client.community_values[i].replace(/\s/g, '') == this.id) {
+                openPopup(Client.community_values[i], Client.community_values_description[i]);
                 return;
             }
         }
@@ -155,18 +147,8 @@ $(document).ready(function () {
      }
 
     /**
-     * Returns the selected community values 
-     * @returns {string[]} array with selected community values 
-     */
-    function get_gameboard_values() {
-        return Client.selected_community_values;
-    }
-
-    /**
      * Generate the community values at the
-     * beggining of the game and save them.
-     * In addition, sets the initial community value
-     * budget.
+     * begining of the game and save them.
      * @param {string[]} community_values array with community values
      */
     function set_values(community_values) {
@@ -174,6 +156,22 @@ $(document).ready(function () {
             $(".values-container-cards").append($("<div class='values' title=>" + community_values[i] + "</div>"));
         }
         Client.community_values = community_values;
+    }
+
+    /**
+     * Save the community value descriptions. 
+     * @param {string[]} community_values_description array with descriptions 
+     */
+    function set_values_description(community_values_description) {
+        Client.community_values_description = community_values_description;
+    }
+
+    /**
+     * Save the resources.
+     * @param {[{}]} resources the resources to be set 
+     */
+    function set_resources(resources) {
+        Client.resources = resources;
     }
 
     /** 
@@ -299,23 +297,12 @@ $(document).ready(function () {
 
           //below is creating a description array for each community resource, and attaching event handlers 
           //to each section of the pie chart in order to show their description if clicked
-
-        var resourcesDescriptions = []
-        resourcesDescriptions.push({ 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' })
-        resourcesDescriptions.push({ 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' })
-        resourcesDescriptions.push({ 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' })
-        resourcesDescriptions.push({ 'Housing': 'Funding for housing developments and their maintenance' })
-        resourcesDescriptions.push({ 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' })
-        resourcesDescriptions.push({ 'Capital': 'Expenditures on utilities, construction, and government equipment' })
-        resourcesDescriptions.push({ 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' })
-        resourcesDescriptions.push({ 'Reserves': 'Allocated funds for savings' })
-        resourcesDescriptions.push({ 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' })
             
         function selectHandler() {
               var selectedItem = chart.getSelection()[0];
               if (selectedItem) {
                   var resourceClick = data.getValue(selectedItem.row, 0);
-                  resourcesDescriptions.forEach(function(resource) {
+                  Client.resources.forEach(function(resource) {
                       for(var j in resource)
                       if (j == resourceClick) {
                           openPopup(j, resource[j]);
@@ -361,6 +348,19 @@ $(document).ready(function () {
     }
 
     /**
+     * Helper function to obtain the index of community value description.
+     * @param {string} value the community value 
+     * @returns {number} the index at which the value occurs in Client.community_values_description 
+     */
+    function get_description_index(value) {
+        for (var i = 0; i < Client.community_values.length; i++) { 
+            if (Client.community_values[i] === value) { 
+                return i;
+            } 
+        }
+    }
+
+    /**
      * Sets up event handlers during startup.
      */
     function event_handlers() {
@@ -378,6 +378,25 @@ $(document).ready(function () {
                     'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
                     'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
                     'Support Public Education Growth']);
+                    // Set the community values descriptions, obtained from the database 
+                    set_values_description(['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
+                    'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
+                    'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
+                    'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
+                    'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
+                    'Support bills, legislation, etc for public education (schools , daycares, etc)']);
+                    // TODO: set the game resources
+                    set_resources([
+                        { 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' },
+                        { 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' },
+                        { 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' },
+                        { 'Housing': 'Funding for housing developments and their maintenance' },
+                        { 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' },
+                        { 'Capital': 'Expenditures on utilities, construction, and government equipment' },
+                        { 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' },
+                        { 'Reserves': 'Allocated funds for savings' },
+                        { 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' }
+                    ]);
                     // Check which community value cards have been selected
                     set_values_click_handler();
                     // Create the initial gameboard using canvas
@@ -408,8 +427,7 @@ $(document).ready(function () {
             $(".values").on('click', function (event) {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
                 var value = $(event.target).text();
-                // TODO
-                var description = Client.community_values[value];
+                var description = Client.community_values_description[get_description_index(value)];
                 if (isSelected) {
                     // Remove CSS class of now unselected value 
                     $(event.currentTarget).removeClass('selected-value');
@@ -421,24 +439,13 @@ $(document).ready(function () {
                     // Hide the continue button 
                     $('.play-game-container').hide();
                 } else if (get_num_values_selected() < 5) {
-                    // TODO: display popup with correct value and description 
+                    // Save selected community values
+                    Client.selected_community_values.push($(event.currentTarget));
+                    // Display popup with correct value and description 
                     openPopup_1(value, description);
-                    // Selecting a particular value gives it a particular class
-                    $(event.currentTarget).addClass('selected-value');
-                    // Selecting a particular value it a border outline 
-                    $(event.currentTarget).css({ boxShadow: '0 0 0 1px gray' });
-                    // Increase the number of values selected by 1
-                    increment_num_values_selected();
                 } else if (get_num_values_selected() >= 5) {
                     // Update the message container text value
                     updateValuesContainerText('You may not select more than 5 community values.');
-                }
-                // Show continue button
-                if (get_num_values_selected() === 5) {
-                    // Update message container
-                    updateValuesContainerText('Great! Click the button below to continue.');
-                    // Show play game button
-                    $('.play-game-container').show();
                 }
             });
         }
@@ -471,16 +478,29 @@ $(document).ready(function () {
             closePopup();
         });
 
-        // TODO
+        // Shows community value descriptions when clicked on the first page
         $('.popup-1 button').on('click', function(event) {
             var val = $(event.target).text();
+            var length = Client.selected_community_values.length;
             if (val.toLowerCase() === 'select') {
-                
-            } else if (val.toLowerCase() === 'cancel') {
+                // Give selected community value a selected-value CSS class
+                $(Client.selected_community_values[length - 1]).addClass('selected-value');
+                // Add an outline to selected community value so user knows it has been selected 
+                $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px gray' });
+                // Increment number of values currently selected 
+                increment_num_values_selected();
+                // Close the popup after selection
                 closePopup_1();
-            }
-
-
+                // Show continue button
+                if (get_num_values_selected() === 5) {
+                    // Update message container
+                    updateValuesContainerText('Great! Click the button below to continue.');
+                    // Show play game button
+                    $('.play-game-container').show();
+                }
+            } 
+            // Close the popup
+            closePopup_1();
         });
     }
 
