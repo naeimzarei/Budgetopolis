@@ -32,15 +32,83 @@ $(document).ready(function () {
         Client.budget = budget;
     }
 
+
     /**
      * Sets the gameboard values on page 2.
      * @param {array({})} values array of selected community values 
      */
+    
     function set_gameboard_values(values) {
         for (var i = 0; i < values.length; i++) {
             var current_value = $(values[i]).text();
-            $(".values-container-cards-2").append($("<div class='values-2'>" + current_value + "</div>"));
+            var currentValId = current_value.replace(/\s/g, '');
+            var cardDiv = $("<div class='values-2' id = " + currentValId + " > " + current_value + "</div > ")
+            $(".values-container-cards-2").append(cardDiv)
+            //$(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         }
+    }
+
+    /**
+     * Opens popup with description of the selected value
+     */
+
+    function showValueDescription() {
+        var values = ['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
+            'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
+            'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
+            'Support Public Education Growth'];
+        var valueDescriptions = ['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
+            'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
+            'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
+            'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
+            'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
+            'Support bills, legislation, etc for public education (schools , daycares, etc)'];
+
+        for (var i = 0; i < values.length; i++) {
+            if (values[i].replace(/\s/g, '') == this.id) {
+                openPopup(values[i], valueDescriptions[i]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Helper function to open popup with description of the selected value.
+     * @param {string} value the community value
+     * @param {string} description the description of the community value 
+     */
+    function openPopup(value, description) {
+        // blur the rest of the screen
+        blur();
+        // populate popup with value and description
+        $('.popup-value').text(value);
+        $('.popup-description').text(description);
+        // show the popup dialogue
+        $('.page2-popup').show();
+    }
+
+    /**
+     * Helper function to close popup with description of the selected value.
+     */
+    function closePopup() {
+        // unblur the rest of the screen
+        unblur();
+        // hide the popup dialogue
+        $('.page2-popup').hide();
+    }
+
+    /**
+     * Blurs the second page.
+     */
+    function blur() {
+        $('.page2').css({ filter: 'blur(10px)' });
+    }
+
+    /**
+     * Unblurs the second page.
+     */
+    function unblur() {
+        $('.page2').css({ filter: 'blur(0px)' })
     }
 
     /**
@@ -59,16 +127,10 @@ $(document).ready(function () {
      * @param {string[]} community_values array with community values
      */
     function set_values(community_values) {
-        var budget_breakdown = [];
         for (var i = 0; i < community_values.length; i++) {
             $(".values-container-cards").append($("<div class='values' title=>" + community_values[i] + "</div>"));
-            budget_breakdown.push({
-                name: community_values[i],
-                value: Client.total_budget / community_values.length
-            });
         }
         Client.community_values = community_values;
-        Client.budget_breakdown = budget_breakdown;
     }
 
     /** 
@@ -145,54 +207,21 @@ $(document).ready(function () {
             $('.startup-message-container-text').text(text);
         }
     }
-
-    /**
-     * Create gameboard circle function
-     */
-
-    function createBoard() {
-        var canvas = document.getElementById("game-canvas");
-        var ctx = canvas.getContext("2d");
-        // Colors
-        var colors = ['#4CAF50', '#00BCD4', '#E91E63', '#FFC107', '#9E9E9E', '#CDDC39', '#42f4f1', '#f49d41'];
-        // List of Angles
-        var angles = [
-            Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, 
-            Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25, Math.PI * 0.25
-        ];
-        // Temporary variables, to store each arc angles
-        var beginAngle = 0;
-        var endAngle = 0;
-        // Iterate through the angles
-        for (var i = 0; i < angles.length; i++) {
-            // Begin where we left off
-            beginAngle = endAngle;
-            // End Angle
-            endAngle = endAngle + angles[i];
-            ctx.beginPath();
-            // Fill color
-            ctx.fillStyle = colors[i % colors.length];
-            ctx.moveTo(200, 200);
-            ctx.arc(200, 200, 120, beginAngle, endAngle);
-            ctx.lineTo(200, 200);
-            ctx.stroke();
-            // Fill
-            ctx.fill();
-        }
-    }
-
+    
     /**
      * Create a Google Pie Chart
+     * @param {string[]} community_resources the resource values 
      */
-    function createGooglePieChart() {
+    function createGooglePieChart(community_resources) {
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
-  
+
         function drawChart() {
           var data_values = [];
           data_values.push(['Category', 'Description']);
-          for (var i = 0; i < Client.budget_breakdown.length; i++) {
-            data_values.push([ Client.community_values[i], Client.budget_breakdown[i].value ]);
+          
+          for (var i = 0; i < community_resources.length; i++) {
+            data_values.push([ community_resources[i].name, community_resources[i].value ]);
           }  
           var data = google.visualization.arrayToDataTable(data_values);
   
@@ -212,21 +241,50 @@ $(document).ready(function () {
                 bold: false,
                 fontName: 'Didot'
             },
-            pieStartAngle: 95,
             tooltip: {
                 trigger: "focus",
                 isHTML: true,
                 text: 'none'
             },
-            legend: 'none'
+            legend: 'none',
+            is3D: true
           };
   
-          var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));  
+          var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
+
+          //below is creating a description array for each community resource, and attaching event handlers 
+          //to each section of the pie chart in order to show their description if clicked
+
+        var resourcesDescriptions = []
+        resourcesDescriptions.push({ 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' })
+        resourcesDescriptions.push({ 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' })
+        resourcesDescriptions.push({ 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' })
+        resourcesDescriptions.push({ 'Housing': 'Funding for housing developments and their maintenance' })
+        resourcesDescriptions.push({ 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' })
+        resourcesDescriptions.push({ 'Capital': 'Expenditures on utilities, construction, and government equipment' })
+        resourcesDescriptions.push({ 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' })
+        resourcesDescriptions.push({ 'Reserves': 'Allocated funds for savings' })
+        resourcesDescriptions.push({ 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' })
+            
+        function selectHandler() {
+              var selectedItem = chart.getSelection()[0];
+              if (selectedItem) {
+                  var resourceClick = data.getValue(selectedItem.row, 0);
+                  resourcesDescriptions.forEach(function(resource) {
+                      for(var j in resource)
+                      if (j == resourceClick) {
+                          openPopup(j, resource[j]);
+                      }
+                  })
+
+              }
+          }
+
+          google.visualization.events.addListener(chart, 'select', selectHandler);
           chart.draw(data, options);
         }
     }
 
-    // TODO
     /**
      * Updates the size and the values of the budget bar
      * dynamically.
@@ -278,10 +336,26 @@ $(document).ready(function () {
                     // Check which community value cards have been selected
                     set_values_click_handler();
                     // Create the initial gameboard using canvas
-                    createGooglePieChart();
+                    set_budget_breakdown([
+                        'Fire', 'Parks and Rec', 'Police', 'Housing',
+                        'Streets', 'Capital', 'Planning and Economic Development',
+                        'Reserves', 'Solid Waste'
+                    ]);
+                    createGooglePieChart(Client.budget_breakdown);
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
                 }, 150);
+            }
+
+            function set_budget_breakdown(community_resources) {
+                var budget_breakdown = [];
+                for (var i = 0; i < community_resources.length; i++) {
+                    budget_breakdown.push({
+                        name: community_resources[i],
+                        value: Client.total_budget / community_resources.length
+                    });
+                }
+                Client.budget_breakdown = budget_breakdown;
             }
         });
 
@@ -319,6 +393,7 @@ $(document).ready(function () {
             });
         }
 
+
         // set click handler for continue button 
         $('.play-game-container-button').on('click', function(event) {
             // Set gameboard values on page 2
@@ -336,6 +411,14 @@ $(document).ready(function () {
         $(window).on('resize', function() {
             // Updates the budget bar dynamically
             updateBudgetBar();
+        });
+
+        // Shows value description after it has been clicked
+        $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
+        
+        // Close the popup dialogue after the button has been clicked
+        $('.popup-button').on('click', function() {
+            closePopup();
         });
     }
 

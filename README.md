@@ -39,6 +39,4 @@ Daniel Estrada
 
 ## Notes
 
-* We are scheduled to have our first meeting with our client next week, at 2:00 PM on Monday (01/29/18).
-* We are scheduled to have our first meeting with the instructor next Friday (02/02/18).
 * The UNC School of Government wants a web-based rendition of the Budgetopolis board game that it initially developed in 2012. This way, they have a wider audience, including citizen groups and K-12 school students. 
