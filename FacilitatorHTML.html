@@ -11,6 +11,8 @@
     <!-- Import fonts -->
     <link href="https://fonts.googleapis.com/css?family=EB+Garamond" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
+    <!-- Connect to MongoDB Stitch -->
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/library/v3/stable/stitch.min.js"></script>
 </head>
 
 <body>
@@ -23,12 +25,13 @@
     <!-- informative bar -->
     <div class="startup-message-container">
         <div class="startup-message-container-text">
-            Please generate a session code or enter a previously generated 4-digit session code.
+            Please enter your name to obtain your session id.
         </div>
     </div>
     <!-- session ID input -->
     <div class="session-code-container">
-        <input type="text" class="session-code-container-id" placeholder="0000" maxlength="4">
+        <!-- <input type="text" class="session-code-container-id" placeholder="0000" maxlength="4"> -->
+        <input type = "text" id = "nameInput"class = "session-code-container-id" placeholder = "Name">
     </div>
     <!-- Generate session ID button -->
     <div class="generate-session-button-container">
