@@ -92,6 +92,7 @@ $(document).ready(function () {
 
     /**
      * Helper function to open popup with description of the selected value.
+     * This is for the second page.
      * @param {string} value the community value
      * @param {string} description the description of the community value 
      */
@@ -107,12 +108,40 @@ $(document).ready(function () {
 
     /**
      * Helper function to close popup with description of the selected value.
+     * This is for the second page.
      */
     function closePopup() {
         // unblur the rest of the screen
         unblur();
         // hide the popup dialogue
         $('.page2-popup').hide();
+    }
+
+    /**
+     * Helper function to open popup with description of the selected value.
+     * This is for the first page.
+     * @param {string} value the community value
+     * @param {string} description the description of the community value 
+     */
+    function openPopup_1(value, description) {
+        // blur the rest of the screen
+        blur_1();
+        // populate popup with value and description
+        $('.popup-1-value').text(value);
+        $('.popup-1-description').text(description);
+        // show the popup dialogue 
+        $('.page1-popup').show();
+    }
+
+    /**
+     * Helper function to close popup with description of the selected value.
+     * This is for the first page.
+     */
+    function closePopup_1() {
+        // unblur the rest of the screen
+        unblur_1();
+        // hide the popup dialogue
+        $('.page1-popup').hide();
     }
 
     /**
@@ -128,6 +157,20 @@ $(document).ready(function () {
     function unblur() {
         $('.page2').css({ filter: 'blur(0px)' })
     }
+
+    /**
+     * Blurs the first page.
+     */
+    function blur_1() {
+        $('.page1').css({ filter: 'blur(10px)' })
+    }
+
+     /**
+      * Unblurs the first page.
+      */
+     function unblur_1() {
+        $('.page1').css({ filter: 'blur(0px)' })
+     }
 
     /**
      * Returns the selected community values 
@@ -265,7 +308,9 @@ $(document).ready(function () {
                 text: 'none'
             },
             legend: 'none',
-            is3D: true
+            is3D: true,
+            // TODO: depends on size of the chart!
+            colors: ['#89882A', '#e69f00', '#56b4e9', '#009e73', '#f0e442', '#0072b2', '#d55e00', '#cc79a7', '#5E60B1']
           };
   
           var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
@@ -379,6 +424,9 @@ $(document).ready(function () {
         function set_values_click_handler() {
             $(".values").on('click', function (event) {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
+                var value = $(event.target).text();
+                // TODO
+                var description = Client.community_values[value];
                 if (isSelected) {
                     // Remove CSS class of now unselected value 
                     $(event.currentTarget).removeClass('selected-value');
@@ -390,6 +438,8 @@ $(document).ready(function () {
                     // Hide the continue button 
                     $('.play-game-container').hide();
                 } else if (get_num_values_selected() < 5) {
+                    // TODO: display popup with correct value and description 
+                    openPopup_1(value, description);
                     // Selecting a particular value gives it a particular class
                     $(event.currentTarget).addClass('selected-value');
                     // Selecting a particular value it a border outline 
@@ -436,6 +486,18 @@ $(document).ready(function () {
         // Close the popup dialogue after the button has been clicked
         $('.popup-button').on('click', function() {
             closePopup();
+        });
+
+        // TODO
+        $('.popup-1 button').on('click', function(event) {
+            var val = $(event.target).text();
+            if (val.toLowerCase() === 'select') {
+                
+            } else if (val.toLowerCase() === 'cancel') {
+                closePopup_1();
+            }
+
+
         });
     }
 

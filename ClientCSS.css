@@ -233,7 +233,7 @@ svg > g > g:last-child {
     width: 300px;
     height: 200px;
     right: 2%;
-    top: 285px;
+    top: 275px;
     outline: none;
     text-align: left;
     font-size: 0.8em;
@@ -243,7 +243,9 @@ svg > g > g:last-child {
     overflow: auto;
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 5px;
     border-radius: 5px;
+    box-shadow: 0 0 0 1px black;
 }
 
 .popup {
@@ -294,4 +296,61 @@ svg > g > g:last-child {
     box-shadow: 0 0 0 1px black;
     background-color: #3a3e3f;
     color: white;
+}
+
+.popup-1 {
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-1 button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: 5%;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+    margin-left: -25px;
+}
+
+.popup-1 button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+}
+
+.popup-1-button-select {
+    left: 40%;
+}
+
+.popup-1-button-cancel {
+    left: 60%;
+}
+
+.popup-1-value {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-1-description {
+    padding: 10px;
 }
