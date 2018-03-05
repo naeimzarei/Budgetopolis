@@ -9,28 +9,23 @@ $(document).ready(function () {
     let stitchClient;
     /**
      * Connects to DB and can retrieve a facilitator's existing id, or create a new one (if name doesnt exist in db)
-     * @param {dict} name //name to find or insert
+     * @param {String} name //name to find or insert
      */
     function connect(name){
         clientPromise.then(stitchClient =>{
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
-          
             return client.login().then(getFacilitatorID(name))
         });
     }
     function getFacilitatorID(name){
-        db.collection('Facilitators').find(name).execute().then(result => {
+        db.collection('Facilitators').find({ "name": name }).execute().then(result => {
             if(result.length == 0){
-                //create a facilitator object in db if doesn't exist
-                db.collection("Facilitators").insert(name).execute().then(result1 => {
-                    //now get the newly added Facilitator's ID
-                    console.log('created new user')
-                    db.collection('Facilitators').find(name).execute().then(result2 => {
-                        var fullId = result[0]['_id']
-                        Facilitator.session_id = fullId.toString().slice(-4)
-                        updateMessageBar("Your new session id is: " + Facilitator.session_id)
-                    });
+                addFacilitator(name);
+                db.collection("Facilitators").find({ "name": name }).execute().then(result1 => {
+                    var fullId1 = result1[0]['_id']
+                    Facilitator.session_id = fullId1.toString().slice(-4)
+                    updateMessageBar("Your session id is: " + Facilitator.session_id)
                 });
             }else{
                 var fullId = result[0]['_id']
@@ -38,6 +33,21 @@ $(document).ready(function () {
                 updateMessageBar("Your session id is: " + Facilitator.session_id)
             }
         });
+    }
+    /**
+     * Create new facilitator in DB if the name doesn't already exist. Then return their id
+     * @param {String} name
+     */
+
+    function addFacilitator(name) {
+        console.log('made it')
+        clientPromise.then(stitchClient => {
+            db = stitchClient.service('mongodb', 'mongodb-atlas').db('budgetopolis')
+            var objToInsert = [{ "name": name }];
+            db.collection('Facilitators').insertMany(objToInsert, function (err) {
+                Facilitator.session_id = objToInsert._id.toString().slice(-4)
+            });
+        })
     }
     
 
@@ -110,7 +120,7 @@ $(document).ready(function () {
             $('.session-code-container-id').attr('disabled', 'disabled');
             // Obtain information from the database 
             //updateMessageBar('Obtaining data from the database. Please wait...');
-            connect({"name":$("#nameInput").val()})
+            connect($("#nameInput").val())
             
             //use nameInput value to query name from DB and return their 4 digit id
             updateMessageBar("Your session id is: ")
