@@ -37,10 +37,10 @@ body {
 }
 
 .values {
-    height: 100px;
-    width: 100px;
+    height: 125px;
+    width: 125px;
     background-color: white;
-    border-radius: 50px;
+    border-radius: 62.5px;
     margin: 10px;
     text-align: center;
     font-size: 0.80em;

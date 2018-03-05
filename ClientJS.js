@@ -382,8 +382,18 @@ $(document).ready(function () {
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
             var relative_width = find_relative_width(Client.budget_breakdown[i]);
 
+            var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
+
             ctx.fillStyle = Client.chart_colors[i];
             ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
+            ctx.fillStyle = 'black';
+            ctx.font = "16px EB Garamond";
+            ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
+            ctx.fillText(
+                "$" + parseInt(Client.budget_breakdown[i].value, 10).toString(), 
+                shiftX + (ctx.canvas.width / 35), 
+                (ctx.canvas.height / 2) + 20
+            );
             beginX += relative_width;
             shiftX += relative_width;
         }
@@ -551,6 +561,38 @@ $(document).ready(function () {
             } 
             // Close the popup
             closePopup_1();
+        });
+
+        $('#budget-container-bar').on('click', function(event) {
+            // dynamically sized canvas size
+            var window_width = 0.8 * window.innerWidth;
+            // where the client X mouse made the click event
+            var cx = event.clientX;
+            // where the client Y mouse made the click event
+            var cy = event.clientY;
+            // range of widths for each componetn of budget bar
+            var ranges = [];
+
+            var beginX = parseInt((window.innerWidth * 0.5) - (window.innerWidth * 0.4), 10);
+            for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                var relative_width = find_relative_width(Client.budget_breakdown[i]);
+                ranges.push({
+                    x1: beginX,
+                    x2: beginX + relative_width
+                });
+                beginX += relative_width;
+            }
+
+            ranges.forEach(function(i, index) {
+                if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
+                    console.log(Client.budget_breakdown[index].name);
+                    // TODO
+                }
+            });
+
+            function find_relative_width(budget_value) {
+                return window_width * (budget_value.value / Client.total_budget);
+            }
         });
     }
 
