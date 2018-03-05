@@ -8,6 +8,10 @@ $(document).ready(function () {
         selected_community_values: [],
         // value and description of resources
         resources: [],
+        //resources descriptions
+        resources_descriptions: [],
+        //Scenarios for a given community to be used in game
+        scenarios: [],
         // the number of values currently selected by the user
         num_values_selected: 0,
         // the number of pages 
@@ -54,7 +58,15 @@ $(document).ready(function () {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
-            console.log(result.length);
+            console.log(JSON.stringify(result))
+            Client.community_values = result[0]['values']
+            Client.community_values_description = result[0]['values_descriptions']
+            Client.resources = result[0]['resources']
+            Client.resources_descriptions = result[0]['resources_description'] //added to global client object
+            Client.scenarios = result[0]['scenarios'] //added to global cleint object
+            Client.budget = result[0]['budget']
+            Client.budget_breakdown = result[0]['resources']
+ 
         });
     }
 
