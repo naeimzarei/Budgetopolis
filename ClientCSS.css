@@ -189,6 +189,12 @@ body {
     left: 5%;
     font-size: 1.5em;
 }
+.community-info-container-element{
+    position: fixed;
+    top: 185px;
+    left: 10%;
+    font-size: 1em;
+}
 
 .play-game-container-button {
     position: fixed;
@@ -278,7 +284,7 @@ svg > g > g:last-child {
     padding: 10px;
 }
 
-.popup-button {
+.popup-button{
     position: absolute;
     left: 50%;
     margin-left: -25px;
@@ -353,4 +359,10 @@ svg > g > g:last-child {
 
 .popup-1-description {
     padding: 10px;
+}
+.add-budget{
+    color:green;
+}
+.subtract-budget{
+    color:red;
 }

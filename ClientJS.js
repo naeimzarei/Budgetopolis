@@ -10,6 +10,8 @@ $(document).ready(function () {
         resources: [],
         //resources descriptions
         resources_descriptions: [],
+        //Budget change options for each resource
+        resources_options: [],
         //Scenarios for a given community to be used in game
         scenarios: [],
         // the number of values currently selected by the user
@@ -18,10 +20,16 @@ $(document).ready(function () {
         num_pages: 2,
         // the facilitator's session id
         session_id: '',
+        //Community Name
+        community_name: '',
+        //Community description
+        community_description: '',
         // the total budget
         total_budget: 50000000,
         // the budget breakdown by value
         budget_breakdown: [{}],
+        //Decisions players made dict - {'resource':'decision'}
+        budget_decisions: [{}],
         // array with colors of chart
         chart_colors: [
             '#89882A', '#e69f00', '#56b4e9', 
@@ -59,6 +67,10 @@ $(document).ready(function () {
         }
         collection.find(query).execute().then(result => {
             console.log(JSON.stringify(result))
+            Client.community_name = result[0]['name']
+            Client.community_description = result[0]['description']
+            //append community name and description to page 2
+            $('.community-info-container-element').append(Client.community_name)
             Client.community_values = result[0]['values']
             Client.community_values_description = result[0]['values_descriptions']
             Client.resources = result[0]['resources']
@@ -69,7 +81,28 @@ $(document).ready(function () {
  
         });
     }
-
+    /**
+     * Get the resources for this community along with the options for budget changes
+     * @param {bnoolean} city //true if city, false if county
+     */
+    function getResourceOptions(city){
+        var query = {}
+        if(city){
+            query = {"community": "city"}
+        }else{
+            query = {"community": "county"}
+        }
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+            collection = db.collection('Resources')
+            collection.find(query).execute().then(result =>{
+                Client.resources_options = result[0];
+                return Client.resources_options;
+            })
+          
+        });
+    }
     /**
      * Gets the amount of budget left
      * @returns {number} the budget
@@ -125,6 +158,17 @@ $(document).ready(function () {
         // populate popup with value and description
         $('.popup-value').text(value);
         $('.popup-description').text(description);
+        // show the popup dialogue
+        $('.page2-popup').show();
+    }
+
+    function openBudgetPopup(resource, budget) {
+        // blur the rest of the screen
+        blur();
+        // populate popup with value and description
+        $('.popup-value').text(resource);
+        $('.popup-description').text('Current budget: $'+budget + '.');
+        $('.popup-description').append("<br>Input Budget Change:<br> Include +/- <br><input type = 'text' class = 'inputBudgetChange'> <button class = 'popup-button-submit-" + resource + "'>Submit</button> <button class = 'subtract-budget'>-</button> <button class = 'add-budget'>+</button>")
         // show the popup dialogue
         $('.page2-popup').show();
     }
@@ -530,6 +574,12 @@ $(document).ready(function () {
             updateBudgetBar();
         });
 
+         //Shows community description when clicked.  TODO, not registering
+        $('.community-info-container-element').on('click',function(){
+            console.log('name div clicked')
+            openPopup(Client.community_name, Client.community_description);
+        });
+
         // Shows value description after it has been clicked
         $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         
@@ -537,6 +587,17 @@ $(document).ready(function () {
         $('.popup-button').on('click', function() {
             closePopup();
         });
+        //Send decisions to decisions text-area TODO, not registering
+        $('.popup-button-submit').on('click', function(){
+            console.log('submit clicked')
+            //get resource name from class name
+            var resource = this.className.split('-').pop(); 
+            console.log('resource' + resource)
+            var decision = $('.inputBudgetChange').val();
+            Client.budget_decisions.append({resource: decision})
+
+            console.log(Client.budget_decisions.toString())
+        })
 
         // Shows community value descriptions when clicked on the first page
         $('.popup-1 button').on('click', function(event) {
@@ -586,7 +647,7 @@ $(document).ready(function () {
             ranges.forEach(function(i, index) {
                 if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
                     console.log(Client.budget_breakdown[index].name);
-                    // TODO
+                    openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value)
                 }
             });
 
@@ -606,6 +667,7 @@ $(document).ready(function () {
         // as needed in event_handlers() function
         event_handlers();
         connect({}, true);
+        console.log(JSON.stringify(getResourceOptions(true))) //working on it
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
             var current_page = 'page' + i;
