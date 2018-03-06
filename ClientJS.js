@@ -660,7 +660,7 @@ $(document).ready(function () {
             ranges.forEach(function(i, index) {
                 if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
                     console.log(Client.budget_breakdown[index].name);
-                    openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value)
+                    openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value.toFixed(2))
                 }
             });
 
