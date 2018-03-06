@@ -7,7 +7,7 @@ $(document).ready(function () {
         // array with selected community values
         selected_community_values: [],
         // value and description of resources
-        resources: [],
+        resources: [{}],
         //resources descriptions
         resources_descriptions: [],
         //Scenarios for a given community to be used in game
@@ -19,7 +19,7 @@ $(document).ready(function () {
         // the facilitator's session id
         session_id: '',
         // the total budget
-        total_budget: 50000000,
+        total_budget: 0,
         // the budget breakdown by value
         budget_breakdown: [{}],
         // array with colors of chart
@@ -40,17 +40,42 @@ $(document).ready(function () {
      * resources_description, scenarios, budget)
      * @param {dict} query //query to execute
      * @param {boolean} city //boolean: true if city, false if county
+     * @param {() => void} callback1 the first callback function
+     * @param {() => void} callback2 the second callback function
      */
-    function connect(query, city){
+    function connect(query, city, callback1, callback2){
         clientPromise.then(stitchClient =>{
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
           
-            return client.login().then(getCommunityInfo(query, city))
+            return client.login().then(getCommunityInfo(query, city, callback1, callback2));
         });
     }
 
-    function getCommunityInfo(query, city){
+    /**
+     * Sets the community resources in Client object 
+     * @param {string[]} resources 
+     * @param {string[]} resources_descriptions 
+     */
+    function set_resources(resources, resources_descriptions) {
+        var temp = [];
+        for (var i = 0; i < resources.length; i++) {
+            temp.push({
+                [resources[i]]: resources_descriptions[i]
+            });
+        }
+        Client.resources = temp;
+    }
+
+    /**
+     * Saves community information after information is obtained 
+     * from the database 
+     * @param {string} query the query to be done
+     * @param {boolean} city the city type
+     * @param {() => void} callback1 first callback function
+     * @param {() => void} callback2 second callback function
+     */
+    function getCommunityInfo(query, city, callback1, callback2){
         var collection;
         if(city){
             collection = db.collection('City')
@@ -58,15 +83,16 @@ $(document).ready(function () {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
-            console.log(JSON.stringify(result))
-            Client.community_values = result[0]['values']
-            Client.community_values_description = result[0]['values_descriptions']
-            Client.resources = result[0]['resources']
-            Client.resources_descriptions = result[0]['resources_description'] //added to global client object
-            Client.scenarios = result[0]['scenarios'] //added to global cleint object
-            Client.budget = result[0]['budget']
-            Client.budget_breakdown = result[0]['resources']
- 
+            // console.log(JSON.stringify(result))
+            set_values(result[0]['values']);
+            set_values_description(result[0]['values_descriptions']);
+            set_resources(result[0]['resources'], result[0]['resources_description']);
+            Client.scenarios = result[0]['scenarios'] 
+            Client.total_budget = parseInt(result[0]['budget'].replace(/,/g, ''));
+            set_budget_breakdown(result[0]['resources']);
+        }).then(function() {
+            callback1();
+            callback2();
         });
     }
 
@@ -215,14 +241,6 @@ $(document).ready(function () {
         Client.community_values_description = community_values_description;
     }
 
-    /**
-     * Save the resources.
-     * @param {[{}]} resources the resources to be set 
-     */
-    function set_resources(resources) {
-        Client.resources = resources;
-    }
-
     /** 
      * Return the community values.
      * @returns {string[]} return the community values
@@ -300,9 +318,9 @@ $(document).ready(function () {
     
     /**
      * Create a Google Pie Chart
-     * @param {string[]} community_resources the resource values 
      */
-    function createGooglePieChart(community_resources) {
+    function createGooglePieChart() {
+        var community_resources = Client.budget_breakdown;
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
@@ -352,12 +370,12 @@ $(document).ready(function () {
                   var resourceClick = data.getValue(selectedItem.row, 0);
                   Client.resources.forEach(function(resource) {
                       for(var j in resource)
-                      if (j == resourceClick) {
-                          openPopup(j, resource[j]);
-                      }
+                        if (j == resourceClick) {
+                            openPopup(j, resource[j]);
+                        }
                   })
-
               }
+              
           }
 
           google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -421,6 +439,17 @@ $(document).ready(function () {
         }
     }
 
+    function set_budget_breakdown(community_resources) {
+        var budget_breakdown = [];
+        for (var i = 0; i < community_resources.length; i++) {
+            budget_breakdown.push({
+                name: community_resources[i],
+                value: Client.total_budget / community_resources.length
+            });
+        }
+        Client.budget_breakdown = budget_breakdown;
+    }
+
     /**
      * Sets up event handlers during startup.
      */
@@ -434,52 +463,11 @@ $(document).ready(function () {
                     set_session_id($(event.target).val());
                     // Hide the session ID icon
                     $('.session-container').hide();
-                    // Show the community values, obtained from the database
-                    set_values(['Affordable and Safe Housing', 'Clean and Green Environment', 'Financially Conservative', 'High Employment Rate',
-                    'City infrastructure growth', 'Livable and Well-Maintained Neighborhoods', 'Family-Friendly City',
-                    'Physically and Culturally Engaged Citizens', 'Safe and Secure Community', 'Well-Maintained Streets', 'Support Cultural Diversity',
-                    'Support Public Education Growth']);
-                    // Set the community values descriptions, obtained from the database 
-                    set_values_description(['Support bills, policies, and other measures to ensure every citizen has access to affordable and safe public housing', 'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset',
-                    'Financially conservative economic mindset. Smaller government expenditures ', 'Support bills and organizations who help individuals without a job find one. A high employment rate gives more confidence to the community',
-                    'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc', 'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects',
-                    'Foster activities, increase funding for public parks, beautiiying projects, and increase police crackdown on violent crimes', 'Support initiatives to build more parks, recreation centers, and courts for citizens. Also increase attention to arts programs',
-                    'Support strict surveillance of criminal activity. Heavy support for law enforcement ', 'Support public road and infrastructure projects to ensure roads, bridges, etc are working properly', 'Support initiatives for education on various cultures and their relevance to a productive society',
-                    'Support bills, legislation, etc for public education (schools , daycares, etc)']);
-                    set_resources([
-                        { 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' },
-                        { 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' },
-                        { 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' },
-                        { 'Housing': 'Funding for housing developments and their maintenance' },
-                        { 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' },
-                        { 'Capital': 'Expenditures on utilities, construction, and government equipment' },
-                        { 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' },
-                        { 'Reserves': 'Allocated funds for savings' },
-                        { 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' }
-                    ]);
-                    // Check which community value cards have been selected
-                    set_values_click_handler();
-                    // Create the initial gameboard using canvas
-                    set_budget_breakdown([
-                        'Fire', 'Parks and Rec', 'Police', 'Housing',
-                        'Streets', 'Capital', 'Planning and Economic Development',
-                        'Reserves', 'Solid Waste'
-                    ]);
-                    createGooglePieChart(Client.budget_breakdown);
+                    // Obtain information from database and save 
+                    connect({}, true, set_values_click_handler, createGooglePieChart);
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
                 }, 150);
-            }
-
-            function set_budget_breakdown(community_resources) {
-                var budget_breakdown = [];
-                for (var i = 0; i < community_resources.length; i++) {
-                    budget_breakdown.push({
-                        name: community_resources[i],
-                        value: Client.total_budget / community_resources.length
-                    });
-                }
-                Client.budget_breakdown = budget_breakdown;
             }
         });
 
@@ -605,7 +593,7 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
-        connect({}, true);
+        // connect({}, true);
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
             var current_page = 'page' + i;
