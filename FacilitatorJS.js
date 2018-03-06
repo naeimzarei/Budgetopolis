@@ -47,7 +47,7 @@ $(document).ready(function () {
         console.log('made it')
         clientPromise.then(stitchClient => {
             db = stitchClient.service('mongodb', 'mongodb-atlas').db('budgetopolis')
-            var objToInsert = [{ "name": name }];
+            var objToInsert = [{ "name": name , "decisions": []}];
             db.collection('Facilitators').insertMany(objToInsert, function (err) {
                 Facilitator.session_id = objToInsert._id.toString().slice(-4)
             }).then(function() {

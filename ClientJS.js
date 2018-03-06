@@ -360,6 +360,22 @@ $(document).ready(function () {
             $('.startup-message-container-text').text(text);
         }
     }
+    /**
+     * Function for sending group's decisions each round
+     * @param {[{}]} decisions //global variable
+     * @param {String} session_id //TODO or name for facilitator?s
+     */
+    function sendDecisions(decisionsArray, session_id){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+            collection = db.collection('Facilitators')
+            var dict = {_id: new RegExp('*'+ session_id)}, {decisions : decisionsArray};
+            collection.update(dict).execute().then(result =>{
+                console.log(result)
+            });     
+        });
+    }
     
     /**
      * Create a Google Pie Chart
