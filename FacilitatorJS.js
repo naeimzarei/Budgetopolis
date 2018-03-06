@@ -1,6 +1,7 @@
 $(document).ready(function () {
     Facilitator = {
-        session_id: ''
+        session_id: '',
+        community_choice: '' //will be either 'city' or 'county'. Will be passed to DB so client will get correct one
     };
     //prep server connection
     const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
@@ -10,6 +11,7 @@ $(document).ready(function () {
     /**
      * Connects to DB and can retrieve a facilitator's existing id, or create a new one (if name doesnt exist in db)
      * @param {String} name //name to find or insert
+     * @param {String} community_choice //either city or county
      */
     function connect(name){
         clientPromise.then(stitchClient =>{
@@ -125,6 +127,8 @@ $(document).ready(function () {
             // Obtain information from the database 
             //updateMessageBar('Obtaining data from the database. Please wait...');
             connect($("#nameInput").val())
+            //TODO pass this to 
+            Facilitator.community_choice = $("input[name=choices]:checked").val()
             
             //use nameInput value to query name from DB and return their 4 digit id
             updateMessageBar("Your session id is: ")
