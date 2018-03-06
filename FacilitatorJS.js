@@ -21,12 +21,14 @@ $(document).ready(function () {
     function getFacilitatorID(name){
         db.collection('Facilitators').find({ "name": name }).execute().then(result => {
             if(result.length == 0){
-                addFacilitator(name);
-                db.collection("Facilitators").find({ "name": name }).execute().then(result1 => {
-                    var fullId1 = result1[0]['_id']
-                    Facilitator.session_id = fullId1.toString().slice(-4)
-                    updateMessageBar("Your session id is: " + Facilitator.session_id)
-                });
+                addFacilitator(name, result, callback);
+                function callback(result1) {
+                    db.collection("Facilitators").find({ "name": name }).execute().then(result1 => {
+                        var fullId1 = result1[0]['_id']
+                        Facilitator.session_id = fullId1.toString().slice(-4)
+                        updateMessageBar("Your session id is: " + Facilitator.session_id)
+                    });
+                }
             }else{
                 var fullId = result[0]['_id']
                 Facilitator.session_id = fullId.toString().slice(-4) //says undefined
@@ -39,13 +41,15 @@ $(document).ready(function () {
      * @param {String} name
      */
 
-    function addFacilitator(name) {
+    function addFacilitator(name, result, callback) {
         console.log('made it')
         clientPromise.then(stitchClient => {
             db = stitchClient.service('mongodb', 'mongodb-atlas').db('budgetopolis')
             var objToInsert = [{ "name": name }];
             db.collection('Facilitators').insertMany(objToInsert, function (err) {
                 Facilitator.session_id = objToInsert._id.toString().slice(-4)
+            }).then(function() {
+                callback(result);
             });
         })
     }
