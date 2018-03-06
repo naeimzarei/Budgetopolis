@@ -11,7 +11,7 @@ $(document).ready(function () {
         //resources descriptions
         resources_descriptions: [],
         //Budget change options for each resource
-        resources_options: [],
+        resources_options: [{}],
         //Scenarios for a given community to be used in game
         scenarios: [],
         // the number of values currently selected by the user
@@ -110,10 +110,11 @@ $(document).ready(function () {
     }
     /**
      * Get the resources for this community along with the options for budget changes
-     * @param {bnoolean} city //true if city, false if county
+     * @param {boolean} city //true if city, false if county
      */
     function getResourceOptions(city){
         var query = {}
+        var community_resource_options = []; //array of dictionaries
         if(city){
             query = {"community": "city"}
         }else{
@@ -124,8 +125,15 @@ $(document).ready(function () {
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Resources')
             collection.find(query).execute().then(result =>{
-                Client.resources_options = result[0];
-                return Client.resources_options;
+                console.log(JSON.stringify(result[0]))
+               
+                Object.keys(result[0]).forEach(function(key){
+                    console.log(key, result[0][key]) //keys print out correctly here but not in dictionary
+                    community_resource_options.push({key:result[0][key]})
+                })
+                console.log('client resource options'+ JSON.stringify(community_resource_options))
+                Client.resources_options = community_resource_options;
+                return community_resource_options;
             })
           
         });
@@ -370,7 +378,7 @@ $(document).ready(function () {
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Facilitators')
-            var dict = {_id: new RegExp('*'+ session_id)}, {decisions : decisionsArray};
+            var dict = [{_id: new RegExp('*'+ session_id)}, {decisions : decisionsArray}];
             collection.update(dict).execute().then(result =>{
                 console.log(result)
             });     
@@ -672,7 +680,7 @@ $(document).ready(function () {
         // as needed in event_handlers() function
         event_handlers();
 
-        console.log(JSON.stringify(getResourceOptions(true))) //working on it
+        getResourceOptions(true)
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
