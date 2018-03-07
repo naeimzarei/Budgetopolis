@@ -172,45 +172,9 @@ $(document).ready(function () {
      * Opens popup with description of the selected value
      */
     function showValueDescription() {
-<<<<<<< HEAD
-        var values = 
-          ['Affordable Housing',
-          'Enviornmentally Friendly',
-          'Financially Conservative',
-          'High Employment Rate',
-
-          'City infrastructure growth',
-          'Preservation of Neighborhoods',
-          'Family-Friendly City',
-
-          'Safe and Secure Community',
-          'Well-Maintained Streets',
-          'Support Cultural Diversity',
-          'Support Public Education Growth'];
-        var valueDescriptions = 
-          ['Support bills, policies, and other measures to ensure every citizen has access to affordable public housing.',
-          'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset.',
-          'Budget is used in a supporting manner to sustain the well being of the community. Smaller government expenditures.',
-          'Support bills and organizations that help unemployed individuals acquire a job. High employment rates give bring great morale to the community.',
-
-          'Support legislation to increase funding for public works projects. Roadwork, construction for buildings, restoration, etc.',
-          'Support bills and policies to increase funding on local community beautifying initiatives, along with other residential projects.',
-          'Foster activities, increase funding for public parks, improvement projects, and host community wide entertainment events.',
-
-          'Support strict surveillance of criminal activity. Heavy support for law enforcement. Increased funding for community watch programs.',
-          'Support public road and infrastructure projects to ensure roads, bridges, etc. are working properly.',
-          'Support initiatives for education on various cultures and their relevance to a productive society.',
-          'Support bills, legislation, etc. for public education (schools , daycares, etc.) education programs (Sex Ed, Mental Awareness, etc.) for the community.'];
-
-        for (var i = 0; i < values.length; i++) {
-            if (values[i].replace(/\s/g, '') == this.id) {
-                openPopup(values[i], valueDescriptions[i]);
-                return;
-=======
         for (var i = 0; i < Client.community_values.length; i++) {
             if (Client.community_values[i].replace(/\s/g, '') == this.id) {
                 openPopup(Client.community_values[i], Client.community_values_description[i]);
->>>>>>> master
             }
         }
     }
@@ -581,24 +545,8 @@ $(document).ready(function () {
                     set_session_id($(event.target).val());
                     // Hide the session ID icon
                     $('.session-container').hide();
-<<<<<<< HEAD
-                    // Show the community values, obtained from the database
-                    set_values(['Affordable Housing', 'Enviornmentally Friendly', 'Financially Conservative', 'High Employment Rate',
-                      'City infrastructure growth', 'Preservation of Neighborhoods', 'Family-Friendly City', 'Safe and Secure Community',
-                      'Well-Maintained Streets', 'Support Cultural Diversity', 'Support Public Education Growth']);
-                    // Check which community value cards have been selected
-                    set_values_click_handler();
-                    // Create the initial gameboard using canvas
-                    set_budget_breakdown([
-                        'Fire', 'Parks and Rec', 'Police', 'Housing',
-                        'Streets', 'Capital', 'Planning and Economic Development',
-                        'Reserves', 'Solid Waste'
-                    ]);
-                    createGooglePieChart(Client.budget_breakdown);
-=======
                     // Obtain information from database and save 
                     connect({}, true, set_values_click_handler, createGooglePieChart);
->>>>>>> master
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
                 }, 150);
