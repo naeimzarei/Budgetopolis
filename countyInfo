@@ -1,0 +1,55 @@
+county [
+	{
+		"name":"Chatham County"
+		"description":"Located in the center of North Carolina, USA. Using the census of 2010, the population size is 63,505. The county's main economical source is mainly the production of livestock, especially the breeding of poultry and cattle. This county is one of the leaders in the poultry industry in North Carolina."
+		"values":
+			['Infrastructure Growth',
+			'Environmentally Friendly',
+			'Education For Citizens',
+			'Financially Conservative',
+
+			'Safe and Secure Communities',
+			'Support Cultural Diversity',
+			'Vibrant Economy',
+			'High Employment Rates']
+		"values_descriptions":
+			['Support legislation to increase funding for public works projects. Roadwork, construction for building restoration, etc.',
+			'Support bills, and work with lobbyists and other organizations to foster a clean community with an eco friendly mindset.',
+			'Support bills, legislation, etc. for public education (schools , daycares, etc.) and educational programs (Sex Ed, Mental Awareness, Legislation, etc.) for current and new citizens.',
+			'Budget is used in a supporting manner to sustain the well being of the community. Smaller government expenditures.',
+
+			'Support strict surveillance of criminal activity. Heavy support for law enforcement. Increased funding for community watch programs.',
+			'Support initiatives for education on various cultures and their relevance to a productive society.',
+			'Uphold the idea of having new companies and businesses being started and encourage bills, legislation, etc. for the support of these businesses.',
+			'Encourage organizations and bills that help unemployed individuals acquire a form of employment.'
+			]
+		"resources":
+			['Internal Government System',
+			'Education',
+			'Public Safety',
+			'Health and Human Services',
+			'Culture and Recreation',
+
+			'Environmental Services',
+			'Planning and Economic Development',
+			'Capital',
+			'Reserves']
+		"resources_descriptions":
+			['Inner workings of the county government that affects county-wide programs.',
+			'Having to do with the public schools residing in the county. Decisions affect students and teachers.',
+			'Includes police stations, EMS stations, etc. and decisions influence community safety.',
+			'Supports programs and funding of services associated with the health of people in the community.',
+			'Having to do with recreational programs and various diverse cultural events.',
+
+			'Includes services such as recycling centers, having inspectors (food, lodging, etc.).',
+			'Planning for economic development assistance, and planning with other county governments.',
+			'Expenditures on utilities, construction, government equipment, etc.',
+			'Allocated funds for savings.']
+		"scenarios":
+			['Federal Government reduced education budget by $1,000,000.',
+			'Major poultry company has migrated overseas.',
+			'New DOE initiative has given our county funding to help with the sustainment of the environment.',
+			'New budget established by the Federal Government, increasing Chatham County's budget by $2,500,000.']
+		"budget": 10560000000
+	}
+]
