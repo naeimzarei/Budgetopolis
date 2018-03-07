@@ -164,16 +164,20 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background-color: #3a3e3f;
     margin: 15px;
     position: fixed;
-    color: white;
     z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
 }
 
 .main-menu-container-element:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
     cursor: pointer;
-    box-shadow: 0 0 0 1px gray;
 }
 
 .values-container-title-text {
@@ -318,6 +322,7 @@ svg > g > g:last-child {
     box-shadow: 0 0 0 1px black;
     background-color: #3a3e3f;
     color: white;
+    cursor: pointer;
 }
 
 .popup-1 {
@@ -347,6 +352,10 @@ svg > g > g:last-child {
     outline: none;
     border: 1px solid transparent;
     margin-left: -25px;
+}
+
+.popup-1 button:hover {
+    cursor: pointer;
 }
 
 .popup-1 button:hover {
