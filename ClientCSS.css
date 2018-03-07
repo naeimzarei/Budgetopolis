@@ -188,6 +188,7 @@ body {
     top: 150px;
     left: 5%;
     font-size: 1.5em;
+    z-index: 3;
 }
 .community-info-container-element{
     position: fixed;
@@ -261,6 +262,21 @@ svg > g > g:last-child {
     background-color: white;
     left: 50%;
     top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+.popup-budget {
+    position: fixed;
+    width: 600px;
+    height: 450px;
+    background-color: white;
+    left: 50%;
+    top: 40%;
     margin-left: -250px;
     margin-top: -150px;
     border-radius: 5px;
@@ -361,8 +377,10 @@ svg > g > g:last-child {
     padding: 10px;
 }
 .add-budget{
-    color:green;
+    background-color:green;
+    color:white;
 }
 .subtract-budget{
-    color:red;
+    background-color:red;
+    color:white;
 }

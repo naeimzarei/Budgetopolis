@@ -125,11 +125,9 @@ $(document).ready(function () {
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Resources')
             collection.find(query).execute().then(result =>{
-                console.log(JSON.stringify(result[0]))
                
                 Object.keys(result[0]).forEach(function(key){
-                    console.log(key, result[0][key]) //keys print out correctly here but not in dictionary
-                    community_resource_options.push({key:result[0][key]})
+                    community_resource_options.push({[key]:result[0][key]})
                 })
                 console.log('client resource options'+ JSON.stringify(community_resource_options))
                 Client.resources_options = community_resource_options;
@@ -201,11 +199,25 @@ $(document).ready(function () {
         // blur the rest of the screen
         blur();
         // populate popup with value and description
-        $('.popup-value').text(resource);
         $('.popup-description').text('Current budget: $'+budget + '.');
-        $('.popup-description').append("<br>Input Budget Change:<br> Include +/- <br><input type = 'text' class = 'inputBudgetChange'> <button class = 'popup-button-submit-" + resource + "'>Submit</button> <button class = 'subtract-budget'>-</button> <button class = 'add-budget'>+</button>")
+        //TODO add the resource options dropdown
+        console.log(JSON.stringify(Client.budget_breakdown))
+        console.log(JSON.stringify(Client.resources_options))
+        for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            var resourceName = Client.budget_breakdown[i]["name"]
+
+            $('.popup-resources').append("<div id = 'resource-budget-" + resourceName + "'>" + resourceName + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
+            $("#resource-budget-" + resourceName).append("<select id = 'select-resource-option-" + resourceName + "' ></select >")
+            var resourceOptions = Client.resources_options[0][resourceName]
+            console.log('resource options' + resourceOptions) //returns undefined, global variable .resource_options not linked correctly in getResourceOptions()
+            $.each(resourceOptions, function (i, p) {
+                //TODO, populate select (dropdown menu) with options from client.resources.options along with their respective value
+                $('#select-resource-option-' + resourceName).append($('<option></option>').val(p).html(p));
+            });
+        }
+
         // show the popup dialogue
-        $('.page2-popup').show();
+        $('.page2-popup-budget').show();
     }
 
     /**
@@ -217,6 +229,7 @@ $(document).ready(function () {
         unblur();
         // hide the popup dialogue
         $('.page2-popup').hide();
+        $('.page2-popup-budget').hide();
     }
 
     /**
@@ -587,8 +600,8 @@ $(document).ready(function () {
             updateBudgetBar();
         });
 
-         //Shows community description when clicked.  TODO, not registering
-        $('.community-info-container-element').on('click',function(){
+         //Shows community description when clicked.
+        $('.community-info-title-container-text').on('click',function(){
             console.log('name div clicked')
             openPopup(Client.community_name, Client.community_description);
         });
@@ -605,11 +618,14 @@ $(document).ready(function () {
             console.log('submit clicked')
             //get resource name from class name
             var resource = this.className.split('-').pop(); 
-            console.log('resource' + resource)
+           
             var decision = $('.inputBudgetChange').val();
-            Client.budget_decisions.append({resource: decision})
+            Client.budget_decisions.push({resource: decision})
 
-            console.log(Client.budget_decisions.toString())
+            console.log(JSON.stringify(Client.budget_decisions))
+            //sendDecisions(Client.budget_decisions, Client.session_id)
+
+            closePopup();
         })
 
         // Shows community value descriptions when clicked on the first page
