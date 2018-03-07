@@ -2,20 +2,140 @@ $(document).ready(function () {
     Client = {
         // array with all community values 
         community_values: [],
+        // array with all community values descriptions 
+        community_values_description: [],
         // array with selected community values
         selected_community_values: [],
+        // value and description of resources
+        resources: [{}],
+        //resources descriptions
+        resources_descriptions: [],
+        //Budget change options for each resource
+        resources_options: [{}],
+        //Scenarios for a given community to be used in game
+        scenarios: [],
         // the number of values currently selected by the user
         num_values_selected: 0,
         // the number of pages 
         num_pages: 2,
         // the facilitator's session id
         session_id: '',
+        //Community Name
+        community_name: '',
+        //Community description
+        community_description: '',
         // the total budget
-        total_budget: 50000000,
+        total_budget: 0,
         // the budget breakdown by value
-        budget_breakdown: [{}]
+        budget_breakdown: [{}],
+        //Decisions players made dict - {'resource':'decision'}
+        budget_decisions: [{}],
+        // array with colors of chart
+        chart_colors: [
+            '#89882A', '#e69f00', '#56b4e9', 
+            '#009e73', '#f0e442', '#0072b2', 
+            '#d55e00', '#cc79a7', '#5E60B1'
+        ]
     };
 
+    //prep server connection
+    const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
+    var client;
+    var db;
+
+    /**
+     * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
+     * resources_description, scenarios, budget)
+     * @param {dict} query //query to execute
+     * @param {boolean} city //boolean: true if city, false if county
+     * @param {() => void} callback1 the first callback function
+     * @param {() => void} callback2 the second callback function
+     */
+    function connect(query, city, callback1, callback2){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+          
+            return client.login().then(getCommunityInfo(query, city, callback1, callback2));
+        });
+    }
+
+    /**
+     * Sets the community resources in Client object 
+     * @param {string[]} resources 
+     * @param {string[]} resources_descriptions 
+     */
+    function set_resources(resources, resources_descriptions) {
+        var temp = [];
+        for (var i = 0; i < resources.length; i++) {
+            temp.push({
+                [resources[i]]: resources_descriptions[i]
+            });
+        }
+        Client.resources = temp;
+    }
+
+    /**
+     * Saves community information after information is obtained 
+     * from the database 
+     * @param {string} query the query to be done
+     * @param {boolean} city the city type
+     * @param {() => void} callback1 first callback function
+     * @param {() => void} callback2 second callback function
+     */
+    function getCommunityInfo(query, city, callback1, callback2){
+        var collection;
+        if(city){
+            collection = db.collection('City')
+        }else{
+            collection = db.collection('County')
+        }
+        collection.find(query).execute().then(result => {
+            console.log(JSON.stringify(result))
+            Client.community_name = result[0]['name']
+            Client.community_description = result[0]['description']
+            //append community name and description to page 2
+            $('.community-info-container-element').append(Client.community_name)
+            // console.log(JSON.stringify(result))
+            set_values(result[0]['values']);
+            set_values_description(result[0]['values_descriptions']);
+            set_resources(result[0]['resources'], result[0]['resources_description']);
+            Client.scenarios = result[0]['scenarios'] 
+            Client.total_budget = parseInt(result[0]['budget'].replace(/,/g, ''));
+            set_budget_breakdown(result[0]['resources']);
+        }).then(function() {
+            callback1();
+            callback2();
+        });
+    }
+    /**
+     * Get the resources for this community along with the options for budget changes
+     * @param {boolean} city //true if city, false if county
+     */
+    function getResourceOptions(city){
+        var query = {}
+        var community_resource_options = []; //array of dictionaries
+        if(city){
+            query = {"community": "city"}
+        }else{
+            query = {"community": "county"}
+        }
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+            collection = db.collection('Resources')
+            collection.find(query).execute().then(result =>{
+               
+                Object.keys(result[0]).forEach(function(key){
+                    community_resource_options.push({[key]:result[0][key]})
+                })
+                console.log('client resource options'+ JSON.stringify(community_resource_options))
+                Client.resources_options = community_resource_options;
+                return community_resource_options;
+            })
+          
+        });
+    }
     /**
      * Gets the amount of budget left
      * @returns {number} the budget
@@ -51,8 +171,8 @@ $(document).ready(function () {
     /**
      * Opens popup with description of the selected value
      */
-
     function showValueDescription() {
+<<<<<<< HEAD
         var values = 
           ['Affordable Housing',
           'Enviornmentally Friendly',
@@ -86,12 +206,18 @@ $(document).ready(function () {
             if (values[i].replace(/\s/g, '') == this.id) {
                 openPopup(values[i], valueDescriptions[i]);
                 return;
+=======
+        for (var i = 0; i < Client.community_values.length; i++) {
+            if (Client.community_values[i].replace(/\s/g, '') == this.id) {
+                openPopup(Client.community_values[i], Client.community_values_description[i]);
+>>>>>>> master
             }
         }
     }
 
     /**
      * Helper function to open popup with description of the selected value.
+     * This is for the second page.
      * @param {string} value the community value
      * @param {string} description the description of the community value 
      */
@@ -105,14 +231,68 @@ $(document).ready(function () {
         $('.page2-popup').show();
     }
 
+    function openBudgetPopup(resource, budget) {
+        // blur the rest of the screen
+        blur();
+        // populate popup with value and description
+        $('.popup-description').text('Current budget: $'+budget + '.');
+        //TODO add the resource options dropdown
+        console.log(JSON.stringify(Client.budget_breakdown))
+        console.log(JSON.stringify(Client.resources_options))
+        for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            var resourceName = Client.budget_breakdown[i]["name"]
+
+            $('.popup-resources').append("<div id = 'resource-budget-" + resourceName + "'>" + resourceName + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
+            $("#resource-budget-" + resourceName).append("<select id = 'select-resource-option-" + resourceName + "' ></select >")
+            var resourceOptions = Client.resources_options[0][resourceName]
+            console.log('resource options' + resourceOptions) //returns undefined, global variable .resource_options not linked correctly in getResourceOptions()
+            $.each(resourceOptions, function (i, p) {
+                //TODO, populate select (dropdown menu) with options from client.resources.options along with their respective value
+                $('#select-resource-option-' + resourceName).append($('<option></option>').val(p).html(p));
+            });
+        }
+
+        // show the popup dialogue
+        $('.page2-popup-budget').show();
+    }
+
     /**
      * Helper function to close popup with description of the selected value.
+     * This is for the second page.
      */
     function closePopup() {
         // unblur the rest of the screen
         unblur();
         // hide the popup dialogue
         $('.page2-popup').hide();
+        $('.page2-popup-budget').hide();
+    }
+
+    /**
+     * Helper function to open popup with description of the selected value.
+     * This is for the first page.
+     * @param {string} value the community value
+     * @param {string} description the description of the community value 
+     */
+    function openPopup_1(value, description) {
+        // blur the rest of the screen
+        blur_1();
+        // populate popup with value and description
+        $('.popup-1-value').text(value);
+        $('.popup-1-description').text(description);
+        // show the popup dialogue 
+        $('.page1-popup').show();
+    }
+
+    /**
+     * Helper function to close popup with description of the selected value.
+     * This is for the first page.
+     */
+    function closePopup_1() {
+        // unblur the rest of the screen
+        unblur_1();
+        // hide the popup dialogue
+        $('.page1-popup').hide();
     }
 
     /**
@@ -130,18 +310,22 @@ $(document).ready(function () {
     }
 
     /**
-     * Returns the selected community values 
-     * @returns {string[]} array with selected community values 
+     * Blurs the first page.
      */
-    function get_gameboard_values() {
-        return Client.selected_community_values;
+    function blur_1() {
+        $('.page1').css({ filter: 'blur(10px)' })
     }
+
+     /**
+      * Unblurs the first page.
+      */
+     function unblur_1() {
+        $('.page1').css({ filter: 'blur(0px)' })
+     }
 
     /**
      * Generate the community values at the
-     * beggining of the game and save them.
-     * In addition, sets the initial community value
-     * budget.
+     * begining of the game and save them.
      * @param {string[]} community_values array with community values
      */
     function set_values(community_values) {
@@ -149,6 +333,14 @@ $(document).ready(function () {
             $(".values-container-cards").append($("<div class='values' title=>" + community_values[i] + "</div>"));
         }
         Client.community_values = community_values;
+    }
+
+    /**
+     * Save the community value descriptions. 
+     * @param {string[]} community_values_description array with descriptions 
+     */
+    function set_values_description(community_values_description) {
+        Client.community_values_description = community_values_description;
     }
 
     /** 
@@ -225,12 +417,28 @@ $(document).ready(function () {
             $('.startup-message-container-text').text(text);
         }
     }
+    /**
+     * Function for sending group's decisions each round
+     * @param {[{}]} decisions //global variable
+     * @param {String} session_id //TODO or name for facilitator?s
+     */
+    function sendDecisions(decisionsArray, session_id){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+            collection = db.collection('Facilitators')
+            var dict = [{_id: new RegExp('*'+ session_id)}, {decisions : decisionsArray}];
+            collection.update(dict).execute().then(result =>{
+                console.log(result)
+            });     
+        });
+    }
     
     /**
      * Create a Google Pie Chart
-     * @param {string[]} community_resources the resource values 
      */
-    function createGooglePieChart(community_resources) {
+    function createGooglePieChart() {
+        var community_resources = Client.budget_breakdown;
         google.charts.load('current', {'packages':['corechart']});
         google.charts.setOnLoadCallback(drawChart);
 
@@ -265,37 +473,27 @@ $(document).ready(function () {
                 text: 'none'
             },
             legend: 'none',
-            is3D: true
+            is3D: true,
+            colors: Client.chart_colors
           };
   
           var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
 
           //below is creating a description array for each community resource, and attaching event handlers 
           //to each section of the pie chart in order to show their description if clicked
-
-        var resourcesDescriptions = []
-        resourcesDescriptions.push({ 'Fire': 'Expenditures for fire stations, inspectors, and medic training (first responders)' })
-        resourcesDescriptions.push({ 'Parks and Rec': 'Expenditures for athletic programs, recreation centers, and parks' })
-        resourcesDescriptions.push({ 'Police': 'Funding for patrol officers, detectives, school safety personnel, etc' })
-        resourcesDescriptions.push({ 'Housing': 'Funding for housing developments and their maintenance' })
-        resourcesDescriptions.push({ 'Streets': 'Expenditures for the upkeep and development of public roads. E.g. sidewalk repair, repaving, street cleaning' })
-        resourcesDescriptions.push({ 'Capital': 'Expenditures on utilities, construction, and government equipment' })
-        resourcesDescriptions.push({ 'Planning and Economic Development': 'Planning for economic development assistance, and planning with other governments' })
-        resourcesDescriptions.push({ 'Reserves': 'Allocated funds for savings' })
-        resourcesDescriptions.push({ 'Solid Waste': 'Funding for garbage collection services, recycling facilities, landfills, etc' })
             
         function selectHandler() {
               var selectedItem = chart.getSelection()[0];
               if (selectedItem) {
                   var resourceClick = data.getValue(selectedItem.row, 0);
-                  resourcesDescriptions.forEach(function(resource) {
+                  Client.resources.forEach(function(resource) {
                       for(var j in resource)
-                      if (j == resourceClick) {
-                          openPopup(j, resource[j]);
-                      }
+                        if (j == resourceClick) {
+                            openPopup(j, resource[j]);
+                        }
                   })
-
               }
+              
           }
 
           google.visualization.events.addListener(chart, 'select', selectHandler);
@@ -316,11 +514,24 @@ $(document).ready(function () {
         if (Client.community_values.length === 0) { return; }
         // Draw the rectangles
         var beginX = 0;
+        var shiftX = 0;
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
             var relative_width = find_relative_width(Client.budget_breakdown[i]);
-            ctx.rect(0, 0, beginX + relative_width, ctx.canvas.height);
+
+            var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
+
+            ctx.fillStyle = Client.chart_colors[i];
+            ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
+            ctx.fillStyle = 'black';
+            ctx.font = "16px EB Garamond";
+            ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
+            ctx.fillText(
+                "$" + parseInt(Client.budget_breakdown[i].value, 10).toString(), 
+                shiftX + (ctx.canvas.width / 35), 
+                (ctx.canvas.height / 2) + 20
+            );
             beginX += relative_width;
-            ctx.stroke();
+            shiftX += relative_width;
         }
 
         /**
@@ -331,6 +542,30 @@ $(document).ready(function () {
         function find_relative_width(budget_value) {
             return ctx.canvas.width * (budget_value.value / Client.total_budget);
         }
+    }
+
+    /**
+     * Helper function to obtain the index of community value description.
+     * @param {string} value the community value 
+     * @returns {number} the index at which the value occurs in Client.community_values_description 
+     */
+    function get_description_index(value) {
+        for (var i = 0; i < Client.community_values.length; i++) { 
+            if (Client.community_values[i] === value) { 
+                return i;
+            } 
+        }
+    }
+
+    function set_budget_breakdown(community_resources) {
+        var budget_breakdown = [];
+        for (var i = 0; i < community_resources.length; i++) {
+            budget_breakdown.push({
+                name: community_resources[i],
+                value: Client.total_budget / community_resources.length
+            });
+        }
+        Client.budget_breakdown = budget_breakdown;
     }
 
     /**
@@ -346,6 +581,7 @@ $(document).ready(function () {
                     set_session_id($(event.target).val());
                     // Hide the session ID icon
                     $('.session-container').hide();
+<<<<<<< HEAD
                     // Show the community values, obtained from the database
                     set_values(['Affordable Housing', 'Enviornmentally Friendly', 'Financially Conservative', 'High Employment Rate',
                       'City infrastructure growth', 'Preservation of Neighborhoods', 'Family-Friendly City', 'Safe and Secure Community',
@@ -359,26 +595,21 @@ $(document).ready(function () {
                         'Reserves', 'Solid Waste'
                     ]);
                     createGooglePieChart(Client.budget_breakdown);
+=======
+                    // Obtain information from database and save 
+                    connect({}, true, set_values_click_handler, createGooglePieChart);
+>>>>>>> master
                     // Update message container text value 
                     updateValuesContainerText('Select exactly 5 community values.');
                 }, 150);
-            }
-
-            function set_budget_breakdown(community_resources) {
-                var budget_breakdown = [];
-                for (var i = 0; i < community_resources.length; i++) {
-                    budget_breakdown.push({
-                        name: community_resources[i],
-                        value: Client.total_budget / community_resources.length
-                    });
-                }
-                Client.budget_breakdown = budget_breakdown;
             }
         });
 
         function set_values_click_handler() {
             $(".values").on('click', function (event) {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
+                var value = $(event.target).text();
+                var description = Client.community_values_description[get_description_index(value)];
                 if (isSelected) {
                     // Remove CSS class of now unselected value 
                     $(event.currentTarget).removeClass('selected-value');
@@ -390,22 +621,13 @@ $(document).ready(function () {
                     // Hide the continue button 
                     $('.play-game-container').hide();
                 } else if (get_num_values_selected() < 5) {
-                    // Selecting a particular value gives it a particular class
-                    $(event.currentTarget).addClass('selected-value');
-                    // Selecting a particular value it a border outline 
-                    $(event.currentTarget).css({ boxShadow: '0 0 0 1px gray' });
-                    // Increase the number of values selected by 1
-                    increment_num_values_selected();
+                    // Save selected community values
+                    Client.selected_community_values.push($(event.currentTarget));
+                    // Display popup with correct value and description 
+                    openPopup_1(value, description);
                 } else if (get_num_values_selected() >= 5) {
                     // Update the message container text value
                     updateValuesContainerText('You may not select more than 5 community values.');
-                }
-                // Show continue button
-                if (get_num_values_selected() === 5) {
-                    // Update message container
-                    updateValuesContainerText('Great! Click the button below to continue.');
-                    // Show play game button
-                    $('.play-game-container').show();
                 }
             });
         }
@@ -430,12 +652,89 @@ $(document).ready(function () {
             updateBudgetBar();
         });
 
+         //Shows community description when clicked.
+        $('.community-info-title-container-text').on('click',function(){
+            console.log('name div clicked')
+            openPopup(Client.community_name, Client.community_description);
+        });
+
         // Shows value description after it has been clicked
         $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         
         // Close the popup dialogue after the button has been clicked
         $('.popup-button').on('click', function() {
             closePopup();
+        });
+        //Send decisions to decisions text-area TODO, not registering
+        $('.popup-button-submit').on('click', function(){
+            console.log('submit clicked')
+            //get resource name from class name
+            var resource = this.className.split('-').pop(); 
+           
+            var decision = $('.inputBudgetChange').val();
+            Client.budget_decisions.push({resource: decision})
+
+            console.log(JSON.stringify(Client.budget_decisions))
+            //sendDecisions(Client.budget_decisions, Client.session_id)
+
+            closePopup();
+        })
+
+        // Shows community value descriptions when clicked on the first page
+        $('.popup-1 button').on('click', function(event) {
+            var val = $(event.target).text();
+            var length = Client.selected_community_values.length;
+            if (val.toLowerCase() === 'select') {
+                // Give selected community value a selected-value CSS class
+                $(Client.selected_community_values[length - 1]).addClass('selected-value');
+                // Add an outline to selected community value so user knows it has been selected 
+                $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px gray' });
+                // Increment number of values currently selected 
+                increment_num_values_selected();
+                // Close the popup after selection
+                closePopup_1();
+                // Show continue button
+                if (get_num_values_selected() === 5) {
+                    // Update message container
+                    updateValuesContainerText('Great! Click the button below to continue.');
+                    // Show play game button
+                    $('.play-game-container').show();
+                }
+            } 
+            // Close the popup
+            closePopup_1();
+        });
+
+        $('#budget-container-bar').on('click', function(event) {
+            // dynamically sized canvas size
+            var window_width = 0.8 * window.innerWidth;
+            // where the client X mouse made the click event
+            var cx = event.clientX;
+            // where the client Y mouse made the click event
+            var cy = event.clientY;
+            // range of widths for each componetn of budget bar
+            var ranges = [];
+
+            var beginX = parseInt((window.innerWidth * 0.5) - (window.innerWidth * 0.4), 10);
+            for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                var relative_width = find_relative_width(Client.budget_breakdown[i]);
+                ranges.push({
+                    x1: beginX,
+                    x2: beginX + relative_width
+                });
+                beginX += relative_width;
+            }
+
+            ranges.forEach(function(i, index) {
+                if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
+                    console.log(Client.budget_breakdown[index].name);
+                    openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value.toFixed(2))
+                }
+            });
+
+            function find_relative_width(budget_value) {
+                return window_width * (budget_value.value / Client.total_budget);
+            }
         });
     }
 
@@ -448,6 +747,8 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
+
+        getResourceOptions(true)
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {

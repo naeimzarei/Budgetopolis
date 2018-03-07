@@ -69,3 +69,9 @@ body {
     box-shadow: 0 0 0 1px gray;
     color: black;
 }
+.community-radio-buttons{
+    position: fixed;
+    top: 360px;
+    left: 50%;
+    margin-left: -30px;
+}

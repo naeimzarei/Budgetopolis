@@ -18,6 +18,8 @@
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet'>
     <link href='http://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet'>
+    <!-- Import MongoDB Stitch -->
+    <script src="https://s3.amazonaws.com/stitch-sdks/js/library/v3/stable/stitch.min.js"></script>
 </head>
 
 <body>
@@ -64,7 +66,7 @@
         <!-- Page 2: put main menu here -->
         <div class="main-menu-container">
             <div class="main-menu-container-element">
-                Menu
+                Help
             </div>
         </div>
         <!-- Page 2: put title of game here -->
@@ -75,7 +77,7 @@
         </div>
         <!-- Page 2: put the actual gameboard here -->
         <div class="game-container">
-                <div id="game-container-board" style="width: 900px; height: 500px;"></div>
+            <div id="game-container-board" style="width: 900px; height: 500px;"></div>
         </div>
         <!-- Page 2: put community values title here -->
         <div class="values-container-title">
@@ -94,18 +96,46 @@
         </div>
         <!-- Page 2: put social media box here -->
         <div class='media-container'>
-            <div class='media-container-box'> 
-                Welcome to Budgetopolis! Scenarios and other communications will be displayed here. 
+            <div class='media-container-box'>
+                Welcome to Budgetopolis! Scenarios and other communications will be displayed here.
+            </div>
+        </div>
+    </div>
+    <!-- Page 1: popup -->
+    <div class="page1-popup" hidden>
+        <div class="popup-container-1">
+            <div class="popup-1">
+                <div class="popup-1-value">Hi</div>
+                <div class="popup-1-description">Description</div>
+                <button class="popup-1-button-select">Select</button>
+                <button class="popup-1-button-cancel">Cancel</button>
             </div>
         </div>
     </div>
     <!-- Page 2: popup -->
     <div class="page2-popup" hidden>
-        <!-- Page 2: put popup here -->
         <div class='popup-container'>
             <div class='popup'>
                 <div class='popup-value'></div>
                 <div class='popup-description'></div>
+                <button class='popup-button'>Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 2: budget change popup-->
+    <div class="page2-popup-budget" hidden>
+        <div class="popup-container">
+            <div class="popup-budget">
+                <div class="popup-title">
+                    Resource Budgeting
+                </div>
+                <div class="popup-resources"> Resources:
+                </div>
+                <button class="popup-button-submit">Submit</button>
+                <button class='subtract-budget'>-</button> 
+                <button class='add-budget'>+</button>
+                <br>
                 <button class='popup-button'>Close</button>
             </div>
         </div>

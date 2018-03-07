@@ -1,7 +1,61 @@
 $(document).ready(function () {
     Facilitator = {
-        session_id: ''
+        session_id: '',
+        community_choice: '' //will be either 'city' or 'county'. Will be passed to DB so client will get correct one
     };
+    //prep server connection
+    const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
+    var client;
+    var db;
+    let stitchClient;
+    /**
+     * Connects to DB and can retrieve a facilitator's existing id, or create a new one (if name doesnt exist in db)
+     * @param {String} name //name to find or insert
+     * @param {String} community_choice //either city or county
+     */
+    function connect(name){
+        clientPromise.then(stitchClient =>{
+            client = stitchClient;
+            db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
+            return client.login().then(getFacilitatorID(name))
+        });
+    }
+    function getFacilitatorID(name){
+        db.collection('Facilitators').find({ "name": name }).execute().then(result => {
+            if(result.length == 0){
+                addFacilitator(name, result, callback);
+                function callback(result1) {
+                    db.collection("Facilitators").find({ "name": name }).execute().then(result1 => {
+                        var fullId1 = result1[0]['_id']
+                        Facilitator.session_id = fullId1.toString().slice(-4)
+                        updateMessageBar("Your session id is: " + Facilitator.session_id)
+                    });
+                }
+            }else{
+                var fullId = result[0]['_id']
+                Facilitator.session_id = fullId.toString().slice(-4) //says undefined
+                updateMessageBar("Your session id is: " + Facilitator.session_id)
+            }
+        });
+    }
+    /**
+     * Create new facilitator in DB if the name doesn't already exist. Then return their id
+     * @param {String} name
+     */
+
+    function addFacilitator(name, result, callback) {
+        console.log('made it')
+        clientPromise.then(stitchClient => {
+            db = stitchClient.service('mongodb', 'mongodb-atlas').db('budgetopolis')
+            var objToInsert = [{ "name": name , "decisions": []}];
+            db.collection('Facilitators').insertMany(objToInsert, function (err) {
+                Facilitator.session_id = objToInsert._id.toString().slice(-4)
+            }).then(function() {
+                callback(result);
+            });
+        })
+    }
+    
 
     /**
      * Sets the facilitator's session id.
@@ -63,29 +117,37 @@ $(document).ready(function () {
         // Click event for button that generates session ID 
         $('.generate-session-button').on('click', function (event) {
             // Prevent further generation of session IDs
-            if (get_session_id().length === 4) { return; }
+            //if (get_session_id().length === 4) { return; }
             // Generate the session ID and view it to the user
-            $('.session-code-container-id').val(random_session_id());
+            
+            //$('.session-code-container-id').val(random_session_id());
+            
             // Prevent the user from making changes to the code displayed 
             $('.session-code-container-id').attr('disabled', 'disabled');
             // Obtain information from the database 
-            updateMessageBar('Obtaining data from the database. Please wait...');
+            //updateMessageBar('Obtaining data from the database. Please wait...');
+            connect($("#nameInput").val())
+            //TODO pass this to 
+            Facilitator.community_choice = $("input[name=choices]:checked").val()
+            
+            //use nameInput value to query name from DB and return their 4 digit id
+            updateMessageBar("Your session id is: ")
         });
 
         // Input event for sesion ID 
-        $('.session-code-container-id').on('input', function(event) {
-            // Current length of the session ID
-            var input_length = $(event.target).val().length;
-            // Update the session ID on the go
-            set_session_id($(event.target).val());
-            if (input_length === 4) {
-                // Prevent further changes to session ID 
-                $('.session-code-container-id').attr('disabled', 'disabled');
-                // Update message bar
-                updateMessageBar('Updating database. Please wait...');
-                // TODO: update the database, return initial stats
-            }
-        });
+        // $('.session-code-container-id').on('input', function(event) {
+        //     // Current length of the session ID
+        //     var input_length = $(event.target).val().length;
+        //     // Update the session ID on the go
+        //     set_session_id($(event.target).val());
+        //     if (input_length === 4) {
+        //         // Prevent further changes to session ID 
+        //         $('.session-code-container-id').attr('disabled', 'disabled');
+        //         // Update message bar
+        //         updateMessageBar('Updating database. Please wait...');
+        //         // TODO: update the database, return initial stats
+        //     }
+        // });
     }
 
     /**

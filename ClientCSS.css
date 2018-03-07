@@ -16,7 +16,7 @@ body {
 }
 
 .values-container {
-    width: 725px;
+    width: 675px;
     height: 500px;
     position: fixed;
     overflow: auto;
@@ -37,10 +37,10 @@ body {
 }
 
 .values {
-    height: 100px;
-    width: 100px;
+    height: 112.5px;
+    width: 112.5px;
     background-color: white;
-    border-radius: 50px;
+    border-radius: 56.25px;
     margin: 10px;
     text-align: center;
     font-size: 0.80em;
@@ -164,16 +164,20 @@ body {
     width: 60px;
     height: 60px;
     border-radius: 30px;
-    background-color: #3a3e3f;
     margin: 15px;
     position: fixed;
-    color: white;
     z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
 }
 
 .main-menu-container-element:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
     cursor: pointer;
-    box-shadow: 0 0 0 1px gray;
 }
 
 .values-container-title-text {
@@ -188,6 +192,13 @@ body {
     top: 150px;
     left: 5%;
     font-size: 1.5em;
+    z-index: 3;
+}
+.community-info-container-element{
+    position: fixed;
+    top: 185px;
+    left: 10%;
+    font-size: 1em;
 }
 
 .play-game-container-button {
@@ -233,7 +244,7 @@ svg > g > g:last-child {
     width: 300px;
     height: 200px;
     right: 2%;
-    top: 285px;
+    top: 275px;
     outline: none;
     text-align: left;
     font-size: 0.8em;
@@ -243,7 +254,9 @@ svg > g > g:last-child {
     overflow: auto;
     padding-left: 15px;
     padding-right: 15px;
+    padding-top: 5px;
     border-radius: 5px;
+    box-shadow: 0 0 0 1px black;
 }
 
 .popup {
@@ -253,6 +266,21 @@ svg > g > g:last-child {
     background-color: white;
     left: 50%;
     top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+.popup-budget {
+    position: fixed;
+    width: 600px;
+    height: 450px;
+    background-color: white;
+    left: 50%;
+    top: 40%;
     margin-left: -250px;
     margin-top: -150px;
     border-radius: 5px;
@@ -276,7 +304,7 @@ svg > g > g:last-child {
     padding: 10px;
 }
 
-.popup-button {
+.popup-button{
     position: absolute;
     left: 50%;
     margin-left: -25px;
@@ -294,4 +322,74 @@ svg > g > g:last-child {
     box-shadow: 0 0 0 1px black;
     background-color: #3a3e3f;
     color: white;
+    cursor: pointer;
+}
+
+.popup-1 {
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-1 button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    bottom: 5%;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+    margin-left: -25px;
+}
+
+.popup-1 button:hover {
+    cursor: pointer;
+}
+
+.popup-1 button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+}
+
+.popup-1-button-select {
+    left: 40%;
+}
+
+.popup-1-button-cancel {
+    left: 60%;
+}
+
+.popup-1-value {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-1-description {
+    padding: 10px;
+}
+.add-budget{
+    background-color:green;
+    color:white;
+}
+.subtract-budget{
+    background-color:red;
+    color:white;
 }
