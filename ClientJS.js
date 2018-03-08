@@ -206,18 +206,24 @@ $(document).ready(function () {
             var original_resource_name = Client.budget_breakdown[i]["name"];
             var new_resource_name = Client.budget_breakdown[i]["name"].replace(/ /g, '');
 
-            var temp = $("<select class = 'select-resource-option-" + new_resource_name + "' ></select >");
+            var temp = $("<select class = 'select-resource-option-" + new_resource_name + "'></select >");
 
             $('.popup-resources').append("<div id = 'resource-budget-" + new_resource_name + "'>" + original_resource_name + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
-            // $("#resource-budget-" + new_resource_name).append("<select class = 'select-resource-option-" + new_resource_name + "' ></select >")
             $(".page2-popup-budget").on('change', '.select-resource-option-'+new_resource_name, makeSelectHandlers)
-            var resourceOptions = Client.resources_options[i];
+            var resourceOptions;
+            for (var x = 0; x < Client.resources_options.length; x++) {
+                for (keyx in Client.resources_options[x]) {
+                    if (keyx === original_resource_name) {
+                        resourceOptions = Client.resources_options[x];
+                        break;
+                    }
+                }
+            }
             for (var key in resourceOptions) {
                 for (var j = 0; j < resourceOptions[key].length; j++) {
                     for (var key2 in resourceOptions[key][j]) {
                         $(temp).append($('<option>', {
                             value: key2 + " ($" + resourceOptions[key][j][key2] + ")",
-                            // text: resourceOptions[key][j][key2]
                             text: key2 + " ($" + resourceOptions[key][j][key2] + ")"
                         }));
                     }
@@ -225,7 +231,6 @@ $(document).ready(function () {
             }
             $("#resource-budget-" + new_resource_name).append(temp);
         }
-
         // show the popup dialogue
         $('.page2-popup-budget').show();
     }
