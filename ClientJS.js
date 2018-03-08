@@ -42,6 +42,7 @@ $(document).ready(function () {
     const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
     var client;
     var db;
+    var happiness = 85;
 
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
@@ -554,6 +555,44 @@ $(document).ready(function () {
         Client.budget_breakdown = budget_breakdown;
     }
 
+    var generateHappiness = function(happiness){
+        if(happiness >= 81){
+            //display super happy face
+            console.log("super Happy");
+            $('#face').attr("src", "./images/superHappy.png");
+            createHappyPopup(happiness);
+        } else if(happiness >= 61 && happiness < 81){
+            //display happy face
+            $('#face').attr("src", "./images/happy.png");
+            createHappyPopup(happiness);
+        } else if(happiness >= 41 && happiness < 61){
+            //display neutral face
+            $('#face').attr("src", "./images/neutral.png");
+            createHappyPopup(happiness);
+        } else if(happiness >= 21 && happiness < 41){
+            //display sad face
+            $('#face').attr("src", "./images/sad.png");
+            createHappyPopup(happiness);
+        } else{
+            //display super sad face
+            $('#face').attr("src", "./images/superSad.png");
+            createHappyPopup(happiness);
+        }
+    }
+
+    var createHappyPopup = function(happiness){
+        $('#happyBox').hover(function () {
+            $('.hText').empty();
+            $('.hText').text("Your approval rating is " + happiness + "%. Make decisions supporting your values to make your citizens happy!");
+            $('.hText').css({"display" : "block"});
+        }, function () {
+            $('.hText').css({"display" : "none"});
+        }
+        );
+
+
+    }
+
     /**
      * Sets up event handlers during startup.
      */
@@ -717,6 +756,7 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
+        generateHappiness(20)
 
         // TODO
         // getResourceOptions(true)
@@ -726,6 +766,11 @@ $(document).ready(function () {
             var current_page = 'page' + i;
             $('.page' + i).hide();
         }
+
+        // Used to look at first page first instead of having to select values each time.
+        //var current_page = 'page2'
+        //$('.page1').hide()
+
     }
     main();
 });
