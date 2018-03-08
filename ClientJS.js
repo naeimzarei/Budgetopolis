@@ -207,22 +207,24 @@ $(document).ready(function () {
             var original_resource_name = Client.budget_breakdown[i]["name"];
             var new_resource_name = Client.budget_breakdown[i]["name"].replace(/ /g, '');
 
+            var temp = $("<select class = 'select-resource-option-" + new_resource_name + "' ></select >");
+
             $('.popup-resources').append("<div id = 'resource-budget-" + new_resource_name + "'>" + original_resource_name + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
-            $("#resource-budget-" + new_resource_name).append("<select class = 'select-resource-option-" + new_resource_name + "' ></select >")
+            // $("#resource-budget-" + new_resource_name).append("<select class = 'select-resource-option-" + new_resource_name + "' ></select >")
             $(".page2-popup-budget").on('change', '.select-resource-option-'+new_resource_name, makeSelectHandlers)
             var resourceOptions = Client.resources_options[i];
             for (var key in resourceOptions) {
                 for (var j = 0; j < resourceOptions[key].length; j++) {
-                    // console.log(key);
                     for (var key2 in resourceOptions[key][j]) {
-                        $('.select-resource-option-' + key.replace(/ /g, '')).append($('<option>', {
-                            value: key2,
+                        $(temp).append($('<option>', {
+                            value: key2 + " ($" + resourceOptions[key][j][key2] + ")",
                             // text: resourceOptions[key][j][key2]
-                            text: key2
-                        }))
+                            text: key2 + " ($" + resourceOptions[key][j][key2] + ")"
+                        }));
                     }
                 }
-            }   
+            }
+            $("#resource-budget-" + new_resource_name).append(temp);
         }
 
         // show the popup dialogue
@@ -601,16 +603,14 @@ $(document).ready(function () {
         $(".session-container-id").on('input', function (event) {
             var input_length = $(event.target).val().length;
             if (input_length === 4) {
-                setTimeout(function() {
-                    // Save the session ID
-                    set_session_id($(event.target).val());
-                    // Hide the session ID icon
-                    $('.session-container').hide();
-                    // Obtain information from database and save 
-                    connect({}, true, set_values_click_handler, createGooglePieChart);
-                    // Update message container text value 
-                    updateValuesContainerText('Select exactly 5 community values.');
-                }, 150);
+                // Save the session ID
+                set_session_id($(event.target).val());
+                // Hide the session ID icon
+                $('.session-container').hide();
+                // Obtain information from database and save 
+                connect({}, true, set_values_click_handler, createGooglePieChart);
+                // Update message container text value 
+                updateValuesContainerText('Select exactly 5 community values.');
             }
         });
 
