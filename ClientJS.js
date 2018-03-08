@@ -91,7 +91,6 @@ $(document).ready(function () {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
-            console.log(JSON.stringify(result))
             Client.community_name = result[0]['name']
             Client.community_description = result[0]['description']
             //append community name and description to page 2
@@ -106,6 +105,7 @@ $(document).ready(function () {
         }).then(function() {
             callback1();
             callback2();
+            getResourceOptions(true);
         });
     }
     /**
@@ -124,16 +124,17 @@ $(document).ready(function () {
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Resources')
-            collection.find(query).execute().then(result =>{
-               
+            collection.find(query).execute().then(result =>{            
                 Object.keys(result[0]).forEach(function(key){
-                    community_resource_options.push({[key]:result[0][key]})
+                    Client.resources.forEach(function(resource, index) {
+                        if (Client.resources[index][key] !== undefined) {
+                            community_resource_options.push({[key]:result[0][key]})
+                        }
+                    });
                 })
-                console.log('client resource options'+ JSON.stringify(community_resource_options))
                 Client.resources_options = community_resource_options;
                 return community_resource_options;
-            })
-          
+            });
         });
     }
     /**
@@ -201,19 +202,25 @@ $(document).ready(function () {
         // populate popup with value and description
         $('.popup-description').text('Current budget: $'+budget + '.');
         //TODO add the resource options dropdown
-        console.log(JSON.stringify(Client.budget_breakdown))
-        console.log(JSON.stringify(Client.resources_options))
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
-            var resourceName = Client.budget_breakdown[i]["name"]
+            var original_resource_name = Client.budget_breakdown[i]["name"];
+            var new_resource_name = Client.budget_breakdown[i]["name"].replace(/ /g, '');
 
-            $('.popup-resources').append("<div id = 'resource-budget-" + resourceName + "'>" + resourceName + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
-            $("#resource-budget-" + resourceName).append("<select id = 'select-resource-option-" + resourceName + "' ></select >")
-            var resourceOptions = Client.resources_options[0][resourceName]
-            console.log('resource options' + resourceOptions) //returns undefined, global variable .resource_options not linked correctly in getResourceOptions()
-            $.each(resourceOptions, function (i, p) {
-                //TODO, populate select (dropdown menu) with options from client.resources.options along with their respective value
-                $('#select-resource-option-' + resourceName).append($('<option></option>').val(p).html(p));
-            });
+            $('.popup-resources').append("<div id = 'resource-budget-" + new_resource_name + "'>" + original_resource_name + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
+            $("#resource-budget-" + new_resource_name).append("<select class = 'select-resource-option-" + new_resource_name + "' ></select >")
+            var resourceOptions = Client.resources_options[i];
+            for (var key in resourceOptions) {
+                for (var j = 0; j < resourceOptions[key].length; j++) {
+                    // console.log(key);
+                    for (var key2 in resourceOptions[key][j]) {
+                        $('.select-resource-option-' + key.replace(/ /g, '')).append($('<option>', {
+                            value: key2,
+                            // text: resourceOptions[key][j][key2]
+                            text: key2
+                        }))
+                    }
+                }
+            }   
         }
 
         // show the popup dialogue
@@ -696,7 +703,8 @@ $(document).ready(function () {
         // as needed in event_handlers() function
         event_handlers();
 
-        getResourceOptions(true)
+        // TODO
+        // getResourceOptions(true)
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
