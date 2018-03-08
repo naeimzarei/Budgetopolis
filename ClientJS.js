@@ -196,9 +196,13 @@ $(document).ready(function () {
         // show the popup dialogue
         $('.page2-popup').show();
     }
-
+    var budgetPopupMade = false;
     function openBudgetPopup(resource, budget) {
         // blur the rest of the screen
+        if(budgetPopupMade){
+            $('.page2-popup-budget').show();
+            return;
+        }
         blur();
         // populate popup with value and description
         $('.popup-description').text('Current budget: $'+budget + '.');
@@ -232,6 +236,7 @@ $(document).ready(function () {
             }
             $("#resource-budget-" + new_resource_name).append(temp);
         }
+        budgetPopupMade = true;
         // show the popup dialogue
         $('.page2-popup-budget').show();
     }
@@ -240,14 +245,8 @@ $(document).ready(function () {
      */
     function makeSelectHandlers(){
         var eventClass = this.className;
-        console.log('class name' + eventClass)
-        var resource_name = eventClass.split("_").pop()
-        if($(eventClass).length != 0){
-            return;
-        }
-        //TODO, input not showing up
-        $("#resource-budget-"+resource_name).append("<br><input type = 'number' id = 'resource-budget-box-"+resource_name+"'></input>")
-       
+        var resource_name = eventClass.split("-").pop();
+        $("#resource-budget-"+resource_name).append("<br><input type = 'number' placeholder = 'Include +/-' id = 'resource-budget-box-"+resource_name+"'></input>");
     }
 
     /**
