@@ -208,6 +208,7 @@ $(document).ready(function () {
 
             $('.popup-resources').append("<div id = 'resource-budget-" + new_resource_name + "'>" + original_resource_name + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
             $("#resource-budget-" + new_resource_name).append("<select class = 'select-resource-option-" + new_resource_name + "' ></select >")
+            $(".page2-popup-budget").on('change', '.select-resource-option-'+new_resource_name, makeSelectHandlers)
             var resourceOptions = Client.resources_options[i];
             for (var key in resourceOptions) {
                 for (var j = 0; j < resourceOptions[key].length; j++) {
@@ -225,6 +226,20 @@ $(document).ready(function () {
 
         // show the popup dialogue
         $('.page2-popup-budget').show();
+    }
+    /**
+     * Adds event handlers to select option boxes in budget popup
+     */
+    function makeSelectHandlers(){
+        var eventClass = this.className;
+        console.log('class name' + eventClass)
+        var resource_name = eventClass.split("_").pop()
+        if($(eventClass).length != 0){
+            return;
+        }
+        //TODO, input not showing up
+        $("#resource-budget-"+resource_name).append("<br><input type = 'number' id = 'resource-budget-box-"+resource_name+"'></input>")
+       
     }
 
     /**
