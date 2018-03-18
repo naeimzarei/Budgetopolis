@@ -410,3 +410,133 @@ svg > g > g:last-child {
     background-color:red;
     color:white;
 }
+
+.popup-container-alt {
+    position: fixed;
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -200px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-container-title-alt {
+    position: relative;
+    width: 600px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.budget-table {
+    margin: auto;
+}
+
+.budget-table-row-name:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.popup-container-alt-2 {
+    position: fixed;
+    width: 500px;
+    height: 150px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -75px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-container-title-alt-2 {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.budget-table-2 {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 100px 0;
+}
+
+.budget-table-2-header-current, .budget-table-2-header-adjustments {
+    text-decoration: underline;
+}
+
+.budget-table-2-values-adjustments {
+    width: 100px;
+}
+
+.popup-container-alt-2-button {
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    margin-left: -22.5px;
+    margin-top: -22.5px;
+    left: 42.5%;
+    top: 50%;
+    border-radius: 22.5px;
+    margin: 15px;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.popup-container-alt-2-button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+.budget-table-goals {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
+.popup-container-close-alt {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 12.5px;
+    left: 95%;
+    top: 2%;
+    box-shadow: 0 0 0 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.popup-container-close-alt:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}

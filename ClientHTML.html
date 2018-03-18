@@ -115,7 +115,7 @@
     <div class="page1-popup" hidden>
         <div class="popup-container-1">
             <div class="popup-1">
-                <div class="popup-1-value">Hi</div>
+                <div class="popup-1-value"></div>
                 <div class="popup-1-description">Description</div>
                 <button class="popup-1-button-select">Select</button>
                 <button class="popup-1-button-cancel">Cancel</button>
@@ -148,6 +148,51 @@
                 <br>
                 <button class='popup-button'>Close</button>
             </div>
+        </div>
+    </div>
+
+    <!-- TODO: Page 2: budget change popup alternative part 1-->
+    <div class="page2-popup-budget-alt" hidden>
+        <div class="popup-container-alt">
+            <div class="popup-container-close-alt">X</div>
+            <div class="popup-container-title-alt">
+                Resources Budgeting
+            </div>
+            <br/>
+            <table class="budget-table"></table>
+            <br/>
+            <table class="budget-table-goals">
+                <tr>
+                    <th> Current</th>
+                    <th> Goal</th>
+                    <th> Adjustments</th>
+                </tr>
+                <tr>
+                    <td class="budget-table-current"></td>
+                    <td class="budget-table-goal"></td>
+                    <td class="budget-table-adjustments"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- TODO: Page 2: budget change popup alternative part 2 -->
+    <div class="page2-popup-budget-alt-2" hidden>
+        <div class="popup-container-alt-2">
+            <div class="popup-container-title-alt-2"></div>
+            <table class="budget-table-2">
+                <tr class='budget-table-2-header'>
+                    <td class='budget-table-2-header-current'>Current</td>
+                    <td class='budget-table-2-header-adjustments'>Adjustments</td>
+                </tr>
+                <tr class='budget-table-2-values'>
+                    <td class='budget-table-2-values-current'></td>
+                    <td class='budget-table-2-values-adjustments-container'>
+                        <input type='number' name='budget-table-2-values-adjustments' class='budget-table-2-values-adjustments'><br/>
+                    </td>
+                </tr>
+            </table>
+            <button class='popup-container-alt-2-button'>Done</button>
         </div>
     </div>
 </body>
