@@ -336,7 +336,6 @@ $(document).ready(function () {
                 remove_row_handler();
                 // add event handlers for the new rows
                 add_row_handler();
-                // TODO
                 // udpate budget bar
                 updateBudgetBar();
                 // update google pie chart
@@ -844,7 +843,7 @@ $(document).ready(function () {
             }
         });
 
-        var is_timed_out = false;
+        var current_timeout = undefined;
         function set_values_click_handler() {
             $(".values").on('click', function (event) {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
@@ -863,30 +862,39 @@ $(document).ready(function () {
                 } else if (get_num_values_selected() < 5) {
                     // Save selected community values
                     Client.selected_community_values.push($(event.currentTarget));
-                    // TODO: popup
-                    // Display popup with correct value and description 
-                    openPopup_1(value, description);
+                    // length of selected community values array
+                    var length = Client.selected_community_values.length;
+                    $(Client.selected_community_values[length - 1]).addClass('selected-value');
+                    // Add an outline to selected community value so user knows it has been selected 
+                    $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px gray' });
+                    // Increment number of values currently selected 
+                    increment_num_values_selected();
+                    // Show continue button
+                    if (get_num_values_selected() === 5) {
+                        // Update message container
+                        updateValuesContainerText('Great! Click the button below to continue.');
+                        // Show play game button
+                        $('.play-game-container').show();
+                    }
                 } else if (get_num_values_selected() >= 5) {
                     // Update the message container text value
                     updateValuesContainerText('You may not select more than 5 community values.');
                 }
             });
 
-            // TODO
+            // only open popup if user hovers for a bit
             $('.values').on('mouseenter', function(event) {
-                is_timed_out = true;
-                setTimeout(function() {
-                    if (is_timed_out) {
-                        openPopup_1($(event.target).text(), Client.community_values_description[get_description_index($(event.target).text())]);
-                    }
-                }, 5000);
+                current_timeout = setTimeout(function() {
+                    Client.selected_community_values.push($(event.currentTarget));
+                    openPopup_1($(event.target).text(), Client.community_values_description[get_description_index($(event.target).text())]);
+                }, 2000);
             });
 
+            // do not open popup if user leaves the value 
             $('.values').on('mouseleave', function(event) {
-                is_timed_out = false;
+                clearTimeout(current_timeout);
             });
         }
-
 
         // set click handler for continue button 
         $('.play-game-container-button').on('click', function(event) {
@@ -992,7 +1000,6 @@ $(document).ready(function () {
             }
         });
 
-        // TODO
         // event handler for budget popup close button
         $('.popup-container-close-alt').on('click', function(event) {
             // make sure they have made proper adjustments before closing
