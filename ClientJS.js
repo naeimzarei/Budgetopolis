@@ -849,10 +849,6 @@ $(document).ready(function () {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
                 var value = $(event.target).text();
                 var description = Client.community_values_description[get_description_index(value)];
-                // length of selected should not be longer than 5
-                if ($('.selected-value').length === 5) {
-                    return;
-                }
                 if (isSelected) {
                     // Remove CSS class of now unselected value 
                     $(event.currentTarget).removeClass('selected-value');
@@ -864,6 +860,10 @@ $(document).ready(function () {
                     // Hide the continue button 
                     $('.play-game-container').hide();
                 } else if (get_num_values_selected() < 5) {
+                    // length of selected should not be longer than 5
+                    if ($('.selected-value').length === 5) {
+                        return;
+                    }
                     // Save selected community values
                     Client.selected_community_values.push($(event.currentTarget));
                     // length of selected community values array
