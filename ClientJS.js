@@ -849,6 +849,10 @@ $(document).ready(function () {
                 var isSelected = $(event.currentTarget).hasClass('selected-value');
                 var value = $(event.target).text();
                 var description = Client.community_values_description[get_description_index(value)];
+                // length of selected should not be longer than 5
+                if ($('.selected-value').length === 5) {
+                    return;
+                }
                 if (isSelected) {
                     // Remove CSS class of now unselected value 
                     $(event.currentTarget).removeClass('selected-value');
@@ -882,9 +886,20 @@ $(document).ready(function () {
                 }
             });
 
+            // TODO: fix highlighting of values. Make sure
+            // if already highlighted don't open popup
             // only open popup if user hovers for a bit
             $('.values').on('mouseenter', function(event) {
                 current_timeout = setTimeout(function() {
+                    console.log('length', $('.selected-value').length);
+                    // no more than 5 selected
+                    if ($('.selected-value').length === 5) {
+                        return;
+                    }
+                    // check if already in selected community values 
+                    if ($(event.currentTarget).hasClass('selected-value')) {
+                        return;
+                    }
                     Client.selected_community_values.push($(event.currentTarget));
                     openPopup_1($(event.target).text(), Client.community_values_description[get_description_index($(event.target).text())]);
                 }, 2000);
