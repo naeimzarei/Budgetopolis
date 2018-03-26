@@ -770,30 +770,6 @@ $(document).ready(function () {
         function find_relative_width(budget_value) {
             return ctx.canvas.width * (budget_value.value / Client.total_budget);
         }
-
-        // TODO: naeim
-        /**
-         * Truncates the budget for better readibility.
-         * @param {string|number} budget the budget to be truncated 
-         * @returns {string} the truncated budget value
-         */
-        function truncate_budget(budget) {
-            // length 1 = ones digit 
-            // length 2 = tens digit 
-            // length 3 = hundreds digit 
-            // length 4 = thousands digit 
-            // length 5 = ten thousands digit 
-            // length 6 = hundred thousands digit 
-            // length 7 = million digit
-            // length 8 = ...
-            if (length >= 7) {
-                var slice_1 = budget.toString().substring(0, 2);
-                var slice_2 = budget.toString().substring(2, 4);
-                return slice_1 + '.' + slice_2 + ' M';
-            } else {
-                return budget;
-            }
-        }
     }
 
     /**
