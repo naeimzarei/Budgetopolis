@@ -734,8 +734,10 @@ $(document).ready(function () {
         var beginX = 0;
         var shiftX = 0;
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            // length of budget, value of budget 
+            var length = Math.round(Client.budget_breakdown[i].value).toString().length;
+            var budget = Client.budget_breakdown[i].value;
             var relative_width = find_relative_width(Client.budget_breakdown[i]);
-
             var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
 
             ctx.fillStyle = Client.chart_colors[i];
@@ -743,8 +745,16 @@ $(document).ready(function () {
             ctx.fillStyle = 'black';
             ctx.font = "16px EB Garamond";
             ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
+            var modifier;
+            if (length >= 7) {
+                modifier = 
+                    budget.toString().substring(0,2) + '.' + 
+                    budget.toString().substring(2,4) + ' M';
+            } else {
+                modifier = sanitize_budget(Client.budget_breakdown[i].value);
+            }
             ctx.fillText(
-                sanitize_budget(Client.budget_breakdown[i].value), 
+                modifier, 
                 shiftX + (ctx.canvas.width / 35), 
                 (ctx.canvas.height / 2) + 20
             );
@@ -759,6 +769,30 @@ $(document).ready(function () {
          */
         function find_relative_width(budget_value) {
             return ctx.canvas.width * (budget_value.value / Client.total_budget);
+        }
+
+        // TODO: naeim
+        /**
+         * Truncates the budget for better readibility.
+         * @param {string|number} budget the budget to be truncated 
+         * @returns {string} the truncated budget value
+         */
+        function truncate_budget(budget) {
+            // length 1 = ones digit 
+            // length 2 = tens digit 
+            // length 3 = hundreds digit 
+            // length 4 = thousands digit 
+            // length 5 = ten thousands digit 
+            // length 6 = hundred thousands digit 
+            // length 7 = million digit
+            // length 8 = ...
+            if (length >= 7) {
+                var slice_1 = budget.toString().substring(0, 2);
+                var slice_2 = budget.toString().substring(2, 4);
+                return slice_1 + '.' + slice_2 + ' M';
+            } else {
+                return budget;
+            }
         }
     }
 
@@ -1055,7 +1089,6 @@ $(document).ready(function () {
         // Used to look at first page first instead of having to select values each time.
         //var current_page = 'page2'
         //$('.page1').hide()
-
     }
     main();
 });
