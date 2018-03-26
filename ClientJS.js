@@ -902,7 +902,7 @@ $(document).ready(function () {
                     }
                     Client.selected_community_values.push($(event.currentTarget));
                     openPopup_1($(event.target).text(), Client.community_values_description[get_description_index($(event.target).text())]);
-                }, 2000);
+                }, 1000);
             });
 
             // do not open popup if user leaves the value 
