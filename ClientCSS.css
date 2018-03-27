@@ -584,3 +584,27 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     right: 16%;
     top: 55%;
 }
+
+.social-media-box {
+    position: fixed;
+    font-family: "Playfair Display";
+    resize: none;
+    font-size: 18px;
+    width: 250px;
+    height: 175px;
+    right: 1%;
+    top: 290px;
+    outline: none;
+    text-align: left;
+    font-size: 0.8em;
+    text-align: center;
+    background-color: white;
+    text-align: left;
+    overflow: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px black;
+    margin-left: -125px;
+}
