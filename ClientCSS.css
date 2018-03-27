@@ -445,20 +445,23 @@ svg > g > g:last-child {
     cursor: pointer;
 }
 
+/* TODO: fix margins */
 .popup-container-alt-2 {
     position: fixed;
     width: 500px;
-    height: 150px;
+    height: 250px;
     background-color: white;
     left: 50%;
     top: 50%;
     margin-left: -250px;
-    margin-top: -75px;
+    margin-top: -125px;
     border-radius: 5px;
     padding-left: 15px;
     padding-right: 15px;
     text-align: left;
     box-shadow: 0 0 0 1px black;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .popup-container-title-alt-2 {
@@ -492,7 +495,7 @@ svg > g > g:last-child {
     margin-left: -22.5px;
     margin-top: -22.5px;
     left: 42.5%;
-    top: 50%;
+    top: 70%;
     border-radius: 22.5px;
     margin: 15px;
     z-index: 1;
@@ -539,4 +542,34 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     background-color: #3a3e3f;
     color: white;
     cursor: pointer;
+}
+
+.popup-container-select {
+    width: 400px;
+    height: 25px;
+    position: absolute;
+    left: 42.5%;
+    top: 60%;
+    margin-left: -200px;
+    margin-top: -12.5px;
+}
+
+.popup-container-select option {
+    font-size: 12px;
+}
+
+.popup-container-select-modifier {
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    right: 5%;
+    top: 59%;
+    margin-top: -10px;
+    text-align: center;
+}
+
+.popup-container-select-modifier-value {
+    position: absolute;
+    right: 16%;
+    top: 55%;
 }

@@ -206,7 +206,6 @@ $(document).ready(function () {
         blur();
         // populate popup with value and description
         $('.popup-description').text('Current budget: $'+budget + '.');
-        //TODO add the resource options dropdown
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
             var original_resource_name = Client.budget_breakdown[i]["name"];
             var new_resource_name = Client.budget_breakdown[i]["name"].replace(/ /g, '');
@@ -258,7 +257,7 @@ $(document).ready(function () {
         add_row_handler();
 
         /**
-         * Adds event handler folr the popup 
+         * Adds event handler for the popup 
          * rows on the table. 
          */
         function add_row_handler() {
@@ -274,6 +273,44 @@ $(document).ready(function () {
                 previous_resource_name = $('.popup-container-title-alt-2').text();
                 // add current budget value 
                 $('.budget-table-2-values-current').text(sanitize_budget(find_current_value()));
+                // add dropdowns for budget
+                add_dropdowns();
+
+                /**
+                 * Adds the dropdown for the budget
+                 * decisions by obtaining it from the database.
+                 */
+                function add_dropdowns() {
+                    // the selected resource 
+                    var selected_resource;
+                    // the selected resource index
+                    var selected_index;
+                    // remove previous select options
+                    $('.popup-container-select').empty();
+                    // find which resource was selected 
+                    for (var i = 0; i < Client.resources_options.length; i++) {
+                        if (Client.resources_options[i][$(event.target).text()]) {
+                            selected_resource = $(event.target).text();
+                            selected_index = i;
+                            break;
+                        }
+                    }
+                    // add initial budgeting option: none
+                    $('.popup-container-select').append(`<option value='none'> - </option>`);
+                    // add budgeting options for that resource
+                    var budget_options_array = Client.resources_options[selected_index][selected_resource];
+                    for (var i = 0; i < budget_options_array.length; i++) {
+                        for (option in budget_options_array[i]) {
+                            var option_value = budget_options_array[i][option];
+                            var modified_option_value = sanitize_budget(option_value).substring(0, sanitize_budget(option_value).indexOf('.'));
+                            $('.popup-container-select').append(
+                                `<option value=${option}> 
+                                    ${option + ' ( ' + modified_option_value + ' )'} 
+                                </option>`
+                            );
+                        }
+                    }
+                }
 
                 /**
                  * Finds the current value from Client.budget_breakdown
@@ -318,6 +355,8 @@ $(document).ready(function () {
                 perform_budget_logic();
                 // clear adjustment input
                 $('.budget-table-2-values-adjustments').val('');
+                // clear modifier on second popup 
+                $('.popup-container-select-modifier').val('');
             }
 
             /**
@@ -352,7 +391,21 @@ $(document).ready(function () {
             function update_budget_breakdown(resource_name, resource_value) {
                 for (var i = 0; i < Client.budget_breakdown.length; i++) {
                     if (Client.budget_breakdown[i].name === resource_name) {
-                        Client.budget_breakdown[i].value += resource_value;
+                        var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+                        var selected_value = selected_budget_option.substring(
+                            selected_budget_option.indexOf('(') + 2, 
+                            selected_budget_option.length - 2
+                        ).replace(/,/g, '').replace('$', '');
+                        var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                        var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+                        var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                        // no values set for multiplier or budget breakdown
+                        if (selected_value === '-' || isNaN(multiplier)) {
+                            // change budget without further modification
+                            Client.budget_breakdown[i].value += resource_value;
+                        } else {
+                            Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                        }
                     }
                 }
             }
@@ -385,6 +438,8 @@ $(document).ready(function () {
             // new variables for comparison
             var client_modified = Number(Client.total_budget.toFixed(2));
             var current_modified = Number(current_budget_sum.toFixed(2));
+            // to only 2 places, truncate leading zeros 
+            current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
             // change adjustment value on first popup
             if (client_modified > current_modified) {
                 $('.budget-table-adjustments').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
@@ -429,7 +484,39 @@ $(document).ready(function () {
             // new value after modifier 
             var new_current = initial_resource_budget + unsanitize_budget($('.budget-table-2-header-adjustments').text());
             // set current value
+            var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+            var selected_value = selected_budget_option.substring(
+                selected_budget_option.indexOf('(') + 2, 
+                selected_budget_option.length - 2
+            ).replace(/,/g, '').replace('$', '');
+            var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+            var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+            // current resource value before modification
+            var current_resource_value;
+            for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                if (Client.budget_breakdown[i].name === previous_resource_name) {
+                    current_resource_value = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                    break;
+                }
+            }
+            // values set for multipler and selected option 
+            if (selected_value !== '-' && isNaN(multiplier) === false) {
+                // change budget without further modification
+                new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
+            }
+
+            if (isNaN(new_current)) {
+                $('budget-table-2-values-current').text(initial_resource_budget);
+                return;
+            }
             $('.budget-table-2-values-current').text(sanitize_budget(new_current));
+            
+            // new current cannot exceed total budget 
+            if (new_current > Client.total_budget) {
+                $('.popup-container-title-alt-2').text('Resource budget cannot exceed total budget.');
+                return false;
+            }
+
             // new current cannot be negative 
             if (new_current < 0) {
                 $('.popup-container-title-alt-2').text('Resource budget cannot be negative.');
@@ -896,12 +983,8 @@ $(document).ready(function () {
                 }
             });
 
-            // TODO: fix highlighting of values. Make sure
-            // if already highlighted don't open popup
-            // only open popup if user hovers for a bit
             $('.values').on('mouseenter', function(event) {
                 current_timeout = setTimeout(function() {
-                    console.log('length', $('.selected-value').length);
                     // no more than 5 selected
                     if ($('.selected-value').length === 5) {
                         return;
@@ -912,7 +995,7 @@ $(document).ready(function () {
                     }
                     Client.selected_community_values.push($(event.currentTarget));
                     openPopup_1($(event.target).text(), Client.community_values_description[get_description_index($(event.target).text())]);
-                }, 1000);
+                }, 500);
             });
 
             // do not open popup if user leaves the value 
@@ -1040,6 +1123,71 @@ $(document).ready(function () {
             // unblur the screen
             unblur();
         });
+
+        var current_resource_value;
+        $('.popup-container-select-modifier').on('input', function(event) {
+            // parsed multiplier value 
+            var parsed_value = parseInt($(event.target).val(), 10);
+            // obtain reference to selected budgeting option
+            var selected_option = $('.popup-container-select').find(':selected').text().trim();
+            // find how much to modify the value by
+            var budget_modifier = parseFloat(selected_option.substring(
+                selected_option.indexOf('(') + 2, 
+                selected_option.length - 2).replace('$', '').replace(/,/g, ''
+            ));
+            // obtain value of adjustment
+            var adjustment_value = parseFloat(parseFloat($('.budget-table-2-values-adjustments').val()).toFixed(2));
+            if (isNaN(adjustment_value)) {
+                adjustment_value = 0;
+            }
+            // current resource value before modification
+            var current_resource_value;
+            for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                if (Client.budget_breakdown[i].name === previous_resource_name) {
+                    current_resource_value = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                    break;
+                }
+            }
+            // add modifier value to adjustment value 
+            var pre_sanitized = current_resource_value + adjustment_value + (parsed_value * budget_modifier);
+            var sanitized = sanitize_budget(pre_sanitized);
+            if (isNaN(pre_sanitized)) {
+                $('.budget-table-2-values-current').text(sanitize_budget(current_resource_value + adjustment_value));
+            } else {
+                $('.budget-table-2-values-current').text(sanitized);
+            }
+        });
+
+        $('.popup-container-select').on('change', function (event) {
+            // set current value
+            var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+            var selected_value = selected_budget_option.substring(
+                selected_budget_option.indexOf('(') + 2,
+                selected_budget_option.length - 2
+            ).replace(/,/g, '').replace('$', '');
+            var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+            var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+            // current resource value before modification
+            var current_resource_value;
+            for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                if (Client.budget_breakdown[i].name === previous_resource_name) {
+                    current_resource_value = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                    break;
+                }
+            }
+            var new_current = current_resource_value + adjustment;
+            if (isNaN(new_current)) {
+                $('budget-table-2-values-current').text(current_resource_value);
+                return;
+            }
+            // values set for multipler and selected option 
+            if (selected_value !== '-' && isNaN(multiplier) === false) {
+                // change budget without further modification
+                new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
+            }
+
+            $('.budget-table-2-values-current').text(sanitize_budget(   new_current    ));
+        })
     }
 
     /**
@@ -1052,9 +1200,6 @@ $(document).ready(function () {
         // as needed in event_handlers() function
         event_handlers();
         generateHappiness(20)
-
-        // TODO
-        // getResourceOptions(true)
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
