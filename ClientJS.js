@@ -505,6 +505,9 @@ $(document).ready(function () {
             }
             // values set for multipler and selected option 
             if (selected_value !== '-' && isNaN(multiplier) === false) {
+                if (isNaN(adjustment)) {
+                    adjustment = 0;
+                }
                 // change budget without further modification
                 new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
             }
