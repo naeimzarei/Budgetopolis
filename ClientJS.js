@@ -833,7 +833,12 @@ $(document).ready(function () {
             ctx.font = "16px EB Garamond";
             ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
             var modifier;
-            if (length >= 7) {
+            // TODO: fix conversion
+            if (length === 7) {
+                modifier = 
+                    budget.toString().substring(0, 1) + '.' + 
+                    budget.toString().substring(2, 4) + ' M'
+            } else if (length === 8) {
                 modifier = 
                     budget.toString().substring(0,2) + '.' + 
                     budget.toString().substring(2,4) + ' M';
