@@ -404,7 +404,11 @@ $(document).ready(function () {
                             // change budget without further modification
                             Client.budget_breakdown[i].value += resource_value;
                         } else {
-                            Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                            if (isNaN(adjustment)) {
+                                Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
+                            } else {
+                                Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                            }
                         }
                     }
                 }
@@ -506,8 +510,13 @@ $(document).ready(function () {
             }
 
             if (isNaN(new_current)) {
-                $('budget-table-2-values-current').text(initial_resource_budget);
-                return;
+                // if multiplier and option are selected 
+                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {
+                    // TODO
+                } else {
+                    $('budget-table-2-values-current').text(initial_resource_budget);
+                    return;
+                }
             }
             $('.budget-table-2-values-current').text(sanitize_budget(new_current));
             
