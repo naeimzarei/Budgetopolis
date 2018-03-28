@@ -255,7 +255,7 @@ svg > g > g:last-child {
     font-family: "Playfair Display";
     font-size: 18px;
     font-size: 0.8em;
-    right: 150px;
+    right: 115px;
     width: 250px;
     border-radius: 5px;
     background-color: white;
@@ -591,9 +591,9 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     resize: none;
     font-size: 18px;
     width: 250px;
-    height: 175px;
+    height: 410px;
     right: 1%;
-    top: 290px;
+    top: 120px;
     outline: none;
     text-align: left;
     font-size: 0.8em;
