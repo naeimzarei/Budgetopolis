@@ -970,23 +970,24 @@ $(document).ready(function () {
             
             if(indicies.length === 0){
                 for(var k = 0; k < Client.scenarios.length; k++){
+                    //push indicies of scenario array to be shuffled later.
                     indicies.push(k);
                 }
             }
+            
             if(randomIndicies.length === 0){
+                //shuffle indicies array to grab random scenario
                 randomIndicies = shuffle(indicies)
             }
-            var scenarioIndex = randomIndicies[count-1]
-            console.log('scenario index' + scenarioIndex)
-            if(Client.scenarios[scenarioIndex] === undefined){
+            if(count-1 === Client.scenarios.length){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
                 $("#startButton").remove();
                 $('#playAgain').show();
                 return;
             }
+            var scenarioIndex = randomIndicies[randomIndicies.length-1];
             $(".media-container-box").html('<h2>Scenario ' + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
             randomIndicies.splice(scenarioIndex, 1);
-            console.log(randomIndicies.toString())
             count +=1;
             
         })
