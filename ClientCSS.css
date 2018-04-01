@@ -121,7 +121,7 @@ body {
     height: 250px;
     position: fixed;
     right: 1%;
-    top: 120px;
+    top: 110px;
     left: 55%;
     margin-left: -160px;
 }
@@ -137,10 +137,10 @@ body {
 }
 
 .values-2 {
-    height: 80px;
-    width: 80px;
+    height: 75px;
+    width: 75px;
+    border-radius: 37.5px;
     background-color: white;
-    border-radius: 40px;
     margin: 4px;
     text-align: center;
     font-size: 12px;
@@ -189,7 +189,7 @@ body {
 
 .values-container-title-text {
     position: fixed;
-    top: 150px;
+    top: 140px;
     font-size: 1.5em;
     left: 55%;
     width: 250px;
@@ -198,7 +198,7 @@ body {
 
 .community-info-title-container-text {
     position: fixed;
-    top: 150px;
+    top: 140px;
     left: 5%;
     font-size: 1.5em;
     z-index: 3;
@@ -268,9 +268,9 @@ svg > g > g:last-child {
     resize: none;
     font-size: 18px;
     width: 350px;
-    height: 175px;
+    height: 150px;
     right: 2%;
-    top: 290px;
+    top: 275px;
     outline: none;
     text-align: left;
     font-size: 0.8em;
@@ -591,7 +591,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     resize: none;
     font-size: 18px;
     width: 250px;
-    height: 410px;
+    height: 345px;
     right: 1%;
     top: 120px;
     outline: none;

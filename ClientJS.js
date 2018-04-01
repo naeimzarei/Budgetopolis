@@ -196,49 +196,6 @@ $(document).ready(function () {
         // show the popup dialogue
         $('.page2-popup').show();
     }
-    var budgetPopupMade = false;
-    function openBudgetPopup(resource, budget) {
-        // blur the rest of the screen
-        if(budgetPopupMade){
-            $('.page2-popup-budget').show();
-            return;
-        }
-        blur();
-        // populate popup with value and description
-        $('.popup-description').text('Current budget: $'+budget + '.');
-        for (var i = 0; i < Client.budget_breakdown.length; i++) {
-            var original_resource_name = Client.budget_breakdown[i]["name"];
-            var new_resource_name = Client.budget_breakdown[i]["name"].replace(/ /g, '');
-
-            var temp = $("<select class = 'select-resource-option-" + new_resource_name + "'></select >");
-
-            $('.popup-resources').append("<div id = 'resource-budget-" + new_resource_name + "'>" + original_resource_name + "  budget: $" + Client.budget_breakdown[i]["value"].toFixed(2));
-            $(".page2-popup-budget").on('change', '.select-resource-option-'+new_resource_name, makeSelectHandlers)
-            var resourceOptions;
-            for (var x = 0; x < Client.resources_options.length; x++) {
-                for (keyx in Client.resources_options[x]) {
-                    if (keyx === original_resource_name) {
-                        resourceOptions = Client.resources_options[x];
-                        break;
-                    }
-                }
-            }
-            for (var key in resourceOptions) {
-                for (var j = 0; j < resourceOptions[key].length; j++) {
-                    for (var key2 in resourceOptions[key][j]) {
-                        $(temp).append($('<option>', {
-                            value: key2 + " ($" + resourceOptions[key][j][key2] + ")",
-                            text: key2 + " ($" + resourceOptions[key][j][key2] + ")"
-                        }));
-                    }
-                }
-            }
-            $("#resource-budget-" + new_resource_name).append(temp);
-        }
-        budgetPopupMade = true;
-        // show the popup dialogue
-        $('.page2-popup-budget').show();
-    }
 
     /**
      * Opens a popup, allowing the user to make 
@@ -976,7 +933,8 @@ $(document).ready(function () {
             if(randomIndicies.length === 0){
                 randomIndicies = shuffle(indicies)
             }
-            var scenarioIndex = randomIndicies[count-1]
+
+            var scenarioIndex = randomIndicies[randomIndicies.length - 1];
             console.log('scenario index' + scenarioIndex)
             if(Client.scenarios[scenarioIndex] === undefined){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
@@ -984,7 +942,7 @@ $(document).ready(function () {
                 $('#playAgain').show();
                 return;
             }
-            $(".media-container-box").html('<h2>Scenario ' + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
             randomIndicies.splice(scenarioIndex, 1);
             console.log(randomIndicies.toString())
             count +=1;
