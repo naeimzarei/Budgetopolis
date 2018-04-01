@@ -919,35 +919,20 @@ $(document).ready(function () {
     function event_handlers() {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
-        var indicies = [];
-        var randomIndicies = []
         $('#startButton').click(function(){
             
             $('#startButton').text("Next")
             
-            if(indicies.length === 0){
-                for(var k = 0; k < Client.scenarios.length; k++){
-                    //push indicies of scenario array to be shuffled later.
-                    indicies.push(k);
-                }
-            }
+            var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
             
-            if(randomIndicies.length === 0){
-                //shuffle indicies array to grab random scenario
-                randomIndicies = shuffle(indicies)
-            }
-
             if(count-1 === Client.scenarios.length){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
                 $("#startButton").remove();
                 $('#playAgain').show();
                 return;
             }
-            var scenarioIndex = randomIndicies[randomIndicies.length-1];
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
-            randomIndicies.splice(scenarioIndex, 1);
-            count +=1;
-            
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+scenario +"</h3>" )
+            count +=1;   
         })
 
         // Check session ID values inputted by the user
