@@ -965,6 +965,9 @@ $(document).ready(function () {
         var indicies = [];
         var randomIndicies = []
         $('#startButton').click(function(){
+            
+            $('#startButton').text("Next")
+            
             if(indicies.length === 0){
                 for(var k = 0; k < Client.scenarios.length; k++){
                     indicies.push(k);
