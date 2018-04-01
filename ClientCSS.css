@@ -26,7 +26,6 @@ body {
     margin-left: 75px;
 }
 
-/* TODO */
 .values-container-cards {
     border-radius: 10px;
     display: flex;
@@ -208,7 +207,7 @@ body {
 }
 .community-info-container-element{
     position: fixed;
-    top: 185px;
+    top: 175px;
     left: 10%;
     font-size: 1em;
 }

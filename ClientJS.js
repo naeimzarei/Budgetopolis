@@ -471,9 +471,7 @@ $(document).ready(function () {
 
             if (isNaN(new_current)) {
                 // if multiplier and option are selected 
-                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {
-                    // TODO
-                } else {
+                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {} else {
                     $('budget-table-2-values-current').text(initial_resource_budget);
                     return;
                 }
