@@ -23,8 +23,10 @@ body {
     top: 200px;
     left: 50%;
     transform: translate(-50%, 0);
+    margin-left: 75px;
 }
 
+/* TODO */
 .values-container-cards {
     border-radius: 10px;
     display: flex;
@@ -34,13 +36,14 @@ body {
     color: black;
     padding: 10px;
     flex-wrap: wrap;
+    width: 500px;
 }
 
 .values {
-    height: 112.5px;
-    width: 112.5px;
+    height: 95px;
+    width: 95px;
     background-color: white;
-    border-radius: 56.25px;
+    border-radius: 47.5px;
     margin: 10px;
     text-align: center;
     font-size: 0.80em;
