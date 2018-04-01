@@ -937,11 +937,57 @@ $(document).ready(function () {
 
 
     }
-
+    function shuffle(array) {
+        var i = array.length,
+            j = 0,
+            temp;
+    
+        while (i--) {
+    
+            j = Math.floor(Math.random() * (i+1));
+    
+            // swap randomly chosen element with current element
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+    
+        }
+    
+        return array;
+    }
+    
     /**
      * Sets up event handlers during startup.
      */
     function event_handlers() {
+        //Starts scenarios TODO, not showing all scenarios, missing one of them
+        var count = 1;
+        var indicies = [];
+        var randomIndicies = []
+        $('#startButton').click(function(){
+            if(indicies.length === 0){
+                for(var k = 0; k < Client.scenarios.length; k++){
+                    indicies.push(k);
+                }
+            }
+            if(randomIndicies.length === 0){
+                randomIndicies = shuffle(indicies)
+            }
+            var scenarioIndex = randomIndicies[count-1]
+            console.log('scenario index' + scenarioIndex)
+            if(Client.scenarios[scenarioIndex] === undefined){
+                $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
+                $("#startButton").remove();
+                $('#playAgain').show();
+                return;
+            }
+            $(".media-container-box").html('<h2>Scenario ' + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
+            randomIndicies.splice(scenarioIndex, 1);
+            console.log(randomIndicies.toString())
+            count +=1;
+            
+        })
+
         // Check session ID values inputted by the user
         $(".session-container-id").on('input', function (event) {
             var input_length = $(event.target).val().length;

@@ -608,3 +608,12 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     box-shadow: 0 0 0 1px black;
     margin-left: -125px;
 }
+#startButton, #playAgain{
+    position: fixed;
+    font-family: "Playfair Display";
+    font-size: 14px;
+    right: 40%;
+    bottom: 20%;
+    padding: 15px 32px;
+    background-color: #99badd;    
+}
