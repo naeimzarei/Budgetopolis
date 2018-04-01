@@ -943,8 +943,8 @@ $(document).ready(function () {
                 $('#playAgain').show();
                 return;
             }
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
             var scenarioIndex = randomIndicies[randomIndicies.length-1];
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
             randomIndicies.splice(scenarioIndex, 1);
             count +=1;
             
