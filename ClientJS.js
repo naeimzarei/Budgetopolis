@@ -37,13 +37,16 @@ $(document).ready(function () {
             '#89882A', '#e69f00', '#56b4e9', 
             '#009e73', '#f0e442', '#0072b2', 
             '#d55e00', '#474747', '#5E60B1'
-        ]
+        ],
+        // TODO: dictionary with user choices
+        user_choices: {}
     };
 
     //prep server connection
     const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
     var client;
     var db;
+    var budgetChangesSubmitted = false;
 
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
@@ -214,6 +217,24 @@ $(document).ready(function () {
         // add event handler for each row of the popup
         add_row_handler();
 
+        $('#submitBudgetButton').click(function(){
+            //TODO get array of budget changes and send to DB
+            // TODO: naeim
+            // make sure they have made proper adjustments before closing
+            var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
+            if (isNaN(unsanitized_budget) === false) {
+                $('.popup-container-title-alt').text('Please make some adjustments first.');
+                return;
+            } else {
+                $('.popup-container-title-alt').text('Resources Budgeting');
+            }
+            // close the budget popup
+            $('.page2-popup-budget-alt').hide();
+            // unblur the screen
+            unblur();
+            budgetChangesSubmitted = true;
+        })
+
         /**
          * Adds event handler for the popup 
          * rows on the table. 
@@ -268,6 +289,7 @@ $(document).ready(function () {
                             );
                         }
                     }
+                    
                 }
 
                 /**
@@ -357,17 +379,26 @@ $(document).ready(function () {
                         var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                         var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                         var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                        Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
                         // no values set for multiplier or budget breakdown
                         if (selected_value === '-' || isNaN(multiplier)) {
                             // change budget without further modification
                             Client.budget_breakdown[i].value += resource_value;
+                            Client.user_choices['option'] = 'none';
+                            Client.user_choices['budget_change'] = (resource_value).toString();
                         } else {
                             if (isNaN(adjustment)) {
                                 Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
+                                Client.user_choices['option'] = 'none';
+                                Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
                             } else {
                                 Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                                var choice = $('.popup-container-select').find(':selected').text().trim();
+                                Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
+                                Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                             }
                         }
+                        Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                     }
                 }
             }
@@ -472,9 +503,7 @@ $(document).ready(function () {
 
             if (isNaN(new_current)) {
                 // if multiplier and option are selected 
-                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {
-                    // TODO
-                } else {
+                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {} else {
                     $('budget-table-2-values-current').text(initial_resource_budget);
                     return;
                 }
@@ -803,11 +832,12 @@ $(document).ready(function () {
             ctx.font = "16px EB Garamond";
             ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
             var modifier;
-            // TODO: fix conversion
+            // million
             if (length === 7) {
                 modifier = 
                     budget.toString().substring(0, 1) + '.' + 
-                    budget.toString().substring(2, 4) + ' M'
+                    budget.toString().substring(2, 4) + ' M';
+            // ten million
             } else if (length === 8) {
                 modifier = 
                     budget.toString().substring(0,2) + '.' + 
@@ -895,24 +925,6 @@ $(document).ready(function () {
 
 
     }
-    function shuffle(array) {
-        var i = array.length,
-            j = 0,
-            temp;
-    
-        while (i--) {
-    
-            j = Math.floor(Math.random() * (i+1));
-    
-            // swap randomly chosen element with current element
-            temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-    
-        }
-    
-        return array;
-    }
     
     function fillAssocations(values) {
 
@@ -951,35 +963,28 @@ $(document).ready(function () {
     function event_handlers() {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
-        var indicies = [];
-        var randomIndicies = []
         $('#startButton').click(function(){
             
+            if(!budgetChangesSubmitted && (count > 1)){
+                $('.media-container-box').append('Please adjust the budget before continuing')
+                
+                return;
+            }   
             $('#startButton').text("Next")
             
-            if(indicies.length === 0){
-                for(var k = 0; k < Client.scenarios.length; k++){
-                    //push indicies of scenario array to be shuffled later.
-                    indicies.push(k);
-                }
-            }
-            
-            if(randomIndicies.length === 0){
-                //shuffle indicies array to grab random scenario
-                randomIndicies = shuffle(indicies)
-            }
+            var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
 
+      
+            
             if(count-1 === Client.scenarios.length){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
                 $("#startButton").remove();
                 $('#playAgain').show();
                 return;
             }
-            var scenarioIndex = randomIndicies[randomIndicies.length-1];
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+Client.scenarios[scenarioIndex] +"</h3>" )
-            randomIndicies.splice(scenarioIndex, 1);
-            count +=1;
-            
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+scenario +"</h3>" )
+            count +=1;   
+            budgetChangesSubmitted = false;
         })
 
         // Check session ID values inputted by the user
@@ -1167,21 +1172,22 @@ $(document).ready(function () {
             }
         });
 
+        // TODO: now
         // event handler for budget popup close button
-        $('.popup-container-close-alt').on('click', function(event) {
-            // make sure they have made proper adjustments before closing
-            var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
-            if (isNaN(unsanitized_budget) === false) {
-                $('.popup-container-title-alt').text('Please make some adjustments first.');
-                return;
-            } else {
-                $('.popup-container-title-alt').text('Resources Budgeting');
-            }
-            // close the budget popup
-            $('.page2-popup-budget-alt').hide();
-            // unblur the screen
-            unblur();
-        });
+        // $('.popup-container-close-alt').on('click', function(event) {
+        //     // make sure they have made proper adjustments before closing
+        //     var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
+        //     if (isNaN(unsanitized_budget) === false) {
+        //         $('.popup-container-title-alt').text('Please make some adjustments first.');
+        //         return;
+        //     } else {
+        //         $('.popup-container-title-alt').text('Resources Budgeting');
+        //     }
+        //     // close the budget popup
+        //     $('.page2-popup-budget-alt').hide();
+        //     // unblur the screen
+        //     unblur();
+        // });
 
         var current_resource_value;
         $('.popup-container-select-modifier').on('input', function(event) {
