@@ -218,7 +218,19 @@ $(document).ready(function () {
 
         $('#submitBudgetButton').click(function(){
             //TODO get array of budget changes and send to DB
-
+            // TODO: naeim
+            // make sure they have made proper adjustments before closing
+            var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
+            if (isNaN(unsanitized_budget) === false) {
+                $('.popup-container-title-alt').text('Please make some adjustments first.');
+                return;
+            } else {
+                $('.popup-container-title-alt').text('Resources Budgeting');
+            }
+            // close the budget popup
+            $('.page2-popup-budget-alt').hide();
+            // unblur the screen
+            unblur();
             budgetChangesSubmitted = true;
         })
 
@@ -1126,21 +1138,22 @@ $(document).ready(function () {
             }
         });
 
+        // TODO: now
         // event handler for budget popup close button
-        $('.popup-container-close-alt').on('click', function(event) {
-            // make sure they have made proper adjustments before closing
-            var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
-            if (isNaN(unsanitized_budget) === false) {
-                $('.popup-container-title-alt').text('Please make some adjustments first.');
-                return;
-            } else {
-                $('.popup-container-title-alt').text('Resources Budgeting');
-            }
-            // close the budget popup
-            $('.page2-popup-budget-alt').hide();
-            // unblur the screen
-            unblur();
-        });
+        // $('.popup-container-close-alt').on('click', function(event) {
+        //     // make sure they have made proper adjustments before closing
+        //     var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
+        //     if (isNaN(unsanitized_budget) === false) {
+        //         $('.popup-container-title-alt').text('Please make some adjustments first.');
+        //         return;
+        //     } else {
+        //         $('.popup-container-title-alt').text('Resources Budgeting');
+        //     }
+        //     // close the budget popup
+        //     $('.page2-popup-budget-alt').hide();
+        //     // unblur the screen
+        //     unblur();
+        // });
 
         var current_resource_value;
         $('.popup-container-select-modifier').on('input', function(event) {
