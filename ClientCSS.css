@@ -458,7 +458,6 @@ svg > g > g:last-child {
     cursor: pointer;
 }
 
-/* TODO: fix margins */
 .popup-container-alt-2 {
     position: fixed;
     width: 500px;
@@ -620,9 +619,26 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     background-color: #99badd;    
 }
 #submitBudgetButton{
-    position: fixed;
+    position: absolute;
     font-family: "Playfair Display";
     font-size: 14px;
-    right: 47%;
-    bottom: 20%;
+    right: 2%;
+    top: 2%;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+#submitBudgetButton:hover{
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
 }
