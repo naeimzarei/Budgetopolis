@@ -973,10 +973,9 @@ $(document).ready(function () {
             $('#startButton').text("Next")
             
             var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
-
-      
             
-            if(count-1 === Client.scenarios.length){
+            
+            if(Client.scenarios.length === 0){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
                 $("#startButton").remove();
                 $('#playAgain').show();
@@ -984,6 +983,8 @@ $(document).ready(function () {
             }
             $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+scenario +"</h3>" )
             count +=1;   
+            var index = Client.scenarios.indexOf(scenario)
+            Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
         })
 
