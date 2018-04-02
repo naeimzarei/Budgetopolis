@@ -7,7 +7,7 @@ $(document).ready(function () {
         // array with selected community values
         selected_community_values: [],
         // links the selected community values to resources/areas
-        associations[],
+        associations: [],
         // value and description of resources
         resources: [{}],
         //resources descriptions
