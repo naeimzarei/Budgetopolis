@@ -45,6 +45,7 @@ $(document).ready(function () {
     var client;
     var db;
     var happiness = 85;
+    var budgetChangesSubmitted = false;
 
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
@@ -215,6 +216,12 @@ $(document).ready(function () {
         // add event handler for each row of the popup
         add_row_handler();
 
+        $('#submitBudgetButton').click(function(){
+            //TODO get array of budget changes and send to DB
+
+            budgetChangesSubmitted = true;
+        })
+
         /**
          * Adds event handler for the popup 
          * rows on the table. 
@@ -269,6 +276,7 @@ $(document).ready(function () {
                             );
                         }
                     }
+                    
                 }
 
                 /**
@@ -904,24 +912,6 @@ $(document).ready(function () {
 
 
     }
-    function shuffle(array) {
-        var i = array.length,
-            j = 0,
-            temp;
-    
-        while (i--) {
-    
-            j = Math.floor(Math.random() * (i+1));
-    
-            // swap randomly chosen element with current element
-            temp = array[i];
-            array[i] = array[j];
-            array[j] = temp;
-    
-        }
-    
-        return array;
-    }
     
     /**
      * Sets up event handlers during startup.
@@ -931,9 +921,16 @@ $(document).ready(function () {
         var count = 1;
         $('#startButton').click(function(){
             
+            if(!budgetChangesSubmitted && (count > 1)){
+                $('.media-container-box').append('Please adjust the budget before continuing')
+                
+                return;
+            }   
             $('#startButton').text("Next")
             
             var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
+
+      
             
             if(count-1 === Client.scenarios.length){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
@@ -943,6 +940,7 @@ $(document).ready(function () {
             }
             $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+scenario +"</h3>" )
             count +=1;   
+            budgetChangesSubmitted = false;
         })
 
         // Check session ID values inputted by the user
