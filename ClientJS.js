@@ -6,6 +6,8 @@ $(document).ready(function () {
         community_values_description: [],
         // array with selected community values
         selected_community_values: [],
+        // links the selected community values to resources/areas
+        associations[],
         // value and description of resources
         resources: [{}],
         //resources descriptions
@@ -42,7 +44,6 @@ $(document).ready(function () {
     const clientPromise = stitch.StitchClientFactory.create('budgetopolis-jyxch');
     var client;
     var db;
-    var happiness = 85;
 
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
@@ -888,7 +889,7 @@ $(document).ready(function () {
             $('.hText').text("Your approval rating is " + happiness + "%. Make decisions supporting your values to make your citizens happy!");
             $('.hText').css({"display" : "block"});
         }, function () {
-            $('.hText').css({"display" : "none"});
+            //$('.hText').css({"display" : "none"});
         }
         );
 
@@ -913,6 +914,37 @@ $(document).ready(function () {
         return array;
     }
     
+    function fillAssocations(values) {
+
+        var associations = []
+
+        for(i = 0; i < values.length; i++) {
+            if(values[i] == "Preservation of Neighborhoods")
+                associations[i] = "Housing";
+            else if(values[i] == "Affordable Housing")
+                associations[i] = "Housing"
+            else if(values[i] == "Family-Friendly City")
+                associations[i] = "Parks and Rec"
+            else if(values[i] == "Safe and Secure Community")
+                associations[i] = "Police"
+            else if(values[i] == "Support Cultural Diversity")
+                associations[i] = "Police"
+            else if(values[i] == "City Infrascruture Growth")
+                associations[i] = "Streets"
+            else if(values[i] == "Support Local Businesses")
+                associations[i] = "Capital"
+            else if(values[i] == "Financially Conservative")
+                associations[i] = "Capital"
+            else if(values[i] == "Low Unemployment Rate")
+                associations[i] = "Planning and Economic Development"
+            else if(values[i] == "Public Education")
+                associations[i] = "Planning and Economic Development"
+            else
+                associations[i] = "Solid Waste"
+        }
+
+    }
+
     /**
      * Sets up event handlers during startup.
      */
@@ -1035,6 +1067,8 @@ $(document).ready(function () {
             set_gameboard_values($(".selected-value").toArray());
             // Initial update of the budget bar
             updateBudgetBar();
+            // Makes associations array that are tied to the selected values
+            fillAssocations(get_values())
             // Go to page 2 
             $('.page1').hide();
             $('.page2').show();
@@ -1224,7 +1258,7 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
-        generateHappiness(20)
+        generateHappiness(50)
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
