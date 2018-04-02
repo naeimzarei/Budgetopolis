@@ -617,3 +617,10 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     padding: 15px 32px;
     background-color: #99badd;    
 }
+#submitBudgetButton{
+    position: fixed;
+    font-family: "Playfair Display";
+    font-size: 14px;
+    right: 47%;
+    bottom: 20%;
+}
