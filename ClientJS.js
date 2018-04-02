@@ -35,7 +35,9 @@ $(document).ready(function () {
             '#89882A', '#e69f00', '#56b4e9', 
             '#009e73', '#f0e442', '#0072b2', 
             '#d55e00', '#474747', '#5E60B1'
-        ]
+        ],
+        // TODO: dictionary with user choices
+        user_choices: {}
     };
 
     //prep server connection
@@ -356,17 +358,26 @@ $(document).ready(function () {
                         var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                         var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                         var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                        Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
                         // no values set for multiplier or budget breakdown
                         if (selected_value === '-' || isNaN(multiplier)) {
                             // change budget without further modification
                             Client.budget_breakdown[i].value += resource_value;
+                            Client.user_choices['option'] = 'none';
+                            Client.user_choices['budget_change'] = (resource_value).toString();
                         } else {
                             if (isNaN(adjustment)) {
                                 Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
+                                Client.user_choices['option'] = 'none';
+                                Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
                             } else {
                                 Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                                var choice = $('.popup-container-select').find(':selected').text().trim();
+                                Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
+                                Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                             }
                         }
+                        Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                     }
                 }
             }
@@ -800,11 +811,12 @@ $(document).ready(function () {
             ctx.font = "16px EB Garamond";
             ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
             var modifier;
-            // TODO: fix conversion
+            // million
             if (length === 7) {
                 modifier = 
                     budget.toString().substring(0, 1) + '.' + 
-                    budget.toString().substring(2, 4) + ' M'
+                    budget.toString().substring(2, 4) + ' M';
+            // ten million
             } else if (length === 8) {
                 modifier = 
                     budget.toString().substring(0,2) + '.' + 
