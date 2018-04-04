@@ -97,7 +97,7 @@ body {
 
 .game-container {
     position: fixed;
-    top: 190px;
+    top: 250px;
     left: -7.5%;
 }
 
@@ -134,28 +134,31 @@ body {
     justify-content: center;
     align-items: center;
     height: 200px;
-    color: black;
+    color: white;
     padding: 10px;
+    text-shadow: 1px 1px black;
+
 }
 
 .values-2 {
-    height: 75px;
-    width: 75px;
+    height: 90px;
+    width: 90px;
     border-radius: 37.5px;
     background-color: white;
     margin: 4px;
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: bold;
-    color: gray;
+    color: white;
     box-sizing: border-box;
     box-shadow: 0 0 0 1px gray;
     outline: none;
     border: 1px solid transparent;
+    text-shadow: 1px 1px black;
 }
 
 .values-2:hover {
@@ -204,13 +207,15 @@ body {
     left: 5%;
     font-size: 1.5em;
     z-index: 3;
+    border: 1px;
+    border-color: red;
+    display: inline-block;
 }
-.community-info-container-element{
-    position: fixed;
-    top: 175px;
-    left: 10%;
-    font-size: 1em;
-}
+
+.community-info-title-container{
+    border: 1px;
+    border-color: black;
+    text-align: center;}
 
 .play-game-container-button {
     position: fixed;
@@ -222,17 +227,18 @@ body {
     bottom: 2%;
     border-radius: 10px;
     outline: none;
-    background-color: white;
+    background-color: blue;
     z-index: 1;
     border: 1px solid transparent;
     font-size: 0.80em;
-    color: gray;
+    color: white;
 }
 
 .play-game-container-button:hover {
     cursor: pointer;
-    box-shadow: 0 0 0 1px gray;
-    color: black;
+    background-color: white;
+    box-shadow: 0 0 0 1px black;
+    color: blue;
 }
 
 #budget-container-bar {
@@ -257,7 +263,8 @@ svg > g > g:last-child {
     font-family: "Playfair Display";
     font-size: 18px;
     font-size: 0.8em;
-    right: 115px;
+    top: 25px;
+    right: 130px;
     width: 250px;
     border-radius: 5px;
     background-color: white;
