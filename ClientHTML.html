@@ -9,6 +9,14 @@
     <script src="./jquery-3.3.1.min.js"></script>
     <!-- Import external JavaScript -->
     <script src="./ClientJS.js"></script>
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- Import Google Visualization API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Import external stylesheets -->
@@ -20,14 +28,6 @@
     <link href='http://fonts.googleapis.com/css?family=Playfair+Display' rel='stylesheet'>
     <!-- Import MongoDB Stitch -->
     <script src="https://s3.amazonaws.com/stitch-sdks/js/library/v3/stable/stitch.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -86,6 +86,11 @@
         <!-- Page 2: put the actual gameboard here -->
         <div class="game-container">
             <div id="game-container-board" style="width: 900px; height: 500px;"></div>
+            <!-- TODO: put radio buttons here -->
+            <form class='radio-buttons-form'>
+                <input class='radio-buttons radio1' type='radio' name='radios' value='radio1'>
+                <input class='radio-buttons radio2' type='radio' name='radios' value='radio2'><br/>
+            </form>
         </div>
         <!-- Page 2: put community values title here -->
         <div class="values-container-title">
@@ -98,10 +103,11 @@
             <div class="values-container-cards-2"></div>
         </div>
         <!-- Page 2: put budget bar here -->
-        <div class="budget-container">
+        <!-- TODO: remove -->
+        <!-- <div class="budget-container"> -->
             <!-- <div class="budget-container-bar"></div> -->
-            <canvas id="budget-container-bar" width="500" height="100"></canvas>
-        </div>
+            <!-- <canvas id="budget-container-bar" width="500" height="100"></canvas> -->
+        <!-- </div> -->
         <!-- Page 2: "start" button to begin scenarios-->
         <div class = 'button-div'>
             <button type = "button" id = "startButton"> Start </button>

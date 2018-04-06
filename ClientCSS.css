@@ -95,10 +95,13 @@ body {
     font-size: 1.5em;
 }
 
+/* TODO */
 .game-container {
     position: fixed;
     top: 190px;
     left: -7.5%;
+    width: 500px;
+    height: 500px;
 }
 
 .game-container-board {
@@ -642,10 +645,28 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     color: white;
     cursor: pointer;
 }
+
+.radio-buttons {
+    position: absolute;
+    /* display: inline; */
+    bottom: 20%;
+    z-index: 3;
+}
+
+.radio1 {
+    left: 280px;
+}
+
+.radio2 {
+    left: 305px;
+}
+
 #tabular{
     position: absolute;
+    left: 110px;
 }
 .thead-dark{
     color: #fff;
     background-color: #373a3c;
+
 }
