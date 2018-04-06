@@ -916,6 +916,10 @@ $(document).ready(function () {
         }
         html+= "</tbody></table></div>";
         $(".game-container").append(html);
+        $(".game-container").on('click', '#tabular',function(){
+            $("#tabular").empty();
+            openBudgetPopupAlt();
+        })
     }
 
 
