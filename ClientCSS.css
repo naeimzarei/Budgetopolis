@@ -642,3 +642,6 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     color: white;
     cursor: pointer;
 }
+#tabular{
+    position: absolute;
+}
