@@ -645,3 +645,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 #tabular{
     position: absolute;
 }
+.thead-dark{
+    color: #fff;
+    background-color: #373a3c;
+}
