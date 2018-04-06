@@ -95,10 +95,13 @@ body {
     font-size: 1.5em;
 }
 
+/* TODO */
 .game-container {
     position: fixed;
     top: 190px;
     left: -7.5%;
+    width: 500px;
+    height: 500px;
 }
 
 .game-container-board {
@@ -645,8 +648,9 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .radio-buttons {
     position: absolute;
-    display: inline;
-    bottom: 40%;
+    /* display: inline; */
+    bottom: 20%;
+    z-index: 3;
 }
 
 .radio1 {
@@ -659,4 +663,5 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 #tabular{
     position: absolute;
+    left: 110px;
 }

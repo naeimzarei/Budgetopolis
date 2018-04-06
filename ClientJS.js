@@ -915,7 +915,7 @@ $(document).ready(function () {
             html+= "<td>"+change+"% </td></tr>" //data for change
         }
         html+= "</tbody></table></div>";
-        $(".game-container").html(html);
+        $(".game-container").append(html);
     }
 
 
@@ -1295,7 +1295,7 @@ $(document).ready(function () {
             var radio = $(event.target);
             // check which radio button was selected 
             if (radio.hasClass('radio1')) {
-                console.log('first radio button');
+                $('#game-container-board').show();
             } else if (radio.hasClass('radio2')) {  
                 // hide the pie chart
                 $('#game-container-board').hide();
