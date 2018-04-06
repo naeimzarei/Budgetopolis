@@ -47,7 +47,9 @@ $(document).ready(function () {
     var client;
     var db;
     var budgetChangesSubmitted = false;
-
+    var initial_budget_breakdown = [];
+   
+    
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
      * resources_description, scenarios, budget)
@@ -801,10 +803,13 @@ $(document).ready(function () {
               
           }
 
-          google.visualization.events.addListener(chart, 'select', selectHandler);
-          chart.draw(data, options);
+        google.visualization.events.addListener(chart, 'select', selectHandler);
+        chart.draw(data, options);
         }
     }
+
+    
+    
 
     /**
      * Updates the size and the values of the budget bar
@@ -886,9 +891,33 @@ $(document).ready(function () {
                 name: community_resources[i],
                 value: Client.total_budget / community_resources.length
             });
+            initial_budget_breakdown.push({
+                name: community_resources[i],
+                value: Client.total_budget / community_resources.length
+            })
         }
         Client.budget_breakdown = budget_breakdown;
+       return budget_breakdown;
     }
+   
+    function createTabularView(){
+        
+        console.log(JSON.stringify(initial_budget_breakdown))
+        var html = "<div id = 'tabular'> <table class = 'table'> <thead class = 'thead-dark'> <tr> <th scope = 'col'>Resource</th> <th scope = 'col'> Start</th><th scope = 'col'>Current</th><th scope = 'col'>Change</th>"
+        html+= "</tr></thead> <tbody>"
+        for(var i =0; i <initial_budget_breakdown.length; i++){
+            html += "<tr><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
+            html += "<td>" + initial_budget_breakdown[i]["value"] + "</td>"; // data value for start 
+            html+= "<td>" + Client.budget_breakdown[i]["value"] + "</td>" //data for current
+            var change = (Client.budget_breakdown[i]["value"]-initial_budget_breakdown[i]['value'])/initial_budget_breakdown[i]['value']
+            change = Math.round(change * 100) / 100
+            change= change*100
+            html+= "<td>"+change+"% </td></tr>" //data for change
+        }
+        html+= "</tbody></table></div>";
+        $(".game-container").html(html);
+    }
+
 
     var generateHappiness = function(happiness){
         if(happiness >= 81){
@@ -988,6 +1017,7 @@ $(document).ready(function () {
             var index = Client.scenarios.indexOf(scenario)
             Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
+            createTabularView();
         })
 
         // Check session ID values inputted by the user
