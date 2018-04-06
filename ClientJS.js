@@ -356,7 +356,8 @@ $(document).ready(function () {
                 // add event handlers for the new rows
                 add_row_handler();
                 // udpate budget bar
-                updateBudgetBar();
+                // TODO: remove
+                // updateBudgetBar();
                 // update google pie chart
                 createGooglePieChart();
             }
@@ -809,60 +810,61 @@ $(document).ready(function () {
      * Updates the size and the values of the budget bar
      * dynamically.
      */
-    function updateBudgetBar() {
-        // Obtain reference to canvas from DOM
-        var ctx = document.getElementById("budget-container-bar").getContext("2d");
-        // Adjust canvas size as the window size changes horizontally
-        ctx.canvas.width = 0.8 * window.innerWidth;
-        // Do not continue if community values have not been set yet
-        if (Client.community_values.length === 0) { return; }
-        // Draw the rectangles
-        var beginX = 0;
-        var shiftX = 0;
-        for (var i = 0; i < Client.budget_breakdown.length; i++) {
-            // length of budget, value of budget 
-            var length = Math.round(Client.budget_breakdown[i].value).toString().length;
-            var budget = Client.budget_breakdown[i].value;
-            var relative_width = find_relative_width(Client.budget_breakdown[i]);
-            var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
+    // TODO: remove
+    // function updateBudgetBar() {
+    //     // Obtain reference to canvas from DOM
+    //     var ctx = document.getElementById("budget-container-bar").getContext("2d");
+    //     // Adjust canvas size as the window size changes horizontally
+    //     ctx.canvas.width = 0.8 * window.innerWidth;
+    //     // Do not continue if community values have not been set yet
+    //     if (Client.community_values.length === 0) { return; }
+    //     // Draw the rectangles
+    //     var beginX = 0;
+    //     var shiftX = 0;
+    //     for (var i = 0; i < Client.budget_breakdown.length; i++) {
+    //         // length of budget, value of budget 
+    //         var length = Math.round(Client.budget_breakdown[i].value).toString().length;
+    //         var budget = Client.budget_breakdown[i].value;
+    //         var relative_width = find_relative_width(Client.budget_breakdown[i]);
+    //         var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
 
-            ctx.fillStyle = Client.chart_colors[i];
-            ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
-            ctx.fillStyle = 'black';
-            ctx.font = "16px EB Garamond";
-            ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
-            var modifier;
-            // million
-            if (length === 7) {
-                modifier = 
-                    budget.toString().substring(0, 1) + '.' + 
-                    budget.toString().substring(2, 4) + ' M';
-            // ten million
-            } else if (length === 8) {
-                modifier = 
-                    budget.toString().substring(0,2) + '.' + 
-                    budget.toString().substring(2,4) + ' M';
-            } else {
-                modifier = sanitize_budget(Client.budget_breakdown[i].value);
-            }
-            ctx.fillText(
-                modifier, 
-                shiftX + (ctx.canvas.width / 35), 
-                (ctx.canvas.height / 2) + 20
-            );
-            beginX += relative_width;
-            shiftX += relative_width;
-        }
+    //         ctx.fillStyle = Client.chart_colors[i];
+    //         ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
+    //         ctx.fillStyle = 'black';
+    //         ctx.font = "16px EB Garamond";
+    //         ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
+    //         var modifier;
+    //         // million
+    //         if (length === 7) {
+    //             modifier = 
+    //                 budget.toString().substring(0, 1) + '.' + 
+    //                 budget.toString().substring(2, 4) + ' M';
+    //         // ten million
+    //         } else if (length === 8) {
+    //             modifier = 
+    //                 budget.toString().substring(0,2) + '.' + 
+    //                 budget.toString().substring(2,4) + ' M';
+    //         } else {
+    //             modifier = sanitize_budget(Client.budget_breakdown[i].value);
+    //         }
+    //         ctx.fillText(
+    //             modifier, 
+    //             shiftX + (ctx.canvas.width / 35), 
+    //             (ctx.canvas.height / 2) + 20
+    //         );
+    //         beginX += relative_width;
+    //         shiftX += relative_width;
+    //     }
 
-        /**
-         * Helper function to find relative width of budget component on canvas
-         * @param {{}} budget_value object with value's name and budget amount
-         * @returns {number} the relative width of budget component 
-         */
-        function find_relative_width(budget_value) {
-            return ctx.canvas.width * (budget_value.value / Client.total_budget);
-        }
-    }
+    //     /**
+    //      * Helper function to find relative width of budget component on canvas
+    //      * @param {{}} budget_value object with value's name and budget amount
+    //      * @returns {number} the relative width of budget component 
+    //      */
+    //     function find_relative_width(budget_value) {
+    //         return ctx.canvas.width * (budget_value.value / Client.total_budget);
+    //     }
+    // }
 
     /**
      * Helper function to obtain the index of community value description.
@@ -1072,7 +1074,8 @@ $(document).ready(function () {
             // Set gameboard values on page 2
             set_gameboard_values($(".selected-value").toArray());
             // Initial update of the budget bar
-            updateBudgetBar();
+            // TODO: remove
+            // updateBudgetBar();
             // Makes associations array that are tied to the selected values
             fillAssocations(get_values())
             // Go to page 2 
@@ -1080,11 +1083,12 @@ $(document).ready(function () {
             $('.page2').show();
         });
 
-        // Resize the budget bar as window width changes
-        $(window).on('resize', function() {
-            // Updates the budget bar dynamically
-            updateBudgetBar();
-        });
+        // TODO: remove
+        // // Resize the budget bar as window width changes
+        // $(window).on('resize', function() {
+        //     // Updates the budget bar dynamically
+        //     updateBudgetBar();
+        // });
 
          //Shows community description when clicked.
         $('.community-info-title-container-text').on('click',function(){
@@ -1139,39 +1143,40 @@ $(document).ready(function () {
             closePopup_1();
         });
 
-        $('#budget-container-bar').on('click', function(event) {
-            // dynamically sized canvas size
-            var window_width = 0.8 * window.innerWidth;
-            // where the client X mouse made the click event
-            var cx = event.clientX;
-            // where the client Y mouse made the click event
-            var cy = event.clientY;
-            // range of widths for each componetn of budget bar
-            var ranges = [];
+        // TODO: remove
+        // $('#budget-container-bar').on('click', function(event) {
+        //     // dynamically sized canvas size
+        //     var window_width = 0.8 * window.innerWidth;
+        //     // where the client X mouse made the click event
+        //     var cx = event.clientX;
+        //     // where the client Y mouse made the click event
+        //     var cy = event.clientY;
+        //     // range of widths for each componetn of budget bar
+        //     var ranges = [];
 
-            var beginX = parseInt((window.innerWidth * 0.5) - (window.innerWidth * 0.4), 10);
-            for (var i = 0; i < Client.budget_breakdown.length; i++) {
-                var relative_width = find_relative_width(Client.budget_breakdown[i]);
-                ranges.push({
-                    x1: beginX,
-                    x2: beginX + relative_width
-                });
-                beginX += relative_width;
-            }
+        //     var beginX = parseInt((window.innerWidth * 0.5) - (window.innerWidth * 0.4), 10);
+        //     for (var i = 0; i < Client.budget_breakdown.length; i++) {
+        //         var relative_width = find_relative_width(Client.budget_breakdown[i]);
+        //         ranges.push({
+        //             x1: beginX,
+        //             x2: beginX + relative_width
+        //         });
+        //         beginX += relative_width;
+        //     }
 
-            ranges.forEach(function(i, index) {
-                if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
-                    console.log(Client.budget_breakdown[index].name);
-                    // openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value.toFixed(2))
-                    openBudgetPopupAlt();
+        //     ranges.forEach(function(i, index) {
+        //         if (cx >= ranges[index].x1 && cx <= ranges[index].x2) {
+        //             console.log(Client.budget_breakdown[index].name);
+        //             // openBudgetPopup(Client.budget_breakdown[index].name, Client.budget_breakdown[index].value.toFixed(2))
+        //             openBudgetPopupAlt();
 
-                }
-            });
+        //         }
+        //     });
 
-            function find_relative_width(budget_value) {
-                return window_width * (budget_value.value / Client.total_budget);
-            }
-        });
+        //     function find_relative_width(budget_value) {
+        //         return window_width * (budget_value.value / Client.total_budget);
+        //     }
+        // });
 
         // TODO: now
         // event handler for budget popup close button
@@ -1254,6 +1259,18 @@ $(document).ready(function () {
 
             $('.budget-table-2-values-current').text(sanitize_budget(   new_current    ));
         })
+
+        // TODO: add event handler for radio buttons
+        $('.radio-buttons').on('click', function(event) {
+            var radio = $(event.target);
+            // check which radio button was selected 
+            if (radio.hasClass('radio1')) {
+                console.log('first radio button');
+            } else if (radio.hasClass('radio2')) {  
+                // hide the pie chart
+                $('#game-container-board').hide();
+            }
+        });
     }
 
     /**

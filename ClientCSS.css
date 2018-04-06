@@ -642,3 +642,17 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     color: white;
     cursor: pointer;
 }
+
+.radio-buttons {
+    position: absolute;
+    display: inline;
+    bottom: 40%;
+}
+
+.radio1 {
+    left: 280px;
+}
+
+.radio2 {
+    left: 305px;
+}
