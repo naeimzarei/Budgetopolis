@@ -97,8 +97,14 @@ body {
 
 .game-container {
     position: fixed;
+<<<<<<< HEAD
     top: 250px;
+=======
+    top: 210px;
+>>>>>>> master
     left: -7.5%;
+    width: 500px;
+    height: 500px;
 }
 
 .game-container-board {
@@ -123,7 +129,7 @@ body {
     height: 250px;
     position: fixed;
     right: 1%;
-    top: 110px;
+    top: 120px;
     left: 55%;
     margin-left: -160px;
 }
@@ -201,9 +207,10 @@ body {
     margin-left: -80px;
 }
 
+/* TODO */
 .community-info-title-container-text {
     position: fixed;
-    top: 140px;
+    top: 120px;
     left: 5%;
     font-size: 1.5em;
     z-index: 3;
@@ -211,11 +218,20 @@ body {
     border-color: red;
     display: inline-block;
 }
+<<<<<<< HEAD
 
 .community-info-title-container{
     border: 1px;
     border-color: black;
     text-align: center;}
+=======
+.community-info-container-element{
+    position: fixed;
+    top: 160px;
+    left: 10%;
+    font-size: 1em;
+}
+>>>>>>> master
 
 .play-game-container-button {
     position: fixed;
@@ -276,8 +292,8 @@ svg > g > g:last-child {
     font-family: "Playfair Display";
     resize: none;
     font-size: 18px;
-    width: 350px;
-    height: 150px;
+    width: 375px;
+    height: 225px;
     right: 2%;
     top: 275px;
     outline: none;
@@ -496,10 +512,12 @@ svg > g > g:last-child {
 .budget-table-2 {
     margin: auto;
     border-collapse: separate;
-    border-spacing: 100px 0;
-}
+    border-spacing: 25px 0; 
+} 
 
-.budget-table-2-header-current, .budget-table-2-header-adjustments {
+.budget-table-2-header-current, 
+.budget-table-2-header-adjustments,
+.budget-table-2-header-goal {
     text-decoration: underline;
 }
 
@@ -580,7 +598,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .popup-container-select-modifier {
     position: absolute;
     width: 40px;
-    height: 20px;
+    height: 25px;
     right: 5%;
     top: 59%;
     margin-top: -10px;
@@ -589,7 +607,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .popup-container-select-modifier-value {
     position: absolute;
-    right: 16%;
+    right: 14.5%;
     top: 55%;
 }
 
@@ -616,12 +634,21 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     box-shadow: 0 0 0 1px black;
     margin-left: -125px;
 }
-#startButton, #playAgain{
+
+.button-div {
     position: fixed;
+    left: 55%;
+    top: 515px;
+    margin-left: -40px;
+}
+
+#startButton, #playAgain{
+    /* position: fixed; */
+    position: absolute;
     font-family: "Playfair Display";
     font-size: 14px;
-    right: 40%;
-    bottom: 20%;
+    /* right: 40%;
+    bottom: 20%; */
     padding: 15px 32px;
     background-color: #99badd;    
 }
@@ -648,4 +675,30 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     background-color: #3a3e3f;
     color: white;
     cursor: pointer;
+}
+
+.radio-buttons {
+    position: absolute;
+    /* display: inline; */
+    top: -4%;
+    z-index: 3;
+}
+
+.radio1 {
+    left: 280px;
+}
+
+.radio2 {
+    left: 305px;
+}
+
+#tabular{
+    position: absolute;
+    left: 96px;
+    top: 5%;
+}
+.thead-dark{
+    color: #fff;
+    background-color: #373a3c;
+
 }
