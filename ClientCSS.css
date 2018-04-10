@@ -218,20 +218,11 @@ body {
     border-color: red;
     display: inline-block;
 }
-<<<<<<< HEAD
 
 .community-info-title-container{
     border: 1px;
     border-color: black;
     text-align: center;}
-=======
-.community-info-container-element{
-    position: fixed;
-    top: 160px;
-    left: 10%;
-    font-size: 1em;
-}
->>>>>>> master
 
 .play-game-container-button {
     position: fixed;
