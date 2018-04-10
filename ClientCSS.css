@@ -97,11 +97,7 @@ body {
 
 .game-container {
     position: fixed;
-<<<<<<< HEAD
     top: 250px;
-=======
-    top: 210px;
->>>>>>> master
     left: -7.5%;
     width: 500px;
     height: 500px;
