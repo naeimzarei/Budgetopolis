@@ -95,10 +95,9 @@ body {
     font-size: 1.5em;
 }
 
-/* TODO */
 .game-container {
     position: fixed;
-    top: 190px;
+    top: 210px;
     left: -7.5%;
     width: 500px;
     height: 500px;
@@ -126,7 +125,7 @@ body {
     height: 250px;
     position: fixed;
     right: 1%;
-    top: 110px;
+    top: 120px;
     left: 55%;
     margin-left: -160px;
 }
@@ -201,16 +200,17 @@ body {
     margin-left: -80px;
 }
 
+/* TODO */
 .community-info-title-container-text {
     position: fixed;
-    top: 140px;
+    top: 120px;
     left: 5%;
     font-size: 1.5em;
     z-index: 3;
 }
 .community-info-container-element{
     position: fixed;
-    top: 175px;
+    top: 160px;
     left: 10%;
     font-size: 1em;
 }
@@ -492,10 +492,12 @@ svg > g > g:last-child {
 .budget-table-2 {
     margin: auto;
     border-collapse: separate;
-    border-spacing: 100px 0;
-}
+    border-spacing: 25px 0; 
+} 
 
-.budget-table-2-header-current, .budget-table-2-header-adjustments {
+.budget-table-2-header-current, 
+.budget-table-2-header-adjustments,
+.budget-table-2-header-goal {
     text-decoration: underline;
 }
 
@@ -576,7 +578,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .popup-container-select-modifier {
     position: absolute;
     width: 40px;
-    height: 20px;
+    height: 25px;
     right: 5%;
     top: 59%;
     margin-top: -10px;
@@ -585,7 +587,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .popup-container-select-modifier-value {
     position: absolute;
-    right: 16%;
+    right: 14.5%;
     top: 55%;
 }
 
@@ -612,12 +614,21 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     box-shadow: 0 0 0 1px black;
     margin-left: -125px;
 }
-#startButton, #playAgain{
+
+.button-div {
     position: fixed;
+    left: 55%;
+    top: 515px;
+    margin-left: -40px;
+}
+
+#startButton, #playAgain{
+    /* position: fixed; */
+    position: absolute;
     font-family: "Playfair Display";
     font-size: 14px;
-    right: 40%;
-    bottom: 20%;
+    /* right: 40%;
+    bottom: 20%; */
     padding: 15px 32px;
     background-color: #99badd;    
 }
@@ -649,7 +660,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 .radio-buttons {
     position: absolute;
     /* display: inline; */
-    bottom: 20%;
+    top: -4%;
     z-index: 3;
 }
 
