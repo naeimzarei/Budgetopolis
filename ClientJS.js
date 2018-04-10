@@ -720,10 +720,6 @@ $(document).ready(function () {
         var client_modified = Number(Client.total_budget.toFixed(2));
         var current_modified = Number(current_budget_sum.toFixed(2));
 
-
-        console.log('total budget', client_modified);
-        console.log('current budget', current_modified);
-
         // to only 2 places, truncate leading zeros 
         current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
         // change adjustment value on first popup
@@ -1216,16 +1212,111 @@ $(document).ready(function () {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
         $('#startButton').click(function(){
+
+
+
+
+
+
+
+
+    // TODO: priority 
+    // unblur the screen
+            unblur();
+            budgetChangesSubmitted = true;
+
+            // check if number is valid 
+            if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
+                // hide second popup. do not show first popup!
+                $('.page2-popup-budget-alt-2').hide();
+                // change adjustment title 
+                $('.budget-table-2-header-adjustmnets').text('Adjustments');
+                // adjust budget accordingly 
+                perform_budget_logic();
+                // clear adjustment input 
+                $('.budget-table-2-values-adjustments').val('');
+                // clear modifier on second popup 
+                $('.popup-container-select-modifier').val('');
+            }
+
+            /**
+             * Adjusts the budget by applying some mathematical logic.
+             */
+            function perform_budget_logic() {
+                // obtain adjustment 
+                var adjustment = Number($('.budget-table-2-values-adjustments').val());
+                // name of resource that was changed 
+                var adjusted_resource_name = previous_resource_name;
+                // update budget breakdown
+                update_budget_breakdown(adjusted_resource_name, adjustment);
+                // update the rows on the popup table
+                render_rows();
+                // remove previous event handler for the rows
+                remove_row_handler();
+                // add event handlers for the new rows
+                add_row_handler();
+                // update google pie chart
+                createGooglePieChart();
+            }
+
+            /**
+             * Updates the budget breakdown variable
+             * as needed. Updates the graph and budget
+             * bar as well. 
+             * @param {string} resource_name the resource to be modified
+             * @param {number} resource_value the modifier value 
+             */
+            function update_budget_breakdown(resource_name, resource_value) {
+                for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                    if (Client.budget_breakdown[i].name === resource_name) {
+                        var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+                        var selected_value = selected_budget_option.substring(
+                            selected_budget_option.indexOf('(') + 2,
+                            selected_budget_option.length - 2
+                        ).replace(/,/g, '').replace('$', '');
+                        var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                        var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+                        var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                        Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
+                        // no values set for multiplier or budget breakdown
+                        if (selected_value === '-' || isNaN(multiplier)) {
+                            // change budget without further modification
+                            Client.budget_breakdown[i].value += resource_value;
+                            Client.user_choices['option'] = 'none';
+                            Client.user_choices['budget_change'] = (resource_value).toString();
+                        } else {
+                            if (isNaN(adjustment)) {
+                                Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
+                                Client.user_choices['option'] = 'none';
+                                Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
+                            } else {
+                                Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                                var choice = $('.popup-container-select').find(':selected').text().trim();
+                                Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
+                                Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
+                            }
+                        }
+                        Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
+                    }
+                }
+            }
+
+
+
+
+
+
+
+
             
             if(!budgetChangesSubmitted && (count > 1)){
                 $('.media-container-box').append('Please adjust the budget before continuing')
                 
                 return;
-            }   
+            } 
             $('#startButton').text("Next")
             
             var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
-            
             
             if(Client.scenarios.length === 0){
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
