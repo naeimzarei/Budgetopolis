@@ -901,12 +901,12 @@ $(document).ready(function () {
     }
    
     function createTabularView(){
-        
+        $('#tabular').empty();
         console.log(JSON.stringify(initial_budget_breakdown))
-        var html = "<div id = 'tabular'> <table class = 'table'> <thead class = 'thead-dark'> <tr> <th scope = 'col'>Resource</th> <th scope = 'col'> Start</th><th scope = 'col'>Current</th><th scope = 'col'>Change</th>"
+        var html = "<table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col'>Resource</th> <th scope = 'col'> Start</th><th scope = 'col'>Current</th><th scope = 'col'>Change</th>"
         html+= "</tr></thead> <tbody>"
         for(var i =0; i <initial_budget_breakdown.length; i++){
-            html += "<tr><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
+            html += "<tr id = " + initial_budget_breakdown[i]["name"] + "><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
             html += "<td>" + initial_budget_breakdown[i]["value"] + "</td>"; // data value for start 
             html+= "<td>" + Client.budget_breakdown[i]["value"] + "</td>" //data for current
             var change = (Client.budget_breakdown[i]["value"]-initial_budget_breakdown[i]['value'])/initial_budget_breakdown[i]['value']
@@ -914,11 +914,15 @@ $(document).ready(function () {
             change= change*100
             html+= "<td>"+change+"% </td></tr>" //data for change
         }
-        html+= "</tbody></table></div>";
-        $(".game-container").append(html);
-        $(".game-container").on('click', '#tabular',function(){
-            $("#tabular").empty();
+        html+= "</tbody></table>";
+        $("#tabular").html(html);
+        $("#tabular").click(function(){
             openBudgetPopupAlt();
+            $('#tabular').show();
+        })
+        $('#tabular').on('click', '#tabularView tr', function(e){
+            var resourceName = $(this).attr("id");
+            //TODO-- open popup for the clicked resource
         })
     }
 
@@ -1022,6 +1026,7 @@ $(document).ready(function () {
             Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
             createTabularView();
+            
         })
 
         // Check session ID values inputted by the user
@@ -1300,9 +1305,12 @@ $(document).ready(function () {
             // check which radio button was selected 
             if (radio.hasClass('radio1')) {
                 $('#game-container-board').show();
+                $('#tabular').hide()
             } else if (radio.hasClass('radio2')) {  
                 // hide the pie chart
+                createTabularView();
                 $('#game-container-board').hide();
+                $('#tabular').show();
             }
         });
     }

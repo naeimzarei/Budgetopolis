@@ -663,7 +663,8 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 #tabular{
     position: absolute;
-    left: 110px;
+    left: 96px;
+    top: 5%;
 }
 .thead-dark{
     color: #fff;
