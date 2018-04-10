@@ -899,7 +899,9 @@ $(document).ready(function () {
         Client.budget_breakdown = budget_breakdown;
        return budget_breakdown;
     }
-   
+   /**
+    * Creates tabular view for the game board using global variables for current budget breakdown and initial
+    */
     function createTabularView(){
         $('#tabular').empty();
         console.log(JSON.stringify(initial_budget_breakdown))
