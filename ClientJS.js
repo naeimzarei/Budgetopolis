@@ -101,7 +101,7 @@ $(document).ready(function () {
             Client.community_name = result[0]['name']
             Client.community_description = result[0]['description']
             //append community name and description to page 2
-            $('.community-info-container-element').append(Client.community_name)
+            $('.community-info-title-container-text').append(Client.community_name)
             // console.log(JSON.stringify(result))
             set_values(result[0]['values']);
             set_values_description(result[0]['values_descriptions']);
@@ -167,11 +167,14 @@ $(document).ready(function () {
      */
     
     function set_gameboard_values(values) {
+    	var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
+
         for (var i = 0; i < values.length; i++) {
             var current_value = $(values[i]).text();
             var currentValId = current_value.replace(/\s/g, '');
             var cardDiv = $("<div class='values-2' id = " + currentValId + " > " + current_value + "</div > ")
             $(".values-container-cards-2").append(cardDiv)
+            $("#" + currentValId).css("background-color", colors[i])
             //$(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         }
     }
@@ -1162,16 +1165,9 @@ $(document).ready(function () {
     }
 
     var createHappyPopup = function(happiness){
-        $('#happyBox').hover(function () {
-            $('.hText').empty();
-            $('.hText').text("Your approval rating is " + happiness + "%. Make decisions supporting your values to make your citizens happy!");
-            $('.hText').css({"display" : "block"});
-        }, function () {
-            //$('.hText').css({"display" : "none"});
-        }
-        );
-
-
+        $('.hText').empty();
+        $('.hText').text("Your approval rating is " + happiness + "%. Make decisions supporting your values to make your citizens happy!");
+        $('.hText').css({"display" : "block"});
     }
     
     function fillAssocations(values) {
@@ -1202,6 +1198,8 @@ $(document).ready(function () {
             else
                 associations[i] = "Solid Waste"
         }
+
+        
 
     }
 
@@ -1375,7 +1373,7 @@ $(document).ready(function () {
                     var length = Client.selected_community_values.length;
                     $(Client.selected_community_values[length - 1]).addClass('selected-value');
                     // Add an outline to selected community value so user knows it has been selected 
-                    $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px gray' });
+                    $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px blue' });
                     // Increment number of values currently selected 
                     increment_num_values_selected();
                     // Show continue button
@@ -1434,7 +1432,7 @@ $(document).ready(function () {
         // });
 
          //Shows community description when clicked.
-        $('.community-info-title-container-text').on('click',function(){
+        $('.community-info-title-container').on('click',function(){
             console.log('name div clicked')
             openPopup(Client.community_name, Client.community_description);
         });
