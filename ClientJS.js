@@ -922,6 +922,7 @@ $(document).ready(function () {
         })
         $('#tabular').on('click', '#tabularView tr', function(e){
             var resourceName = $(this).attr("id");
+            console.log(resourceName  + ' row clicked')
             //TODO-- open popup for the clicked resource
         })
     }
