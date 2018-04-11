@@ -672,13 +672,20 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     left: 305px;
 }
 
-#tabular{
-    position: absolute;
-    left: 96px;
-    top: 5%;
+#tabularView{
+    position: fixed;
+    left: 5px;
+    top: 32%;
+    width: 38%;
+}
+#goal{
+    position: fixed;
+    left: 40px;
+    top: 25%;
 }
 .thead-dark{
     color: #fff;
     background-color: #373a3c;
-
 }
+table { table-layout: fixed; }
+table th, table td { overflow: hidden; }
