@@ -34,9 +34,9 @@ $(document).ready(function () {
         budget_decisions: [{}],
         // array with colors of chart
         chart_colors: [
-            '#89882A', '#e69f00', '#56b4e9', 
+            '#ff0000', '#e69f00', '#56b4e9', 
             '#009e73', '#f0e442', '#0072b2', 
-            '#d55e00', '#474747', '#5E60B1'
+            '#d55e00', '#9e9e9e', '#89882A'
         ],
         // TODO: dictionary with user choices
         user_choices: {}
