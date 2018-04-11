@@ -1154,10 +1154,10 @@ $(document).ready(function () {
         current_budget_sum = parseFloat(currentBudget.toFixed(2));
         // change adjustment value on first popup
         if (client_modified > current_modified) {
-            $('#goal').text('Goal:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Goal:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'green'});
         } else if (client_modified < current_modified) {
-            $('#goal').text('Goal:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Goal:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'red'});
         } else {
             $('#goal').text('No adjustments needed.');
