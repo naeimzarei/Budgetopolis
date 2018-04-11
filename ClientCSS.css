@@ -143,13 +143,13 @@ body {
 }
 
 .values-2 {
-    height: 90px;
-    width: 90px;
+    height: 85px;
+    width: 85px;
     border-radius: 37.5px;
     background-color: white;
     margin: 4px;
     text-align: center;
-    font-size: 14px;
+    font-size: 13px;
     position: relative;
     display: flex;
     justify-content: center;
@@ -699,3 +699,14 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 table { table-layout: fixed; }
 table th, table td { overflow: hidden; }
 
+.lowChange{
+    color: green
+}
+
+.medChange {
+    color: "#f49242"
+}
+
+.highChange{
+    color: darkred
+}

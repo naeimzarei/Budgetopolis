@@ -101,7 +101,7 @@ $(document).ready(function () {
             Client.community_name = result[0]['name']
             Client.community_description = result[0]['description']
             //append community name and description to page 2
-            $('.community-info-title-container-text').append(Client.community_name)
+            $('.community-info-title-container-text').append(Client.community_name.bold())
             // console.log(JSON.stringify(result))
             set_values(result[0]['values']);
             set_values_description(result[0]['values_descriptions']);
@@ -1114,32 +1114,46 @@ $(document).ready(function () {
      * Creates tabular view for the game board using global variables for current budget breakdown and initial
      */
     function createTabularView() {
+        var name;
         $('#tabular').empty();
-        var html = "<div class = 'container-fluid'><table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col' style = 'width: 30%'>Resource</th> <th scope = 'col' style = 'width: 27%'> Start</th><th scope = 'col' style = 'width: 27%'>Current</th><th scope = 'col' style = 'width: 15%'>Change</th>"
-        html+= "</tr></thead> <tbody>"
-        for(var i =0; i <initial_budget_breakdown.length; i++){
+        var html = "<div class = 'container-fluid'><table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col' style = 'width: 30%'>Resource</th> <th scope = 'col' style = 'width: 27%'> Start</th><th scope = 'col' style = 'width: 27%'>Current</th><th scope = 'col' style = 'width: 15%'>Change</th>";
+        html += "</tr></thead> <tbody>";
+        for (var i = 0; i < initial_budget_breakdown.length; i++){
+            name = initial_budget_breakdown[i]["name"]
             html += "<tr id = " + initial_budget_breakdown[i]["name"] + " class = 'd-flex'><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
-            html += "<td>$" + initial_budget_breakdown[i]["value"].toFixed(2) + "</td>"; // data value for start
-            html+= "<td>$" + Client.budget_breakdown[i]["value"].toFixed(2) + "</td>" //data for current
-            var change = (Client.budget_breakdown[i]["value"]-initial_budget_breakdown[i]['value'])/initial_budget_breakdown[i]['value']
-            change = Math.round(change * 100) / 100
-            change = change * 100
-            html += "<td>" + change + "% </td></tr>" //data for change
+            html += "<td id = '"+name+"'>$" + initial_budget_breakdown[i]["value"].toFixed(2) + "</td>"; // data value for start
+            html += "<td id = '"+name+"'>$" + Client.budget_breakdown[i]["value"].toFixed(2) + "</td>"; //data for current
+            var change = (Client.budget_breakdown[i]["value"] - initial_budget_breakdown[i]['value']) / initial_budget_breakdown[i]['value'] * 100;
+            change = Math.round(change);
+            changeAbs = Math.abs(change);
+ 
+            if(changeAbs <= 35){
+                html += "<td class = 'lowChange' id = '"+name+"'>" + change + "% </td></tr>"; //data for change
+
+            } else if (changeAbs > 35 && changeAbs < 60){
+                html += "<td class = 'medChange' id = '"+name+"'>" + change + "% </td></tr>"; //data for change
+
+            }else if(changeAbs >= 60){
+                html += "<td class = 'highChange' id ='"+name+"'>" + change + "% </td></tr>";//data for change
+            }
         }
 
         html+= "</tbody></table></div>";
         $("#tabular").html(html);
         renderGoalDiv();
-        $("#tabular").click(function(event){
-            // send community resource name as argument 
-            // TODO: now
-            openBudgetPopupAlt($(event.target).text());
-            $('#tabular').show();
-        })
+        //$("#tabView th").click(function(event){
+        //    // send community resource name as argument 
+        //    // TODO: now
+        //    openBudgetPopupAlt($(event.target).text());
+        //    $('#tabular').show();
+        //})
         $('#tabular').on('click', '#tabularView tr', function (e) {
             var resourceName = $(this).attr("id");
             console.log(resourceName + ' row clicked')
+  
+            openBudgetPopupAlt($(event.target).text());
             //TODO-- open popup for the clicked resource
+            $('#tabular').show();
         })
     }
 
