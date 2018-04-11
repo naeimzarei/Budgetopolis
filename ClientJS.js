@@ -48,6 +48,7 @@ $(document).ready(function () {
     var db;
     var budgetChangesSubmitted = false;
     var initial_budget_breakdown = [];
+    var gameStarted = false;
 
 
     /**
@@ -1116,6 +1117,7 @@ $(document).ready(function () {
     function createTabularView() {
         var name;
         $('#tabular').empty();
+       
         var html = "<div class = 'container-fluid'><table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col' style = 'width: 30%'>Resource</th> <th scope = 'col' style = 'width: 27%'> Start</th><th scope = 'col' style = 'width: 27%'>Current</th><th scope = 'col' style = 'width: 15%'>Change</th>";
         html += "</tr></thead> <tbody>";
         for (var i = 0; i < initial_budget_breakdown.length; i++){
@@ -1140,6 +1142,7 @@ $(document).ready(function () {
 
         html+= "</tbody></table></div>";
         $("#tabular").html(html);
+        $('#tabular').hide();
         renderGoalDiv();
         //$("#tabView th").click(function(event){
         //    // send community resource name as argument 
@@ -1150,7 +1153,9 @@ $(document).ready(function () {
         $('#tabular').on('click', '#tabularView tr', function (e) {
             var resourceName = $(this).attr("id");
             console.log(resourceName + ' row clicked')
-  
+            if (!gameStarted) {
+                //TOOD notify user game needs to start before adjusting values
+            }
             openBudgetPopupAlt($(event.target).text());
             //TODO-- open popup for the clicked resource
             $('#tabular').show();
@@ -1168,10 +1173,10 @@ $(document).ready(function () {
         current_budget_sum = parseFloat(currentBudget.toFixed(2));
         // change adjustment value on first popup
         if (client_modified > current_modified) {
-            $('#goal').html('<b>Goal:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Remaining:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'green'});
         } else if (client_modified < current_modified) {
-            $('#goal').html('<b>Goal:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Remaining:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'red'});
         } else {
             $('#goal').text('No adjustments needed.');
@@ -1250,12 +1255,21 @@ $(document).ready(function () {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
         $('#startButton').click(function () {
+            if ($('#startButton').text() === 'Start') {
+                console.log('div hidden')
+                $('#tabular').hide()
+                gameStarted = true;
+            }
 
             if (!budgetChangesSubmitted && (count > 1)) {
-                $('.media-container-box').append('Please adjust the budget before continuing')
+                if (!$('.media-container-box').text().includes('Please')) {
+                    var message = 'Please adjust the budget before continuing'
+                    $('.media-container-box').append(message.bold())
 
+                }
                 return;
             }
+            
             $('#startButton').text("Next")
 
             var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
