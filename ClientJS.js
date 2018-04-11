@@ -510,6 +510,7 @@ $(document).ready(function () {
                 unblur();
                 // update tabular view 
                 createTabularView();
+                renderGoalDiv();
             }
 
             /**
@@ -1112,6 +1113,7 @@ $(document).ready(function () {
      */
     function createTabularView() {
         $('#tabular').empty();
+<<<<<<< HEAD
         console.log(JSON.stringify(initial_budget_breakdown))
         var html = "<table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col'>Resource</th> <th scope = 'col'> Start</th><th scope = 'col'>Current</th><th scope = 'col'>Change</th>"
         html += "</tr></thead> <tbody>"
@@ -1120,13 +1122,30 @@ $(document).ready(function () {
             html += "<td>" + initial_budget_breakdown[i]["value"] + "</td>"; // data value for start 
             html += "<td>" + Client.budget_breakdown[i]["value"] + "</td>" //data for current
             var change = (Client.budget_breakdown[i]["value"] - initial_budget_breakdown[i]['value']) / initial_budget_breakdown[i]['value']
+=======
+        
+        var html = "<div class = 'container-fluid'><table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col' style = 'width: 30%'>Resource</th> <th scope = 'col' style = 'width: 27%'> Start</th><th scope = 'col' style = 'width: 27%'>Current</th><th scope = 'col' style = 'width: 15%'>Change</th>"
+        html+= "</tr></thead> <tbody>"
+        for(var i =0; i <initial_budget_breakdown.length; i++){
+            html += "<tr id = " + initial_budget_breakdown[i]["name"] + " class = 'd-flex'><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
+            html += "<td>$" + initial_budget_breakdown[i]["value"].toFixed(2) + "</td>"; // data value for start
+            html+= "<td>$" + Client.budget_breakdown[i]["value"].toFixed(2) + "</td>" //data for current
+            var change = (Client.budget_breakdown[i]["value"]-initial_budget_breakdown[i]['value'])/initial_budget_breakdown[i]['value']
+>>>>>>> master
             change = Math.round(change * 100) / 100
             change = change * 100
             html += "<td>" + change + "% </td></tr>" //data for change
         }
+<<<<<<< HEAD
         html += "</tbody></table>";
         $("#tabular").html(html);
         $("#tabular").click(function (event) {
+=======
+        html+= "</tbody></table></div>";
+        $("#tabular").html(html);
+        renderGoalDiv();
+        $("#tabular").click(function(event){
+>>>>>>> master
             // send community resource name as argument 
             // TODO: now
             openBudgetPopupAlt($(event.target).text());
@@ -1139,6 +1158,27 @@ $(document).ready(function () {
         })
     }
 
+    function renderGoalDiv(){
+        var currentBudget = 0;
+        for (var i = 0; i < Client.budget_breakdown.length; i++) {
+            currentBudget += Client.budget_breakdown[i].value;
+        }
+        var client_modified = Number(Client.total_budget.toFixed(2));
+        var current_modified = Number(currentBudget.toFixed(2));
+        // to only 2 places, truncate leading zeros 
+        current_budget_sum = parseFloat(currentBudget.toFixed(2));
+        // change adjustment value on first popup
+        if (client_modified > current_modified) {
+            $('#goal').text('Goal:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').css({color: 'green'});
+        } else if (client_modified < current_modified) {
+            $('#goal').text('Goal:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').css({color: 'red'});
+        } else {
+            $('#goal').text('No adjustments needed.');
+            $('#goal').css({color: 'black'});
+        }
+    }
 
     var generateHappiness = function (happiness) {
         if (happiness >= 81) {
