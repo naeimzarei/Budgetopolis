@@ -510,7 +510,7 @@ $(document).ready(function () {
                 // unblur screen
                 unblur();
                 // update tabular view 
-                createTabularView();
+                createTabularView(true);
                 renderGoalDiv();
                 // todo: change boolean value of submitted
                 budgetChangesSubmitted = true;
@@ -1111,15 +1111,21 @@ $(document).ready(function () {
         Client.budget_breakdown = budget_breakdown;
         return budget_breakdown;
     }
+    var changesCheck;
     /**
      * Creates tabular view for the game board using global variables for current budget breakdown and initial
+     * @param show (boolean) indicates whether the tabular div should be hidden or shown 
      */
-    function createTabularView() {
+    function createTabularView(show) {
         var name;
+        if(show === undefined){
+            show = false;
+        }
         $('#tabular').empty();
        
         var html = "<div class = 'container-fluid'><table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col' style = 'width: 30%'>Resource</th> <th scope = 'col' style = 'width: 27%'> Start</th><th scope = 'col' style = 'width: 27%'>Current</th><th scope = 'col' style = 'width: 15%'>Change</th>";
         html += "</tr></thead> <tbody>";
+        changesCheck = [];
         for (var i = 0; i < initial_budget_breakdown.length; i++){
             name = initial_budget_breakdown[i]["name"]
             html += "<tr id = " + initial_budget_breakdown[i]["name"] + " class = 'd-flex'><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
@@ -1128,7 +1134,7 @@ $(document).ready(function () {
             var change = (Client.budget_breakdown[i]["value"] - initial_budget_breakdown[i]['value']) / initial_budget_breakdown[i]['value'] * 100;
             change = Math.round(change);
             changeAbs = Math.abs(change);
- 
+            changesCheck.push(change);
             if(changeAbs <= 35){
                 html += "<td class = 'lowChange' id = '"+name+"'>" + change + "% </td></tr>"; //data for change
 
@@ -1142,7 +1148,12 @@ $(document).ready(function () {
 
         html+= "</tbody></table></div>";
         $("#tabular").html(html);
-        $('#tabular').hide();
+        if(show){
+            $('#tabular').show();
+        }else{
+            $('#tabular').hide();
+        }
+        
         renderGoalDiv();
         //$("#tabView th").click(function(event){
         //    // send community resource name as argument 
@@ -1157,7 +1168,6 @@ $(document).ready(function () {
                 //TOOD notify user game needs to start before adjusting values
             }
             openBudgetPopupAlt($(event.target).text());
-            //TODO-- open popup for the clicked resource
             $('#tabular').show();
         })
     }
@@ -1179,8 +1189,10 @@ $(document).ready(function () {
             $('#goal').html('<b>Remaining:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'red'});
         } else {
+            if(gameStarted){
             $('#goal').text('No adjustments needed.');
             $('#goal').css({color: 'black'});
+            }
         }
     }
 
@@ -1265,7 +1277,19 @@ $(document).ready(function () {
                 if (!$('.media-container-box').text().includes('Please')) {
                     var message = 'Please adjust the budget before continuing'
                     $('.media-container-box').append(message.bold())
+                }
+                return;
+            }
+            if(changesCheck != undefined){
+                const allEqual = arr => arr.every( v => v === arr[0] )
+                var allSame = allEqual(changesCheck);
+            }
+            
 
+            if(allSame && count >1 ){
+                if (!$('.media-container-box').text().includes('Please')) {
+                    var message = 'Please adjust the budget before continuing'
+                    $('.media-container-box').append(message.bold())
                 }
                 return;
             }
@@ -1285,7 +1309,12 @@ $(document).ready(function () {
             var index = Client.scenarios.indexOf(scenario)
             Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
-            createTabularView();
+            if($('#game-container-board').is(':visible')){
+                createTabularView(false);
+            }else{
+                createTabularView(true)
+            }
+            
 
             // make sure they have made proper adjustments before closing
             var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
@@ -1907,9 +1936,9 @@ $(document).ready(function () {
                 $('#tabular').hide()
             } else if (radio.hasClass('radio2')) {
                 // hide the pie chart
-                createTabularView();
+                
                 $('#game-container-board').hide();
-                $('#tabular').show();
+                createTabularView(true);
             }
         });
     }
