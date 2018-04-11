@@ -34,8 +34,8 @@ $(document).ready(function () {
         budget_decisions: [{}],
         // array with colors of chart
         chart_colors: [
-            '#89882A', '#e69f00', '#56b4e9', 
-            '#009e73', '#f0e442', '#0072b2', 
+            '#89882A', '#e69f00', '#56b4e9',
+            '#009e73', '#f0e442', '#0072b2',
             '#d55e00', '#474747', '#5E60B1'
         ],
         // TODO: dictionary with user choices
@@ -48,8 +48,8 @@ $(document).ready(function () {
     var db;
     var budgetChangesSubmitted = false;
     var initial_budget_breakdown = [];
-   
-    
+
+
     /**
      * Connect to DB and retrieve Community info (name, description, values, values_descriptions, resources,
      * resources_description, scenarios, budget)
@@ -58,11 +58,11 @@ $(document).ready(function () {
      * @param {() => void} callback1 the first callback function
      * @param {() => void} callback2 the second callback function
      */
-    function connect(query, city, callback1, callback2){
-        clientPromise.then(stitchClient =>{
+    function connect(query, city, callback1, callback2) {
+        clientPromise.then(stitchClient => {
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
-          
+
             return client.login().then(getCommunityInfo(query, city, callback1, callback2));
         });
     }
@@ -90,11 +90,11 @@ $(document).ready(function () {
      * @param {() => void} callback1 first callback function
      * @param {() => void} callback2 second callback function
      */
-    function getCommunityInfo(query, city, callback1, callback2){
+    function getCommunityInfo(query, city, callback1, callback2) {
         var collection;
-        if(city){
+        if (city) {
             collection = db.collection('City')
-        }else{
+        } else {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
@@ -106,10 +106,10 @@ $(document).ready(function () {
             set_values(result[0]['values']);
             set_values_description(result[0]['values_descriptions']);
             set_resources(result[0]['resources'], result[0]['resources_description']);
-            Client.scenarios = result[0]['scenarios'] 
+            Client.scenarios = result[0]['scenarios']
             Client.total_budget = parseInt(result[0]['budget'].replace(/,/g, ''));
             set_budget_breakdown(result[0]['resources']);
-        }).then(function() {
+        }).then(function () {
             callback1();
             callback2();
             getResourceOptions(true);
@@ -119,23 +119,23 @@ $(document).ready(function () {
      * Get the resources for this community along with the options for budget changes
      * @param {boolean} city //true if city, false if county
      */
-    function getResourceOptions(city){
+    function getResourceOptions(city) {
         var query = {}
         var community_resource_options = []; //array of dictionaries
-        if(city){
-            query = {"community": "city"}
-        }else{
-            query = {"community": "county"}
+        if (city) {
+            query = { "community": "city" }
+        } else {
+            query = { "community": "county" }
         }
-        clientPromise.then(stitchClient =>{
+        clientPromise.then(stitchClient => {
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Resources')
-            collection.find(query).execute().then(result =>{            
-                Object.keys(result[0]).forEach(function(key){
-                    Client.resources.forEach(function(resource, index) {
+            collection.find(query).execute().then(result => {
+                Object.keys(result[0]).forEach(function (key) {
+                    Client.resources.forEach(function (resource, index) {
                         if (Client.resources[index][key] !== undefined) {
-                            community_resource_options.push({[key]:result[0][key]})
+                            community_resource_options.push({ [key]: result[0][key] })
                         }
                     });
                 })
@@ -165,9 +165,9 @@ $(document).ready(function () {
      * Sets the gameboard values on page 2.
      * @param {array({})} values array of selected community values 
      */
-    
+
     function set_gameboard_values(values) {
-    	var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
+        var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
 
         for (var i = 0; i < values.length; i++) {
             var current_value = $(values[i]).text();
@@ -332,13 +332,13 @@ $(document).ready(function () {
         //             }
         //         }
         //     }
-            
+
         //     // remove previous event handler to prevent multiple event handlers from being attached 
         //     // to submitBudgetButton. Multiple event handlers means that this function will be called x many 
         //     // times, depending on how many times the event handler is being registered each time the event is called. 
         //     $('#submitBudgetButton').off();
 
-        
+
         // });
 
         // TODO: now
@@ -387,7 +387,7 @@ $(document).ready(function () {
                         );
                     }
                 }
-                
+
             }
 
             /**
@@ -410,7 +410,7 @@ $(document).ready(function () {
          */
         function add_row_handler() {
             // event handler for budget popup rows
-            $('.budget-table-row-name').on('click', function(event) {
+            $('.budget-table-row-name').on('click', function (event) {
                 // hide first popup
                 $('.page2-popup-budget-alt').hide();
                 // show the second popup 
@@ -458,7 +458,7 @@ $(document).ready(function () {
                             );
                         }
                     }
-                    
+
                 }
 
                 /**
@@ -486,14 +486,14 @@ $(document).ready(function () {
 
         // TODO: now
         // event handler for second budget popup adjustments
-        $('.budget-table-2-values-adjustments').on('input', function(event) {
+        $('.budget-table-2-values-adjustments').on('input', function (event) {
             // check if input is a number
             sanitize_input($(event.target).val());
         });
 
         // event handler for second budget popup button 
         // TODO: now
-        $('.popup-container-alt-2-button').on('click', function(event) {
+        $('.popup-container-alt-2-button').on('click', function (event) {
             // check if number is valid
             if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
                 // hide second popup
@@ -508,8 +508,9 @@ $(document).ready(function () {
                 $('.popup-container-select-modifier').val('');
                 // unblur screen
                 unblur();
+                // update tabular view 
+                createTabularView();
             }
-            
 
             /**
              * Adjusts the budget by applying some mathematical logic.
@@ -546,7 +547,7 @@ $(document).ready(function () {
                     if (Client.budget_breakdown[i].name === resource_name) {
                         var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
                         var selected_value = selected_budget_option.substring(
-                            selected_budget_option.indexOf('(') + 2, 
+                            selected_budget_option.indexOf('(') + 2,
                             selected_budget_option.length - 2
                         ).replace(/,/g, '').replace('$', '');
                         var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
@@ -596,7 +597,7 @@ $(document).ready(function () {
                     </tr>`
                 );
                 $('.budget-table').append(table_row);
-            }  
+            }
             // change current value on first popup
             $('.budget-table-current').text(sanitize_budget(current_budget_sum));
             // change goal value on first popup
@@ -609,13 +610,13 @@ $(document).ready(function () {
             // change adjustment value on first popup
             if (client_modified > current_modified) {
                 $('.budget-table-adjustments').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
-                $('.budget-table-adjustments').css({color: 'green'});
+                $('.budget-table-adjustments').css({ color: 'green' });
             } else if (client_modified < current_modified) {
                 $('.budget-table-adjustments').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
-                $('.budget-table-adjustments').css({color: 'red'});
+                $('.budget-table-adjustments').css({ color: 'red' });
             } else {
                 $('.budget-table-adjustments').text('No adjustments needed.');
-                $('.budget-table-adjustments').css({color: 'black'});
+                $('.budget-table-adjustments').css({ color: 'black' });
             }
         }
 
@@ -640,12 +641,12 @@ $(document).ready(function () {
                 // if input is the number zero, do nothing
                 if (input == '0') {
                     $('.budget-table-2-values-current').text(sanitize_budget(initial_resource_budget));
-                // otherwise, ask user to enter proper input and disregard code below
+                    // otherwise, ask user to enter proper input and disregard code below
                 } else if (input.length !== 0) {
                     $('.popup-container-title-alt-2').text('Please input a valid number.');
-                    return false;   
+                    return false;
                 }
-            } 
+            }
             // convert to currency and display continously
             $('.budget-table-2-header-adjustments').text(sanitize_budget(formatted_input));
             // new value after modifier 
@@ -653,7 +654,7 @@ $(document).ready(function () {
             // set current value
             var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
             var selected_value = selected_budget_option.substring(
-                selected_budget_option.indexOf('(') + 2, 
+                selected_budget_option.indexOf('(') + 2,
                 selected_budget_option.length - 2
             ).replace(/,/g, '').replace('$', '');
             var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
@@ -677,13 +678,13 @@ $(document).ready(function () {
 
             if (isNaN(new_current)) {
                 // if multiplier and option are selected 
-                if (isNaN(multiplier) === false && isNaN(selected_value) === false) {} else {
+                if (isNaN(multiplier) === false && isNaN(selected_value) === false) { } else {
                     $('budget-table-2-values-current').text(initial_resource_budget);
                     return;
                 }
             }
             $('.budget-table-2-values-current').text(sanitize_budget(new_current));
-            
+
             // new current cannot exceed total budget 
             if (new_current > Client.total_budget) {
                 $('.popup-container-title-alt-2').text('Resource budget cannot exceed total budget.');
@@ -713,7 +714,7 @@ $(document).ready(function () {
                 </tr>`
             );
             $('.budget-table').append(table_row);
-        }  
+        }
 
         // TODO: now
         // change goal value on first popup
@@ -728,13 +729,13 @@ $(document).ready(function () {
         // change adjustment value on first popup
         if (client_modified > current_modified) {
             $('.budget-table-2-values-goal').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
-            $('.budget-table-2-values-goal').css({color: 'green'});
+            $('.budget-table-2-values-goal').css({ color: 'green' });
         } else if (client_modified < current_modified) {
             $('.budget-table-2-values-goal').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
-            $('.budget-table-2-values-goal').css({color: 'red'});
+            $('.budget-table-2-values-goal').css({ color: 'red' });
         } else {
             $('.budget-table-2-values-goal').text('No adjustments needed.');
-            $('.budget-table-2-values-goal').css({color: 'black'});
+            $('.budget-table-2-values-goal').css({ color: 'black' });
         }
     }
 
@@ -764,10 +765,10 @@ $(document).ready(function () {
     /**
      * Adds event handlers to select option boxes in budget popup
      */
-    function makeSelectHandlers(){
+    function makeSelectHandlers() {
         var eventClass = this.className;
         var resource_name = eventClass.split("-").pop();
-        $("#resource-budget-"+resource_name).append("<br><input type = 'number' placeholder = 'Include +/-' id = 'resource-budget-box-"+resource_name+"'></input>");
+        $("#resource-budget-" + resource_name).append("<br><input type = 'number' placeholder = 'Include +/-' id = 'resource-budget-box-" + resource_name + "'></input>");
     }
 
     /**
@@ -830,12 +831,12 @@ $(document).ready(function () {
         $('.page1').css({ filter: 'blur(10px)' })
     }
 
-     /**
-      * Unblurs the first page.
-      */
-     function unblur_1() {
+    /**
+     * Unblurs the first page.
+     */
+    function unblur_1() {
         $('.page1').css({ filter: 'blur(0px)' })
-     }
+    }
 
     /**
      * Generate the community values at the
@@ -936,87 +937,87 @@ $(document).ready(function () {
      * @param {[{}]} decisions //global variable
      * @param {String} session_id //TODO or name for facilitator?s
      */
-    function sendDecisions(decisionsArray, session_id){
-        clientPromise.then(stitchClient =>{
+    function sendDecisions(decisionsArray, session_id) {
+        clientPromise.then(stitchClient => {
             client = stitchClient;
             db = client.service('mongodb', 'mongodb-atlas').db('budgetopolis');
             collection = db.collection('Facilitators')
-            var dict = [{_id: new RegExp('*'+ session_id)}, {decisions : decisionsArray}];
-            collection.update(dict).execute().then(result =>{
+            var dict = [{ _id: new RegExp('*' + session_id) }, { decisions: decisionsArray }];
+            collection.update(dict).execute().then(result => {
                 console.log(result)
-            });     
+            });
         });
     }
-    
+
     /**
      * Create a Google Pie Chart
      */
     function createGooglePieChart() {
         var community_resources = Client.budget_breakdown;
-        google.charts.load('current', {'packages':['corechart']});
+        google.charts.load('current', { 'packages': ['corechart'] });
         google.charts.setOnLoadCallback(drawChart);
 
         function drawChart() {
-          var data_values = [];
-          data_values.push(['Category', 'Description']);
-          
-          for (var i = 0; i < community_resources.length; i++) {
-            data_values.push([ community_resources[i].name, community_resources[i].value ]);
-          }  
-          var data = google.visualization.arrayToDataTable(data_values);
-  
-          var options = {
-            backgroundColor: 'transparent',
-            width: 600,
-            height: 300,
-            chartArea: {
+            var data_values = [];
+            data_values.push(['Category', 'Description']);
+
+            for (var i = 0; i < community_resources.length; i++) {
+                data_values.push([community_resources[i].name, community_resources[i].value]);
+            }
+            var data = google.visualization.arrayToDataTable(data_values);
+
+            var options = {
+                backgroundColor: 'transparent',
                 width: 600,
-                height: 300
-            },
-            fontSize: 14,
-            pieSliceText: "percentage",
-            pieSliceTextStyle: {
-                fontSize: 18,
-                color: 'black',
-                bold: false,
-                fontName: 'Didot'
-            },
-            tooltip: {
-                trigger: "focus",
-                isHTML: true,
-                text: 'none'
-            },
-            legend: 'none',
-            is3D: true,
-            colors: Client.chart_colors
-          };
-  
-          var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
+                height: 300,
+                chartArea: {
+                    width: 600,
+                    height: 300
+                },
+                fontSize: 14,
+                pieSliceText: "percentage",
+                pieSliceTextStyle: {
+                    fontSize: 18,
+                    color: 'black',
+                    bold: false,
+                    fontName: 'Didot'
+                },
+                tooltip: {
+                    trigger: "focus",
+                    isHTML: true,
+                    text: 'none'
+                },
+                legend: 'none',
+                is3D: true,
+                colors: Client.chart_colors
+            };
 
-          //below is creating a description array for each community resource, and attaching event handlers 
-          //to each section of the pie chart in order to show their description if clicked
-            
-        function selectHandler() {
-              var selectedItem = chart.getSelection()[0];
-              if (selectedItem) {
-                  var resourceClick = data.getValue(selectedItem.row, 0);
-                  Client.resources.forEach(function(resource) {
-                      for(var j in resource)
-                        if (j == resourceClick) {
-                            openPopup(j, resource[j]);
-                        }
-                  })
-              }
-              
-          }
+            var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
 
-        google.visualization.events.addListener(chart, 'select', selectHandler);
-        chart.draw(data, options);
+            //below is creating a description array for each community resource, and attaching event handlers 
+            //to each section of the pie chart in order to show their description if clicked
+
+            function selectHandler() {
+                var selectedItem = chart.getSelection()[0];
+                if (selectedItem) {
+                    var resourceClick = data.getValue(selectedItem.row, 0);
+                    Client.resources.forEach(function (resource) {
+                        for (var j in resource)
+                            if (j == resourceClick) {
+                                openPopup(j, resource[j]);
+                            }
+                    })
+                }
+
+            }
+
+            google.visualization.events.addListener(chart, 'select', selectHandler);
+            chart.draw(data, options);
         }
     }
 
-    
-    
+
+
 
     /**
      * Updates the size and the values of the budget bar
@@ -1084,10 +1085,10 @@ $(document).ready(function () {
      * @returns {number} the index at which the value occurs in Client.community_values_description 
      */
     function get_description_index(value) {
-        for (var i = 0; i < Client.community_values.length; i++) { 
-            if (Client.community_values[i] === value) { 
+        for (var i = 0; i < Client.community_values.length; i++) {
+            if (Client.community_values[i] === value) {
                 return i;
-            } 
+            }
         }
     }
 
@@ -1104,102 +1105,102 @@ $(document).ready(function () {
             })
         }
         Client.budget_breakdown = budget_breakdown;
-       return budget_breakdown;
+        return budget_breakdown;
     }
-   /**
-    * Creates tabular view for the game board using global variables for current budget breakdown and initial
-    */
-    function createTabularView(){
+    /**
+     * Creates tabular view for the game board using global variables for current budget breakdown and initial
+     */
+    function createTabularView() {
         $('#tabular').empty();
         console.log(JSON.stringify(initial_budget_breakdown))
         var html = "<table class = 'table' id = 'tabularView'> <thead class = 'thead-dark'> <tr> <th scope = 'col'>Resource</th> <th scope = 'col'> Start</th><th scope = 'col'>Current</th><th scope = 'col'>Change</th>"
-        html+= "</tr></thead> <tbody>"
-        for(var i =0; i <initial_budget_breakdown.length; i++){
-            html += "<tr id = " + initial_budget_breakdown[i]["name"] + "><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
+        html += "</tr></thead> <tbody>"
+        for (var i = 0; i < initial_budget_breakdown.length; i++) {
+            html += "<tr id = " + initial_budget_breakdown[i]["name"] + "><th scope = 'row'>" + initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
             html += "<td>" + initial_budget_breakdown[i]["value"] + "</td>"; // data value for start 
-            html+= "<td>" + Client.budget_breakdown[i]["value"] + "</td>" //data for current
-            var change = (Client.budget_breakdown[i]["value"]-initial_budget_breakdown[i]['value'])/initial_budget_breakdown[i]['value']
+            html += "<td>" + Client.budget_breakdown[i]["value"] + "</td>" //data for current
+            var change = (Client.budget_breakdown[i]["value"] - initial_budget_breakdown[i]['value']) / initial_budget_breakdown[i]['value']
             change = Math.round(change * 100) / 100
-            change= change*100
-            html+= "<td>"+change+"% </td></tr>" //data for change
+            change = change * 100
+            html += "<td>" + change + "% </td></tr>" //data for change
         }
-        html+= "</tbody></table>";
+        html += "</tbody></table>";
         $("#tabular").html(html);
-        $("#tabular").click(function(event){
+        $("#tabular").click(function (event) {
             // send community resource name as argument 
             // TODO: now
             openBudgetPopupAlt($(event.target).text());
             $('#tabular').show();
         })
-        $('#tabular').on('click', '#tabularView tr', function(e){
+        $('#tabular').on('click', '#tabularView tr', function (e) {
             var resourceName = $(this).attr("id");
-            console.log(resourceName  + ' row clicked')
+            console.log(resourceName + ' row clicked')
             //TODO-- open popup for the clicked resource
         })
     }
 
 
-    var generateHappiness = function(happiness){
-        if(happiness >= 81){
+    var generateHappiness = function (happiness) {
+        if (happiness >= 81) {
             //display super happy face
             console.log("super Happy");
             $('#face').attr("src", "./images/superHappy.png");
             createHappyPopup(happiness);
-        } else if(happiness >= 61 && happiness < 81){
+        } else if (happiness >= 61 && happiness < 81) {
             //display happy face
             $('#face').attr("src", "./images/happy.png");
             createHappyPopup(happiness);
-        } else if(happiness >= 41 && happiness < 61){
+        } else if (happiness >= 41 && happiness < 61) {
             //display neutral face
             $('#face').attr("src", "./images/neutral.png");
             createHappyPopup(happiness);
-        } else if(happiness >= 21 && happiness < 41){
+        } else if (happiness >= 21 && happiness < 41) {
             //display sad face
             $('#face').attr("src", "./images/sad.png");
             createHappyPopup(happiness);
-        } else{
+        } else {
             //display super sad face
             $('#face').attr("src", "./images/superSad.png");
             createHappyPopup(happiness);
         }
     }
 
-    var createHappyPopup = function(happiness){
+    var createHappyPopup = function (happiness) {
         $('.hText').empty();
         $('.hText').text("Your approval rating is " + happiness + "%. Make decisions supporting your values to make your citizens happy!");
-        $('.hText').css({"display" : "block"});
+        $('.hText').css({ "display": "block" });
     }
-    
+
     function fillAssocations(values) {
 
         var associations = []
 
-        for(i = 0; i < values.length; i++) {
-            if(values[i] == "Preservation of Neighborhoods")
+        for (i = 0; i < values.length; i++) {
+            if (values[i] == "Preservation of Neighborhoods")
                 associations[i] = "Housing";
-            else if(values[i] == "Affordable Housing")
+            else if (values[i] == "Affordable Housing")
                 associations[i] = "Housing"
-            else if(values[i] == "Family-Friendly City")
+            else if (values[i] == "Family-Friendly City")
                 associations[i] = "Parks and Rec"
-            else if(values[i] == "Safe and Secure Community")
+            else if (values[i] == "Safe and Secure Community")
                 associations[i] = "Police"
-            else if(values[i] == "Support Cultural Diversity")
+            else if (values[i] == "Support Cultural Diversity")
                 associations[i] = "Police"
-            else if(values[i] == "City Infrascruture Growth")
+            else if (values[i] == "City Infrascruture Growth")
                 associations[i] = "Streets"
-            else if(values[i] == "Support Local Businesses")
+            else if (values[i] == "Support Local Businesses")
                 associations[i] = "Capital"
-            else if(values[i] == "Financially Conservative")
+            else if (values[i] == "Financially Conservative")
                 associations[i] = "Capital"
-            else if(values[i] == "Low Unemployment Rate")
+            else if (values[i] == "Low Unemployment Rate")
                 associations[i] = "Planning and Economic Development"
-            else if(values[i] == "Public Education")
+            else if (values[i] == "Public Education")
                 associations[i] = "Planning and Economic Development"
             else
                 associations[i] = "Solid Waste"
         }
 
-        
+
 
     }
 
@@ -1209,17 +1210,19 @@ $(document).ready(function () {
     function event_handlers() {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
-        $('#startButton').click(function(){
+        $('#startButton').click(function () {
 
-
-
-
-
-
-
-
-    // TODO: priority 
-    // unblur the screen
+            // make sure they have made proper adjustments before closing
+            var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
+            if (isNaN(unsanitized_budget) === false) {
+                $('.popup-container-title-alt').text('Please make some adjustments first.');
+                return;
+            } else {
+                $('.popup-container-title-alt').text('Resources Budgeting');
+            }
+            // close the budget popup
+            $('.page2-popup-budget-alt').hide();
+            // unblur the screen
             unblur();
             budgetChangesSubmitted = true;
 
@@ -1299,37 +1302,314 @@ $(document).ready(function () {
                 }
             }
 
+            // TODO: priority 
+            // unblur the screen
+            unblur();
+            budgetChangesSubmitted = true;
+
+            // check if number is valid 
+            if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
+                // hide second popup. do not show first popup!
+                $('.page2-popup-budget-alt-2').hide();
+                // change adjustment title 
+                $('.budget-table-2-header-adjustmnets').text('Adjustments');
+                // adjust budget accordingly 
+                perform_budget_logic();
+                // clear adjustment input 
+                $('.budget-table-2-values-adjustments').val('');
+                // clear modifier on second popup 
+                $('.popup-container-select-modifier').val('');
+            }
+
+            /**
+             * Adjusts the budget by applying some mathematical logic.
+             */
+            function perform_budget_logic() {
+                // obtain adjustment 
+                var adjustment = Number($('.budget-table-2-values-adjustments').val());
+                // name of resource that was changed 
+                var adjusted_resource_name = previous_resource_name;
+                // update budget breakdown
+                update_budget_breakdown(adjusted_resource_name, adjustment);
+                // update the rows on the popup table
+                render_rows();
+                // remove previous event handler for the rows
+                remove_row_handler();
+                // add event handlers for the new rows
+                add_row_handler();
+                // update google pie chart
+                createGooglePieChart();
+            }
+
+            /**
+             * Updates the budget breakdown variable
+             * as needed. Updates the graph and budget
+             * bar as well. 
+             * @param {string} resource_name the resource to be modified
+             * @param {number} resource_value the modifier value 
+             */
+            function update_budget_breakdown(resource_name, resource_value) {
+                for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                    if (Client.budget_breakdown[i].name === resource_name) {
+                        var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+                        var selected_value = selected_budget_option.substring(
+                            selected_budget_option.indexOf('(') + 2,
+                            selected_budget_option.length - 2
+                        ).replace(/,/g, '').replace('$', '');
+                        var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                        var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+                        var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                        Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
+                        // no values set for multiplier or budget breakdown
+                        if (selected_value === '-' || isNaN(multiplier)) {
+                            // change budget without further modification
+                            Client.budget_breakdown[i].value += resource_value;
+                            Client.user_choices['option'] = 'none';
+                            Client.user_choices['budget_change'] = (resource_value).toString();
+                        } else {
+                            if (isNaN(adjustment)) {
+                                Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
+                                Client.user_choices['option'] = 'none';
+                                Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
+                            } else {
+                                Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                                var choice = $('.popup-container-select').find(':selected').text().trim();
+                                Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
+                                Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
+                            }
+                        }
+                        Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
+                    }
+                }
+            }
+
+            /**
+              * Given an input, sanitizes the input accordingly.
+              * @param {string | number} input the input value
+              * @returns {boolean} if input is sanitized prior to sanitization
+              */
+            // TODO: now
+            function sanitize_input(input) {
+                // convert input to number
+                var formatted_input = unsanitize_budget(input);
+
+                // if input is empty, then set initial resource budget 
+                if (input.length === 0) {
+                    $('.budget-table-2-values-current').text(sanitize_budget(initial_resource_budget));
+                    $('.budget-table-2-header-adjustments').text('Adjustments');
+                }
+
+                // if input is not a proper value 
+                if (formatted_input === 'NaN' || formatted_input == '0') {
+                    // if input is the number zero, do nothing
+                    if (input == '0') {
+                        $('.budget-table-2-values-current').text(sanitize_budget(initial_resource_budget));
+                        // otherwise, ask user to enter proper input and disregard code below
+                    } else if (input.length !== 0) {
+                        $('.popup-container-title-alt-2').text('Please input a valid number.');
+                        return false;
+                    }
+                }
+                // convert to currency and display continously
+                $('.budget-table-2-header-adjustments').text(sanitize_budget(formatted_input));
+                // new value after modifier 
+                var new_current = initial_resource_budget + unsanitize_budget($('.budget-table-2-header-adjustments').text());
+                // set current value
+                var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
+                var selected_value = selected_budget_option.substring(
+                    selected_budget_option.indexOf('(') + 2,
+                    selected_budget_option.length - 2
+                ).replace(/,/g, '').replace('$', '');
+                var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+                var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                // current resource value before modification
+                var current_resource_value;
+                for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                    if (Client.budget_breakdown[i].name === previous_resource_name) {
+                        current_resource_value = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
+                        break;
+                    }
+                }
+                // values set for multipler and selected option 
+                if (selected_value !== '-' && isNaN(multiplier) === false) {
+                    if (isNaN(adjustment)) {
+                        adjustment = 0;
+                    }
+                    // change budget without further modification
+                    new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
+                }
+
+                if (isNaN(new_current)) {
+                    // if multiplier and option are selected 
+                    if (isNaN(multiplier) === false && isNaN(selected_value) === false) { } else {
+                        $('budget-table-2-values-current').text(initial_resource_budget);
+                        return;
+                    }
+                }
+                $('.budget-table-2-values-current').text(sanitize_budget(new_current));
+
+                // new current cannot exceed total budget 
+                if (new_current > Client.total_budget) {
+                    $('.popup-container-title-alt-2').text('Resource budget cannot exceed total budget.');
+                    return false;
+                }
+
+                // new current cannot be negative 
+                if (new_current < 0) {
+                    $('.popup-container-title-alt-2').text('Resource budget cannot be negative.');
+                    return false;
+                } else {
+                    // set title of second popup
+                    $('.popup-container-title-alt-2').text(previous_resource_name);
+                }
+                return true;
+            }
+
+            /**
+                     * Creates new child nodes for the popup
+                     * table element. 
+                     */
+            function render_rows() {
+                // sum variable for total current budget
+                var current_budget_sum = 0;
+                // empty child nodes
+                $('.budget-table').empty();
+                // create new child nodes
+                for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                    current_budget_sum += Client.budget_breakdown[i].value;
+                    var table_row = $(
+                        `<tr class='budget-table-row-" + ${i} + " budget-table-row'>
+                        <td class='budget-table-row-name'>${Client.budget_breakdown[i].name}<td> 
+                        <td class='budget-table-row-value'>${sanitize_budget(Client.budget_breakdown[i].value)}<td> 
+                    </tr>`
+                    );
+                    $('.budget-table').append(table_row);
+                }
+                // change current value on first popup
+                $('.budget-table-current').text(sanitize_budget(current_budget_sum));
+                // change goal value on first popup
+                $('.budget-table-2-values-goal').text(sanitize_budget(Client.total_budget));
+                // new variables for comparison
+                var client_modified = Number(Client.total_budget.toFixed(2));
+                var current_modified = Number(current_budget_sum.toFixed(2));
+                // to only 2 places, truncate leading zeros 
+                current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
+                // change adjustment value on first popup
+                if (client_modified > current_modified) {
+                    $('.budget-table-adjustments').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+                    $('.budget-table-adjustments').css({ color: 'green' });
+                } else if (client_modified < current_modified) {
+                    $('.budget-table-adjustments').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+                    $('.budget-table-adjustments').css({ color: 'red' });
+                } else {
+                    $('.budget-table-adjustments').text('No adjustments needed.');
+                    $('.budget-table-adjustments').css({ color: 'black' });
+                }
+            }
 
 
+            /**
+             * Adds event handler for the popup 
+             * rows on the table. 
+             */
+            function add_row_handler() {
+                // event handler for budget popup rows
+                $('.budget-table-row-name').on('click', function (event) {
+                    // hide first popup
+                    $('.page2-popup-budget-alt').hide();
+                    // show the second popup 
+                    $('.page2-popup-budget-alt-2').show();
+                    // add title to second popup
+                    $('.popup-container-title-alt-2').text($(event.target).text());
+                    // save title to variable
+                    previous_resource_name = $('.popup-container-title-alt-2').text();
+                    // add current budget value 
+                    $('.budget-table-2-values-current').text(sanitize_budget(find_current_value()));
+                    // add dropdowns for budget
+                    add_dropdowns();
 
+                    /**
+                     * Adds the dropdown for the budget
+                     * decisions by obtaining it from the database.
+                     */
+                    function add_dropdowns() {
+                        // the selected resource 
+                        var selected_resource;
+                        // the selected resource index
+                        var selected_index;
+                        // remove previous select options
+                        $('.popup-container-select').empty();
+                        // find which resource was selected 
+                        for (var i = 0; i < Client.resources_options.length; i++) {
+                            if (Client.resources_options[i][$(event.target).text()]) {
+                                selected_resource = $(event.target).text();
+                                selected_index = i;
+                                break;
+                            }
+                        }
+                        // add initial budgeting option: none
+                        $('.popup-container-select').append(`<option value='none'> - </option>`);
+                        // add budgeting options for that resource
+                        var budget_options_array = Client.resources_options[selected_index][selected_resource];
+                        for (var i = 0; i < budget_options_array.length; i++) {
+                            for (option in budget_options_array[i]) {
+                                var option_value = budget_options_array[i][option];
+                                var modified_option_value = sanitize_budget(option_value).substring(0, sanitize_budget(option_value).indexOf('.'));
+                                $('.popup-container-select').append(
+                                    `<option value=${option}> 
+                                    ${option + ' ( ' + modified_option_value + ' )'} 
+                                </option>`
+                                );
+                            }
+                        }
 
+                    }
 
+                    /**
+                     * Finds the current value from Client.budget_breakdown
+                     * @returns the current value 
+                     */
+                    function find_current_value() {
+                        for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                            if (Client.budget_breakdown[i].name === $(event.target).text()) {
+                                initial_resource_budget = Client.budget_breakdown[i].value;
+                                return Client.budget_breakdown[i].value;
+                            }
+                        }
+                    }
+                });
+            }
 
+            /**
+             * Removes the event handler for the popup
+             * rows on the table. 
+             */
+            function remove_row_handler() {
+                $('.budget-table-row-name').off();
+            }
 
-            
-            if(!budgetChangesSubmitted && (count > 1)){
+            if (!budgetChangesSubmitted && (count > 1)) {
                 $('.media-container-box').append('Please adjust the budget before continuing')
-                
+
                 return;
-            } 
+            }
             $('#startButton').text("Next")
-            
-            var scenario = Client.scenarios[Math.floor(Math.random()*Client.scenarios.length)];
-            
-            if(Client.scenarios.length === 0){
+
+            var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
+
+            if (Client.scenarios.length === 0) {
                 $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
                 $("#startButton").remove();
                 $('#playAgain').show();
                 return;
             }
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>"+scenario +"</h3>" )
-            count +=1;   
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
+            count += 1;
             var index = Client.scenarios.indexOf(scenario)
             Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
             createTabularView();
-            
-        })
+        });
 
         // Check session ID values inputted by the user
         $(".session-container-id").on('input', function (event) {
@@ -1389,8 +1669,8 @@ $(document).ready(function () {
                 }
             });
 
-            $('.values').on('mouseenter', function(event) {
-                current_timeout = setTimeout(function() {
+            $('.values').on('mouseenter', function (event) {
+                current_timeout = setTimeout(function () {
                     // no more than 5 selected
                     if ($('.selected-value').length === 5) {
                         return;
@@ -1405,13 +1685,13 @@ $(document).ready(function () {
             });
 
             // do not open popup if user leaves the value 
-            $('.values').on('mouseleave', function(event) {
+            $('.values').on('mouseleave', function (event) {
                 clearTimeout(current_timeout);
             });
         }
 
         // set click handler for continue button 
-        $('.play-game-container-button').on('click', function(event) {
+        $('.play-game-container-button').on('click', function (event) {
             // Set gameboard values on page 2
             set_gameboard_values($(".selected-value").toArray());
             // Initial update of the budget bar
@@ -1431,27 +1711,27 @@ $(document).ready(function () {
         //     updateBudgetBar();
         // });
 
-         //Shows community description when clicked.
-        $('.community-info-title-container').on('click',function(){
+        //Shows community description when clicked.
+        $('.community-info-title-container').on('click', function () {
             console.log('name div clicked')
             openPopup(Client.community_name, Client.community_description);
         });
 
         // Shows value description after it has been clicked
         $(".values-container-cards-2").on('click', ".values-2", showValueDescription);
-        
+
         // Close the popup dialogue after the button has been clicked
-        $('.popup-button').on('click', function() {
+        $('.popup-button').on('click', function () {
             closePopup();
         });
         //Send decisions to decisions text-area TODO, not registering
-        $('.popup-button-submit').on('click', function(){
+        $('.popup-button-submit').on('click', function () {
             console.log('submit clicked')
             //get resource name from class name
-            var resource = this.className.split('-').pop(); 
-           
+            var resource = this.className.split('-').pop();
+
             var decision = $('.inputBudgetChange').val();
-            Client.budget_decisions.push({resource: decision})
+            Client.budget_decisions.push({ resource: decision })
 
             console.log(JSON.stringify(Client.budget_decisions))
             //sendDecisions(Client.budget_decisions, Client.session_id)
@@ -1460,7 +1740,7 @@ $(document).ready(function () {
         })
 
         // Shows community value descriptions when clicked on the first page
-        $('.popup-1 button').on('click', function(event) {
+        $('.popup-1 button').on('click', function (event) {
             var val = $(event.target).text();
             var length = Client.selected_community_values.length;
             if (val.toLowerCase() === 'select') {
@@ -1479,22 +1759,22 @@ $(document).ready(function () {
                     // Show play game button
                     $('.play-game-container').show();
                 }
-            } 
+            }
             // Close the popup
             closePopup_1();
         });
 
         var current_resource_value;
-        $('.popup-container-select-modifier').on('input', function(event) {
+        $('.popup-container-select-modifier').on('input', function (event) {
             // parsed multiplier value 
             var parsed_value = parseInt($(event.target).val(), 10);
             // obtain reference to selected budgeting option
             var selected_option = $('.popup-container-select').find(':selected').text().trim();
             // find how much to modify the value by
             var budget_modifier = parseFloat(selected_option.substring(
-                selected_option.indexOf('(') + 2, 
+                selected_option.indexOf('(') + 2,
                 selected_option.length - 2).replace('$', '').replace(/,/g, ''
-            ));
+                ));
             // obtain value of adjustment
             var adjustment_value = parseFloat(parseFloat($('.budget-table-2-values-adjustments').val()).toFixed(2));
             if (isNaN(adjustment_value)) {
@@ -1546,17 +1826,17 @@ $(document).ready(function () {
                 new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
             }
 
-            $('.budget-table-2-values-current').text(sanitize_budget(   new_current    ));
+            $('.budget-table-2-values-current').text(sanitize_budget(new_current));
         })
 
         // TODO: add event handler for radio buttons
-        $('.radio-buttons').on('click', function(event) {
+        $('.radio-buttons').on('click', function (event) {
             var radio = $(event.target);
             // check which radio button was selected 
             if (radio.hasClass('radio1')) {
                 $('#game-container-board').show();
                 $('#tabular').hide()
-            } else if (radio.hasClass('radio2')) {  
+            } else if (radio.hasClass('radio2')) {
                 // hide the pie chart
                 createTabularView();
                 $('#game-container-board').hide();
