@@ -511,6 +511,8 @@ $(document).ready(function () {
                 // update tabular view 
                 createTabularView();
                 renderGoalDiv();
+                // todo: change boolean value of submitted
+                budgetChangesSubmitted = true;
             }
 
             /**
@@ -1235,6 +1237,28 @@ $(document).ready(function () {
         var count = 1;
         $('#startButton').click(function () {
 
+            if (!budgetChangesSubmitted && (count > 1)) {
+                $('.media-container-box').append('Please adjust the budget before continuing')
+
+                return;
+            }
+            $('#startButton').text("Next")
+
+            var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
+
+            if (Client.scenarios.length === 0) {
+                $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
+                $("#startButton").remove();
+                $('#playAgain').show();
+                return;
+            }
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
+            count += 1;
+            var index = Client.scenarios.indexOf(scenario)
+            Client.scenarios.splice(index, 1)
+            budgetChangesSubmitted = false;
+            createTabularView();
+
             // make sure they have made proper adjustments before closing
             var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
             if (isNaN(unsanitized_budget) === false) {
@@ -1247,7 +1271,6 @@ $(document).ready(function () {
             $('.page2-popup-budget-alt').hide();
             // unblur the screen
             unblur();
-            budgetChangesSubmitted = true;
 
             // check if number is valid 
             if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
@@ -1324,12 +1347,8 @@ $(document).ready(function () {
                     }
                 }
             }
-
-            // TODO: priority 
             // unblur the screen
             unblur();
-            budgetChangesSubmitted = true;
-
             // check if number is valid 
             if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
                 // hide second popup. do not show first popup!
@@ -1411,7 +1430,6 @@ $(document).ready(function () {
               * @param {string | number} input the input value
               * @returns {boolean} if input is sanitized prior to sanitization
               */
-            // TODO: now
             function sanitize_input(input) {
                 // convert input to number
                 var formatted_input = unsanitize_budget(input);
@@ -1611,27 +1629,27 @@ $(document).ready(function () {
                 $('.budget-table-row-name').off();
             }
 
-            if (!budgetChangesSubmitted && (count > 1)) {
-                $('.media-container-box').append('Please adjust the budget before continuing')
+            // if (!budgetChangesSubmitted && (count > 1)) {
+            //     $('.media-container-box').append('Please adjust the budget before continuing')
 
-                return;
-            }
-            $('#startButton').text("Next")
+            //     return;
+            // }
+            // $('#startButton').text("Next")
 
-            var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
+            // var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
 
-            if (Client.scenarios.length === 0) {
-                $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
-                $("#startButton").remove();
-                $('#playAgain').show();
-                return;
-            }
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
-            count += 1;
-            var index = Client.scenarios.indexOf(scenario)
-            Client.scenarios.splice(index, 1)
-            budgetChangesSubmitted = false;
-            createTabularView();
+            // if (Client.scenarios.length === 0) {
+            //     $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
+            //     $("#startButton").remove();
+            //     $('#playAgain').show();
+            //     return;
+            // }
+            // $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
+            // count += 1;
+            // var index = Client.scenarios.indexOf(scenario)
+            // Client.scenarios.splice(index, 1)
+            // budgetChangesSubmitted = false;
+            // createTabularView();
         });
 
         // Check session ID values inputted by the user
