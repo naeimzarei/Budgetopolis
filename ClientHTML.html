@@ -9,6 +9,14 @@
     <script src="./jquery-3.3.1.min.js"></script>
     <!-- Import external JavaScript -->
     <script src="./ClientJS.js"></script>
+        <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <!-- Import Google Visualization API -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <!-- Import external stylesheets -->
@@ -74,7 +82,12 @@
         </div>
         <!-- Page 2: put the actual gameboard here -->
         <div class="game-container">
+            <div id = 'tabular'></div>
             <div id="game-container-board" style="width: 900px; height: 500px;"></div>
+            <form class='radio-buttons-form'>
+                <input class='radio-buttons radio1' type='radio' name='radios' value='radio1' checked='checked'>
+                <input class='radio-buttons radio2' type='radio' name='radios' value='radio2'><br/>
+            </form>
         </div>
         <!-- Page 2: put community values title here -->
         <div class="values-container-title">
@@ -86,16 +99,6 @@
         <div class="values-container-2">
             <div class="values-container-cards-2"></div>
         </div>
-        <!-- Page 2: put budget bar here -->
-        <div class="budget-container">
-            <!-- <div class="budget-container-bar"></div> -->
-            <canvas id="budget-container-bar" width="500" height="100"></canvas>
-        </div>
-        <!-- Page 2: "start" button to begin scenarios-->
-        <div class = 'button-div'>
-            <button type = "button" id = "startButton"> Start </button>
-            <button type = 'button' id = 'playAgain' onClick="window.location.reload()" hidden>Play Again</button>
-        </div>
         <!-- Page 2: HappinessLevel Face -->
         <div id="happyBox">
             <img id="face" src="./images/neutral.png">
@@ -104,16 +107,22 @@
             <div class = "hText">
             </div>
         </div>
-
         <!-- Page 2: put social media box here -->
         <div class='media-container'>
             <div class='media-container-box'>
                 Welcome to Budgetopolis! Scenarios and other communications will be displayed here.
             </div>
+            <div class = 'button-div'>
+                <button type = "button" id = "startButton"> Start </button>
+                <button type = 'button' id = 'playAgain' onClick="window.location.reload()" hidden>Play Again</button>
+            </div>
         </div>
-        <!--TODO: Page 2: put social media here  -->
+        <!-- Page 2: put social media here  -->
         <div class='social-media-container'>
-            <div class='social-media-box'>Social Media</div>
+            <div class='social-media-box'>
+                Social Media</br>
+                This box will show snippets of stories that are associated with your decision making. Keep your citizens happy!
+            </div>
         </div>
     </div>
     <!-- Page 1: popup -->
@@ -165,6 +174,7 @@
             <br/>
             <table class="budget-table"></table>
             <br/>
+            <!-- TODO -->
             <table class="budget-table-goals">
                 <tr>
                     <th> Current</th>
@@ -177,7 +187,8 @@
                     <td class="budget-table-adjustments"></td>
                 </tr>
             </table>
-            <button type = 'button' id = 'submitBudgetButton'> Submit </button>
+            <!-- TODO -->
+            <!-- <button type = 'button' id = 'submitBudgetButton'> Submit </button> -->
         </div>
     </div>
 
@@ -185,13 +196,19 @@
     <div class="page2-popup-budget-alt-2" hidden>
         <div class="popup-container-alt-2">
             <div class="popup-container-title-alt-2"></div>
+            <!-- TODO -->
+            <!-- <button type = 'button' id = 'submitBudgetButton'> Submit </button> -->
             <table class="budget-table-2">
                 <tr class='budget-table-2-header'>
                     <td class='budget-table-2-header-current'>Current</td>
-                    <td class='budget-table-2-header-adjustments'>Adjustments</td>
+                    <td class='budget-table-2-header-goal'>Goal</td>
+                    <td class='budget-table-2-header-adjustments' hidden>Adjustments</td>
+                    <td class='budget-table-2-header-adjustments-2'>Adjustments</td>
                 </tr>
                 <tr class='budget-table-2-values'>
                     <td class='budget-table-2-values-current'></td>
+                    <!-- TODO -->
+                    <td class='budget-table-2-values-goal'></td>
                     <td class='budget-table-2-values-adjustments-container'>
                         <input type='number' name='budget-table-2-values-adjustments' class='budget-table-2-values-adjustments'><br/>
                     </td>
@@ -200,6 +217,7 @@
             <select class="popup-container-select"></select>
             <input type='number' name='popup-container-select-modifier' class='popup-container-select-modifier'><br/>
             <div class='popup-container-select-modifier-value'>x</div>
+            <!-- TODO: remove this button -->
             <button class='popup-container-alt-2-button'>Done</button>
         </div>
     </div>
