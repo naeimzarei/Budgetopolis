@@ -1667,7 +1667,7 @@ $(document).ready(function () {
                 // Give selected community value a selected-value CSS class
                 $(Client.selected_community_values[length - 1]).addClass('selected-value');
                 // Add an outline to selected community value so user knows it has been selected 
-                $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px gray' });
+                $(Client.selected_community_values[length - 1]).css({ boxShadow: '0 0 0 1px blue' });
                 // Increment number of values currently selected 
                 increment_num_values_selected();
                 // Close the popup after selection
