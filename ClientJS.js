@@ -1166,11 +1166,20 @@ $(document).ready(function () {
             console.log(resourceName + ' row clicked')
             if (!gameStarted) {
                 //TOOD notify user game needs to start before adjusting values
+                var message = 'Press the start button to begin!'
+                $('.media-container-box').append(message.bold())
+                return;
+
             }
             openBudgetPopupAlt($(event.target).text());
             $('#tabular').show();
         })
+
+
+
     }
+
+
 
     function renderGoalDiv(){
         var currentBudget = 0;
@@ -1190,11 +1199,14 @@ $(document).ready(function () {
             $('#goal').css({color: 'red'});
         } else {
             if(gameStarted){
+
             $('#goal').text('No adjustments needed.');
             $('#goal').css({color: 'black'});
             }
         }
     }
+
+
 
     var generateHappiness = function (happiness) {
         if (happiness >= 81) {
@@ -1267,7 +1279,8 @@ $(document).ready(function () {
         //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
         $('#startButton').click(function () {
-            if ($('#startButton').text() === 'Start') {
+            
+            if ($('#startButton').text() === ' Start ') {
                 console.log('div hidden')
                 $('#tabular').hide()
                 gameStarted = true;
@@ -1932,12 +1945,18 @@ $(document).ready(function () {
             var radio = $(event.target);
             // check which radio button was selected 
             if (radio.hasClass('radio1')) {
-                $('#game-container-board').show();
+                $('#game-container-board').show(0, function () {
+
+                    $('#goal').hide();
+                        
+                });
                 $('#tabular').hide()
             } else if (radio.hasClass('radio2')) {
                 // hide the pie chart
                 
-                $('#game-container-board').hide();
+                $('#game-container-board').hide(1, function () {
+                    $('#goal').show();
+                });
                 createTabularView(true);
             }
         });
