@@ -236,113 +236,8 @@ $(document).ready(function () {
         // create each row of the popup 
         render_rows();
         // add event handler for each row of the popup
-        // TODO
-        // add_row_handler();
-        // todo
         add_rows();
 
-        // $('#submitBudgetButton').click(function(){
-        //     //TODO get array of budget changes and send to DB
-        //     // make sure they have made proper adjustments before closing
-        //     var unsanitized_budget = unsanitize_budget($('.budget-table-adjustments').text());
-        //     if (isNaN(unsanitized_budget) === false) {
-        //         $('.popup-container-title-alt').text('Please make some adjustments first.');
-        //         console.log('must be here?');
-        //         return;
-        //     } else {
-        //         $('.popup-container-title-alt').text('Resources Budgeting');
-        //     }
-        //     // close the budget popup
-        //     $('.page2-popup-budget-alt').hide();
-        //     // unblur the screen
-        //     unblur();
-        //     budgetChangesSubmitted = true;
-
-        //     // check if number is valid 
-        //     if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
-        //         // hide second popup. do not show first popup!
-        //         $('.page2-popup-budget-alt-2').hide();
-        //         // change adjustment title 
-        //         $('.budget-table-2-header-adjustmnets').text('Adjustments');
-        //         // adjust budget accordingly 
-        //         perform_budget_logic();
-        //         // clear adjustment input 
-        //         $('.budget-table-2-values-adjustments').val('');
-        //         // clear modifier on second popup 
-        //         $('.popup-container-select-modifier').val('');
-        //     }
-
-        //     /**
-        //      * Adjusts the budget by applying some mathematical logic.
-        //      */
-        //     function perform_budget_logic() {
-        //         // obtain adjustment 
-        //         var adjustment = Number($('.budget-table-2-values-adjustments').val());
-        //         // name of resource that was changed 
-        //         var adjusted_resource_name = previous_resource_name;
-        //         // update budget breakdown
-        //         update_budget_breakdown(adjusted_resource_name, adjustment);
-        //         // update the rows on the popup table
-        //         render_rows();
-        //         // remove previous event handler for the rows
-        //         remove_row_handler();
-        //         // add event handlers for the new rows
-        //         add_row_handler();
-        //         // update google pie chart
-        //         createGooglePieChart();
-        //     }
-
-        //     /**
-        //      * Updates the budget breakdown variable
-        //      * as needed. Updates the graph and budget
-        //      * bar as well. 
-        //      * @param {string} resource_name the resource to be modified
-        //      * @param {number} resource_value the modifier value 
-        //      */
-        //     function update_budget_breakdown(resource_name, resource_value) {
-        //         for (var i = 0; i < Client.budget_breakdown.length; i++) {
-        //             if (Client.budget_breakdown[i].name === resource_name) {
-        //                 var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
-        //                 var selected_value = selected_budget_option.substring(
-        //                     selected_budget_option.indexOf('(') + 2,
-        //                     selected_budget_option.length - 2
-        //                 ).replace(/,/g, '').replace('$', '');
-        //                 var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
-        //                 var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
-        //                 var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
-        //                 Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
-        //                 // no values set for multiplier or budget breakdown
-        //                 if (selected_value === '-' || isNaN(multiplier)) {
-        //                     // change budget without further modification
-        //                     Client.budget_breakdown[i].value += resource_value;
-        //                     Client.user_choices['option'] = 'none';
-        //                     Client.user_choices['budget_change'] = (resource_value).toString();
-        //                 } else {
-        //                     if (isNaN(adjustment)) {
-        //                         Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
-        //                         Client.user_choices['option'] = 'none';
-        //                         Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
-        //                     } else {
-        //                         Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
-        //                         var choice = $('.popup-container-select').find(':selected').text().trim();
-        //                         Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
-        //                         Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
-        //                     }
-        //                 }
-        //                 Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
-        //             }
-        //         }
-        //     }
-
-        //     // remove previous event handler to prevent multiple event handlers from being attached 
-        //     // to submitBudgetButton. Multiple event handlers means that this function will be called x many 
-        //     // times, depending on how many times the event handler is being registered each time the event is called. 
-        //     $('#submitBudgetButton').off();
-
-
-        // });
-
-        // TODO: now
         // show the second budget popup
         function add_rows() {
             // hide first popup
@@ -485,7 +380,6 @@ $(document).ready(function () {
             $('.budget-table-row-name').off();
         }
 
-        // TODO: now
         // event handler for second budget popup adjustments
         $('.budget-table-2-values-adjustments').on('input', function (event) {
             // check if input is a number
@@ -493,7 +387,6 @@ $(document).ready(function () {
         });
 
         // event handler for second budget popup button 
-        // TODO: now
         $('.popup-container-alt-2-button').on('click', function (event) {
             // check if number is valid
             if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
@@ -532,9 +425,6 @@ $(document).ready(function () {
                 remove_row_handler();
                 // add event handlers for the new rows
                 add_row_handler();
-                // udpate budget bar
-                // TODO: remove
-                // updateBudgetBar();
                 // update google pie chart
                 createGooglePieChart();
             }
@@ -629,7 +519,6 @@ $(document).ready(function () {
          * @param {string | number} input the input value
          * @returns {boolean} if input is sanitized prior to sanitization
          */
-        // TODO: now
         function sanitize_input(input) {
             // convert input to number
             var formatted_input = unsanitize_budget(input);
@@ -720,7 +609,6 @@ $(document).ready(function () {
             $('.budget-table').append(table_row);
         }
 
-        // TODO: now
         // change goal value on first popup
         $('.budget-table-2-values-goal').text(sanitize_budget(Client.total_budget));
 
@@ -1020,69 +908,6 @@ $(document).ready(function () {
         }
     }
 
-
-
-
-    /**
-     * Updates the size and the values of the budget bar
-     * dynamically.
-     */
-    // TODO: remove
-    // function updateBudgetBar() {
-    //     // Obtain reference to canvas from DOM
-    //     var ctx = document.getElementById("budget-container-bar").getContext("2d");
-    //     // Adjust canvas size as the window size changes horizontally
-    //     ctx.canvas.width = 0.8 * window.innerWidth;
-    //     // Do not continue if community values have not been set yet
-    //     if (Client.community_values.length === 0) { return; }
-    //     // Draw the rectangles
-    //     var beginX = 0;
-    //     var shiftX = 0;
-    //     for (var i = 0; i < Client.budget_breakdown.length; i++) {
-    //         // length of budget, value of budget 
-    //         var length = Math.round(Client.budget_breakdown[i].value).toString().length;
-    //         var budget = Client.budget_breakdown[i].value;
-    //         var relative_width = find_relative_width(Client.budget_breakdown[i]);
-    //         var measured_text_width = ctx.measureText(Client.budget_breakdown[i].value);
-
-    //         ctx.fillStyle = Client.chart_colors[i];
-    //         ctx.fillRect(shiftX, 0, beginX + relative_width, ctx.canvas.height);
-    //         ctx.fillStyle = 'black';
-    //         ctx.font = "16px EB Garamond";
-    //         ctx.fillText(Client.budget_breakdown[i].name, shiftX + (ctx.canvas.width / 35), ctx.canvas.height / 2);
-    //         var modifier;
-    //         // million
-    //         if (length === 7) {
-    //             modifier = 
-    //                 budget.toString().substring(0, 1) + '.' + 
-    //                 budget.toString().substring(2, 4) + ' M';
-    //         // ten million
-    //         } else if (length === 8) {
-    //             modifier = 
-    //                 budget.toString().substring(0,2) + '.' + 
-    //                 budget.toString().substring(2,4) + ' M';
-    //         } else {
-    //             modifier = sanitize_budget(Client.budget_breakdown[i].value);
-    //         }
-    //         ctx.fillText(
-    //             modifier, 
-    //             shiftX + (ctx.canvas.width / 35), 
-    //             (ctx.canvas.height / 2) + 20
-    //         );
-    //         beginX += relative_width;
-    //         shiftX += relative_width;
-    //     }
-
-    //     /**
-    //      * Helper function to find relative width of budget component on canvas
-    //      * @param {{}} budget_value object with value's name and budget amount
-    //      * @returns {number} the relative width of budget component 
-    //      */
-    //     function find_relative_width(budget_value) {
-    //         return ctx.canvas.width * (budget_value.value / Client.total_budget);
-    //     }
-    // }
-
     /**
      * Helper function to obtain the index of community value description.
      * @param {string} value the community value 
@@ -1155,12 +980,6 @@ $(document).ready(function () {
         }
         
         renderGoalDiv();
-        //$("#tabView th").click(function(event){
-        //    // send community resource name as argument 
-        //    // TODO: now
-        //    openBudgetPopupAlt($(event.target).text());
-        //    $('#tabular').show();
-        //})
         $('#tabular').on('click', '#tabularView tr', function (e) {
             var resourceName = $(this).attr("id");
             console.log(resourceName + ' row clicked')
@@ -1805,22 +1624,12 @@ $(document).ready(function () {
         $('.play-game-container-button').on('click', function (event) {
             // Set gameboard values on page 2
             set_gameboard_values($(".selected-value").toArray());
-            // Initial update of the budget bar
-            // TODO: remove
-            // updateBudgetBar();
             // Makes associations array that are tied to the selected values
             fillAssocations(get_values())
             // Go to page 2 
             $('.page1').hide();
             $('.page2').show();
         });
-
-        // TODO: remove
-        // // Resize the budget bar as window width changes
-        // $(window).on('resize', function() {
-        //     // Updates the budget bar dynamically
-        //     updateBudgetBar();
-        // });
 
         //Shows community description when clicked.
         $('.community-info-title-container').on('click', function () {
@@ -1940,7 +1749,7 @@ $(document).ready(function () {
             $('.budget-table-2-values-current').text(sanitize_budget(new_current));
         })
 
-        // TODO: add event handler for radio buttons
+        // Event handler for radio buttons 
         $('.radio-buttons').on('click', function (event) {
             var radio = $(event.target);
             // check which radio button was selected 
