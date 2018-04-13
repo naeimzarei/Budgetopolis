@@ -708,12 +708,18 @@ $(document).ready(function () {
     function blur() {
         var children = $('.page2').children();
         for (var i = 0; i < children.length; i++) {
-            if ($(children[i]).attr('class') !== 'game-container') {
+            if ($(children[i]).attr('class') !== 'game-container' && $(children[i]).attr('class') !== 'media-container') {
                 $(children[i]).css({ filter: 'blur(10px)' });
             }
         }
         $('#goal').css({ filter: 'blur(10px)' });
         $('.radio-buttons-form').css({ filter: 'blur(10px)' });
+        $('#startButton').css({ filter: 'blur(10px)'});
+        $('.media-container-box').css({
+            left: '1%',
+            top: '1%',
+            marginLeft: '0px'
+        });
     }
 
     /**
@@ -722,12 +728,18 @@ $(document).ready(function () {
     function unblur() {
         var children = $('.page2').children();
         for (var i = 0; i < children.length; i++) {
-            if ($(children[i]).attr('class') !== 'game-container') {
+            if ($(children[i]).attr('class') !== 'game-container' && $(children[i]).attr('class') !== 'media-container') {
                 $(children[i]).css({ filter: 'blur(0px)' });
             }
         }
         $('#goal').css({ filter: 'blur(0px)' });
         $('.radio-buttons-form').css({ filter: 'blur(0px)' });
+        $('#startButton').css({ filter: 'blur(0px)'});
+        $('.media-container-box').css({
+            left: '55%',
+            top: '275px',
+            marginLeft: '-175px'
+        });
     }
 
     /**
