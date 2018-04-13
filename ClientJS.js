@@ -706,14 +706,28 @@ $(document).ready(function () {
      * Blurs the second page.
      */
     function blur() {
-        $('.page2').css({ filter: 'blur(10px)' });
+        var children = $('.page2').children();
+        for (var i = 0; i < children.length; i++) {
+            if ($(children[i]).attr('class') !== 'game-container') {
+                $(children[i]).css({ filter: 'blur(10px)' });
+            }
+        }
+        $('#goal').css({ filter: 'blur(10px)' });
+        $('.radio-buttons-form').css({ filter: 'blur(10px)' });
     }
 
     /**
      * Unblurs the second page.
      */
     function unblur() {
-        $('.page2').css({ filter: 'blur(0px)' })
+        var children = $('.page2').children();
+        for (var i = 0; i < children.length; i++) {
+            if ($(children[i]).attr('class') !== 'game-container') {
+                $(children[i]).css({ filter: 'blur(0px)' });
+            }
+        }
+        $('#goal').css({ filter: 'blur(0px)' });
+        $('.radio-buttons-form').css({ filter: 'blur(0px)' });
     }
 
     /**
@@ -937,6 +951,7 @@ $(document).ready(function () {
         return budget_breakdown;
     }
     var changesCheck;
+    var event_handler_exists = false;
     /**
      * Creates tabular view for the game board using global variables for current budget breakdown and initial
      * @param show (boolean) indicates whether the tabular div should be hidden or shown 
@@ -980,22 +995,26 @@ $(document).ready(function () {
         }
         
         renderGoalDiv();
-        $('#tabular').on('click', '#tabularView tr', function (e) {
-            var resourceName = $(this).attr("id");
-            console.log(resourceName + ' row clicked')
-            if (!gameStarted) {
-                //TOOD notify user game needs to start before adjusting values
-                var message = 'Press the start button to begin!'
-                $('.media-container-box').append(message.bold())
-                return;
-
-            }
-            openBudgetPopupAlt($(event.target).text());
-            $('#tabular').show();
-        })
-
-
-
+        if (event_handler_exists === false) {
+            $('#tabular').on('click', '#tabularView tr', function (e) {
+                var resourceName = $(this).attr("id");
+                console.log(resourceName + ' row clicked')
+                if (!gameStarted) {
+                    if ($('.temp-startup-message').length) {
+                        return;
+                    } else {
+                        var message = $(`<p class='temp-startup-message' style='text-align: center; color: red;'> Press the start button to begin! </p>`);
+                        $('.media-container-box').append($('<br/><br/>'));
+                        $('.media-container-box').append(message);
+                        return;   
+                    }
+                }
+                // TODO: priority
+                openBudgetPopupAlt($(event.target).text());
+                $('#tabular').show();
+            });
+            event_handler_exists = true;
+        }
     }
 
 
@@ -1107,8 +1126,8 @@ $(document).ready(function () {
 
             if (!budgetChangesSubmitted && (count > 1)) {
                 if (!$('.media-container-box').text().includes('Please')) {
-                    var message = 'Please adjust the budget before continuing'
-                    $('.media-container-box').append(message.bold())
+                    var message = $(`<p style='color: red; text-align: center;'> Please adjust the budget before continuing </p>`);
+                    $('.media-container-box').append(message);
                 }
                 return;
             }
@@ -1120,8 +1139,8 @@ $(document).ready(function () {
 
             if(allSame && count >1 ){
                 if (!$('.media-container-box').text().includes('Please')) {
-                    var message = 'Please adjust the budget before continuing'
-                    $('.media-container-box').append(message.bold())
+                    var message = $(`<p style='color: red; text-align: center;'> Please adjust the budget before continuing </p>`);
+                    $('.media-container-box').append(message);
                 }
                 return;
             }
@@ -1517,28 +1536,6 @@ $(document).ready(function () {
             function remove_row_handler() {
                 $('.budget-table-row-name').off();
             }
-
-            // if (!budgetChangesSubmitted && (count > 1)) {
-            //     $('.media-container-box').append('Please adjust the budget before continuing')
-
-            //     return;
-            // }
-            // $('#startButton').text("Next")
-
-            // var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
-
-            // if (Client.scenarios.length === 0) {
-            //     $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
-            //     $("#startButton").remove();
-            //     $('#playAgain').show();
-            //     return;
-            // }
-            // $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
-            // count += 1;
-            // var index = Client.scenarios.indexOf(scenario)
-            // Client.scenarios.splice(index, 1)
-            // budgetChangesSubmitted = false;
-            // createTabularView();
         });
 
         // Check session ID values inputted by the user
