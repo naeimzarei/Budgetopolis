@@ -296,6 +296,7 @@ svg > g > g:last-child {
     box-shadow: 0 0 0 1px black;
     left: 55%;
     margin-left: -175px;
+    overflow-y: hidden;
 }
 
 .popup {
