@@ -186,6 +186,8 @@ $(document).ready(function () {
     function showValueDescription() {
         for (var i = 0; i < Client.community_values.length; i++) {
             if (Client.community_values[i].replace(/\s/g, '') == this.id) {
+                // TODO: priority
+                is_blur_special = true;
                 openPopup(Client.community_values[i], Client.community_values_description[i]);
             }
         }
@@ -199,6 +201,7 @@ $(document).ready(function () {
      */
     function openPopup(value, description) {
         // blur the rest of the screen
+        is_blur_special = true;
         blur();
         // populate popup with value and description
         $('.popup-value').text(value);
@@ -405,7 +408,6 @@ $(document).ready(function () {
                 // update tabular view 
                 createTabularView(true);
                 renderGoalDiv();
-                // todo: change boolean value of submitted
                 budgetChangesSubmitted = true;
             }
 
@@ -702,10 +704,17 @@ $(document).ready(function () {
         $('.page1-popup').hide();
     }
 
+    var is_blur_special = false;
+
     /**
      * Blurs the second page.
      */
     function blur() {
+        if (is_blur_special) {
+            $('.page2').css({filter: 'blur(10px)'});
+            return;
+        }
+
         var children = $('.page2').children();
         for (var i = 0; i < children.length; i++) {
             if ($(children[i]).attr('class') !== 'game-container' && $(children[i]).attr('class') !== 'media-container') {
@@ -726,6 +735,12 @@ $(document).ready(function () {
      * Unblurs the second page.
      */
     function unblur() {
+        if (is_blur_special) {
+            $('.page2').css({filter: 'blur(0px)'});
+            is_blur_special = false;
+            return;
+        }
+
         var children = $('.page2').children();
         for (var i = 0; i < children.length; i++) {
             if ($(children[i]).attr('class') !== 'game-container' && $(children[i]).attr('class') !== 'media-container') {
@@ -947,6 +962,7 @@ $(document).ready(function () {
         }
     }
 
+    // TODO: priority 
     function set_budget_breakdown(community_resources) {
         var budget_breakdown = [];
         for (var i = 0; i < community_resources.length; i++) {
@@ -1021,7 +1037,6 @@ $(document).ready(function () {
                         return;   
                     }
                 }
-                // TODO: priority
                 openBudgetPopupAlt($(event.target).text());
                 $('#tabular').show();
             });
