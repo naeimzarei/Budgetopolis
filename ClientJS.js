@@ -99,6 +99,7 @@ $(document).ready(function () {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
+            // TODO: priority
             Client.community_name = result[0]['name']
             Client.community_description = result[0]['description']
             //append community name and description to page 2
@@ -186,7 +187,6 @@ $(document).ready(function () {
     function showValueDescription() {
         for (var i = 0; i < Client.community_values.length; i++) {
             if (Client.community_values[i].replace(/\s/g, '') == this.id) {
-                // TODO: priority
                 is_blur_special = true;
                 openPopup(Client.community_values[i], Client.community_values_description[i]);
             }
@@ -997,8 +997,12 @@ $(document).ready(function () {
         for (var i = 0; i < initial_budget_breakdown.length; i++){
             name = initial_budget_breakdown[i]["name"]
             html += "<tr id = " + initial_budget_breakdown[i]["name"] + " class = 'd-flex'><th scope = 'row'>"+initial_budget_breakdown[i]["name"] + "</th>"; //Resource name
-            html += "<td id = '"+name+"'>$" + initial_budget_breakdown[i]["value"].toFixed(2) + "</td>"; // data value for start
-            html += "<td id = '"+name+"'>$" + Client.budget_breakdown[i]["value"].toFixed(2) + "</td>"; //data for current
+            // html += "<td id = '"+name+"'>$" + initial_budget_breakdown[i]["value"].toFixed(2) + "</td>"; // data value for start
+            // html += "<td id = '"+name+"'>$" + Client.budget_breakdown[i]["value"].toFixed(2) + "</td>"; //data for current
+
+            html += "<td id = '"+name+"'>" + sanitize_budget(initial_budget_breakdown[i]["value"]) + "</td>"; // data value for start
+            html += "<td id = '"+name+"'>" + sanitize_budget(Client.budget_breakdown[i]["value"]) + "</td>"; //data for current
+
             var change = (Client.budget_breakdown[i]["value"] - initial_budget_breakdown[i]['value']) / initial_budget_breakdown[i]['value'] * 100;
             change = Math.round(change);
             changeAbs = Math.abs(change);
