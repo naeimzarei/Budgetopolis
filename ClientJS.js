@@ -104,7 +104,6 @@ $(document).ready(function () {
             Client.community_description = result[0]['description']
             //append community name and description to page 2
             $('.community-info-title-container-text').append(Client.community_name.bold())
-            // console.log(JSON.stringify(result))
             set_values(result[0]['values']);
             set_values_description(result[0]['values_descriptions']);
             set_resources(result[0]['resources'], result[0]['resources_description']);
@@ -232,6 +231,12 @@ $(document).ready(function () {
         if (shouldReturn) {
             return;
         }
+
+        if (is_budget_popup_open) {
+            return;
+        }
+        is_budget_popup_open = true;
+
         // blur the screen
         blur();
         // show the budget popup
@@ -391,6 +396,8 @@ $(document).ready(function () {
 
         // event handler for second budget popup button 
         $('.popup-container-alt-2-button').on('click', function (event) {
+            is_budget_popup_open = false;
+
             // check if number is valid
             if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
                 // hide second popup
@@ -503,6 +510,17 @@ $(document).ready(function () {
             var current_modified = Number(current_budget_sum.toFixed(2));
             // to only 2 places, truncate leading zeros 
             current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
+
+            // fixes $0.01 bug
+            var current_string = current_modified.toString();
+            var current_other = client_modified.toString();
+            if (current_string.substring(current_string.length - 2, current_string.length) === '01') {
+                current_modified = Math.floor(current_modified);
+            }
+            if (current_other.substring(current_other.length - 2, current_other.length) === '01') {
+                client_modified = Math.floor(client_modified);
+            }
+
             // change adjustment value on first popup
             if (client_modified > current_modified) {
                 $('.budget-table-adjustments').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
@@ -510,6 +528,10 @@ $(document).ready(function () {
             } else if (client_modified < current_modified) {
                 $('.budget-table-adjustments').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
                 $('.budget-table-adjustments').css({ color: 'red' });
+                if ($('.budget-table-adjustments').text() === '-$0.00') {
+                    $('.budget-table-adjustments').text('No adjustments needed.');
+                    $('.budget-table-adjustments').css({ color: 'black' });
+                }
             } else {
                 $('.budget-table-adjustments').text('No adjustments needed.');
                 $('.budget-table-adjustments').css({ color: 'black' });
@@ -618,6 +640,16 @@ $(document).ready(function () {
         var client_modified = Number(Client.total_budget.toFixed(2));
         var current_modified = Number(current_budget_sum.toFixed(2));
 
+        // fixes $0.01 bug
+        var current_string = current_modified.toString();
+        var current_other = client_modified.toString();
+        if (current_string.substring(current_string.length - 2, current_string.length) === '01') {
+            current_modified = Math.floor(current_modified);
+        }
+        if (current_other.substring(current_other.length - 2, current_other.length) === '01') {
+            client_modified = Math.floor(client_modified);
+        }
+
         // to only 2 places, truncate leading zeros 
         current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
         // change adjustment value on first popup
@@ -627,6 +659,10 @@ $(document).ready(function () {
         } else if (client_modified < current_modified) {
             $('.budget-table-2-values-goal').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('.budget-table-2-values-goal').css({ color: 'red' });
+            if ($('.budget-table-adjustments').text() === '-$0.00') {
+                $('.budget-table-adjustments').text('No adjustments needed.');
+                $('.budget-table-adjustments').css({ color: 'black' });
+            }
         } else {
             $('.budget-table-2-values-goal').text('No adjustments needed.');
             $('.budget-table-2-values-goal').css({ color: 'black' });
@@ -649,11 +685,31 @@ $(document).ready(function () {
      */
     function sanitize_budget(budget) {
         // Converts to US currency, with 2 decimal places 
-        return new Intl.NumberFormat('en-US', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 2
-        }).format(budget.toString());
+        var ind = budget.toString().indexOf('.');
+        var temp;
+        if (ind === -1) {
+            var temp = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            }).format(Math.ceil(budget).toString());
+        } else {
+            var decimal_digits = budget.toString().substring(ind + 1, ind + 3);
+            var integer_digits = budget.toString().substring(0, budget.toString().indexOf('.'));
+            var refined_budget = integer_digits + '.' + decimal_digits;
+            if (refined_budget.substring(refined_budget.length - 2, refined_budget.length) === '01') {
+                // remove $0.01
+                refined_budget = integer_digits;   
+            } else {
+                refined_budget = integer_digits + '.' + decimal_digits;
+            }
+            var temp = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                minimumFractionDigits: 2
+            }).format(refined_budget);
+        }
+        return temp;
     }
 
     /**
@@ -980,6 +1036,7 @@ $(document).ready(function () {
     }
     var changesCheck;
     var event_handler_exists = false;
+    var is_budget_popup_open = false;
     /**
      * Creates tabular view for the game board using global variables for current budget breakdown and initial
      * @param show (boolean) indicates whether the tabular div should be hidden or shown 
@@ -1048,8 +1105,6 @@ $(document).ready(function () {
         }
     }
 
-
-
     function renderGoalDiv(){
         var currentBudget = 0;
         for (var i = 0; i < Client.budget_breakdown.length; i++) {
@@ -1057,6 +1112,17 @@ $(document).ready(function () {
         }
         var client_modified = Number(Client.total_budget.toFixed(2));
         var current_modified = Number(currentBudget.toFixed(2));
+
+        // fixes $0.01 bug
+        var current_string = current_modified.toString();
+        var current_other = client_modified.toString();
+        if (current_string.substring(current_string.length - 2, current_string.length) === '01') {
+            current_modified = Math.floor(current_modified);
+        }
+        if (current_other.substring(current_other.length - 2, current_other.length) === '01') {
+            client_modified = Math.floor(client_modified);
+        }
+
         // to only 2 places, truncate leading zeros 
         current_budget_sum = parseFloat(currentBudget.toFixed(2));
         // change adjustment value on first popup
@@ -1066,6 +1132,10 @@ $(document).ready(function () {
         } else if (client_modified < current_modified) {
             $('#goal').html('<b>Remaining:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'red'});
+            if ($('#goal').text() === '-$0.00') {
+                $('#goal').text('No adjustments needed.');
+                $('#goal').css({ color: 'black' });
+            }
         } else {
             if(gameStarted){
 
@@ -1145,7 +1215,6 @@ $(document).ready(function () {
      * Sets up event handlers during startup.
      */
     function event_handlers() {
-        //Starts scenarios TODO, not showing all scenarios, missing one of them
         var count = 1;
         $('#startButton').click(function () {
             
@@ -1474,6 +1543,17 @@ $(document).ready(function () {
                 var current_modified = Number(current_budget_sum.toFixed(2));
                 // to only 2 places, truncate leading zeros 
                 current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
+
+                // fixes $0.01 bug
+                var current_string = current_modified.toString();
+                var current_other = client_modified.toString();
+                if (current_string.substring(current_string.length - 2, current_string.length) === '01') {
+                    current_modified = Math.floor(current_modified);
+                }
+                if (current_other.substring(current_other.length - 2, current_other.length) === '01') {
+                    client_modified = Math.floor(client_modified);
+                }
+
                 // change adjustment value on first popup
                 if (client_modified > current_modified) {
                     $('.budget-table-adjustments').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
@@ -1481,6 +1561,10 @@ $(document).ready(function () {
                 } else if (client_modified < current_modified) {
                     $('.budget-table-adjustments').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
                     $('.budget-table-adjustments').css({ color: 'red' });
+                    if ($('.budget-table-adjustments').text() === '-$0.00') {
+                        $('.budget-table-adjustments').text('No adjustments needed.');
+                        $('.budget-table-adjustments').css({ color: 'black' });
+                    }
                 } else {
                     $('.budget-table-adjustments').text('No adjustments needed.');
                     $('.budget-table-adjustments').css({ color: 'black' });
@@ -1681,7 +1765,7 @@ $(document).ready(function () {
             var decision = $('.inputBudgetChange').val();
             Client.budget_decisions.push({ resource: decision })
 
-            console.log(JSON.stringify(Client.budget_decisions))
+            // console.log(JSON.stringify(Client.budget_decisions))
             //sendDecisions(Client.budget_decisions, Client.session_id)
 
             closePopup();
