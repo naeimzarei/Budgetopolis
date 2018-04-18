@@ -99,7 +99,6 @@ $(document).ready(function () {
             collection = db.collection('County')
         }
         collection.find(query).execute().then(result => {
-            // TODO: priority
             Client.community_name = result[0]['name']
             Client.community_description = result[0]['description']
             //append community name and description to page 2
@@ -108,8 +107,15 @@ $(document).ready(function () {
             set_values_description(result[0]['values_descriptions']);
             set_resources(result[0]['resources'], result[0]['resources_description']);
             Client.scenarios = result[0]['scenarios']
-            Client.total_budget = parseInt(result[0]['budget'].replace(/,/g, ''));
-            set_budget_breakdown(result[0]['resources']);
+            // sets the total budget
+            var temp_total_budget = 0;
+            for (var property in result[0]['budget']) {
+                temp_total_budget += result[0]['budget'][property];
+            }
+            Client.total_budget = temp_total_budget;
+            // Client.total_budget = parseInt(result[0]['budget'].replace(/,/g, ''));
+            //set_budget_breakdown(result[0]['resources']);
+            set_budget_breakdown(result[0]['budget']);
         }).then(function () {
             callback1();
             callback2();
@@ -1018,18 +1024,17 @@ $(document).ready(function () {
         }
     }
 
-    // TODO: priority 
     function set_budget_breakdown(community_resources) {
         var budget_breakdown = [];
-        for (var i = 0; i < community_resources.length; i++) {
+        for (var property in community_resources) {
             budget_breakdown.push({
-                name: community_resources[i],
-                value: Client.total_budget / community_resources.length
+                name: property,
+                value: community_resources[property]
             });
             initial_budget_breakdown.push({
-                name: community_resources[i],
-                value: Client.total_budget / community_resources.length
-            })
+                name: property,
+                value: community_resources[property]
+            });
         }
         Client.budget_breakdown = budget_breakdown;
         return budget_breakdown;
