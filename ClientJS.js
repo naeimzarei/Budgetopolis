@@ -969,10 +969,10 @@ $(document).ready(function () {
                     width: 600,
                     height: 300
                 },
-                fontSize: 14,
+                fontSize: 18,
                 pieSliceText: "percentage",
                 pieSliceTextStyle: {
-                    fontSize: 18,
+                    fontSize: 20,
                     color: 'black',
                     bold: false,
                     fontName: 'Didot'
@@ -984,7 +984,7 @@ $(document).ready(function () {
                 },
                 legend: 'none',
                 is3D: true,
-                colors: Client.chart_colors
+                colors: Client.chart_colors,
             };
 
             var chart = new google.visualization.PieChart(document.getElementById('game-container-board'));
