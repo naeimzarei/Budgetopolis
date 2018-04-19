@@ -402,6 +402,7 @@ $(document).ready(function () {
 
         // event handler for second budget popup button 
         $('.popup-container-alt-2-button').on('click', function (event) {
+            console.log('already registered?');
             is_budget_popup_open = false;
 
             // check if number is valid
@@ -412,16 +413,51 @@ $(document).ready(function () {
                 $('.budget-table-2-header-adjustments').text('Adjustments');
                 // adjust budget accordingly
                 perform_budget_logic();
-                // clear adjustment input
-                $('.budget-table-2-values-adjustments').val('');
-                // clear modifier on second popup 
-                $('.popup-container-select-modifier').val('');
                 // unblur screen
                 unblur();
                 // update tabular view 
                 createTabularView(true);
                 renderGoalDiv();
                 budgetChangesSubmitted = true;
+
+                // TODO: priority 
+                // obtain select option value
+                var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+                var budget_option = $('.popup-container-select').find(':selected').text().trim();
+                var budget_option_multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
+                var budget_option_value = parseInt(budget_option.substring(
+                    budget_option.indexOf('(') + 1, budget_option.indexOf(')') - 1
+                ).replace(/,/g, '').replace('$', ''), 10);
+                var previous_budget_value = 
+                    parseInt($('.budget-table-2-values-current').text().replace('$', '').replace(/,/g, ''), 10);
+                // console.log('previous', previous_budget_value);
+
+                // case 1: nothing is adjusted 
+                if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier)) {
+                    // do nothing. keep for later on if needed. 
+                }
+                // case 2: manual adjustment 
+                if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) && budget_option === '-') {
+                    Client.user_choices['option'] = 'none';
+                    Client.user_choices['previous_budget_value'] = previous_budget_value;
+                    Client.user_choices['new_budget_value'] = previous_budget_value + manual_adjustment;
+                    Client.user_choices['difference'] = manual_adjustment;
+                }
+                // case 3: option selection
+                if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
+                    Client.user_choices['option'] = budget_option;
+                    Client.user_choices['difference'] = '';
+                };
+                // case 4: both manual adjustment and option selection 
+                if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
+                    Client.user_choices['option'] = budget_option;
+                }
+
+                // clear adjustment input
+                $('.budget-table-2-values-adjustments').val('');
+                // clear modifier on second popup 
+                $('.popup-container-select-modifier').val('');
+
             }
 
             /**
@@ -481,6 +517,9 @@ $(document).ready(function () {
                                 Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                             }
                         }
+
+
+
                         Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                     }
                 }
