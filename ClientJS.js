@@ -969,7 +969,7 @@ $(document).ready(function () {
                     width: 600,
                     height: 300
                 },
-                fontSize: 18,
+                fontSize: 20,
                 pieSliceText: "percentage",
                 pieSliceTextStyle: {
                     fontSize: 20,
@@ -983,7 +983,7 @@ $(document).ready(function () {
                     text: 'none'
                 },
                 legend: 'none',
-                is3D: true,
+                is3D: false,
                 colors: Client.chart_colors,
             };
 
