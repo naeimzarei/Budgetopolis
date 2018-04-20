@@ -425,6 +425,19 @@ $(document).ready(function () {
                     renderGoalDiv();
                     budgetChangesSubmitted = true;
 
+                    $('#startButton').off().on('click', function(){
+                        if($('#startButton').text().includes('Next')){
+                            generateHappiness(64);
+                            var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Sally L:</strong> Our local government is finally making good choices! </p>`); 
+                            var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Brandon W:</strong> exciting changes are happening in our local government! </p>`); 
+                            var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Paul S:</strong> but her emails! </p>`); 
+    
+                            $('.social-media-box').empty();
+                            $('.social-media-box').append(`<p style='font-weight: bold;'>Twitter Feed</p>`);
+                            $('.social-media-box').append(tweet1, tweet2, tweet3);
+                        }
+                    });
+
                     // obtain select option value
                     var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
                     var budget_option = $('.popup-container-select').find(':selected').text().trim();
