@@ -440,7 +440,6 @@ $(document).ready(function () {
                     // obtain select option value
                     var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
                     var budget_option = $('.popup-container-select').find(':selected').text().trim();
-                    // budget_option = budget_option.substring(0, budget_option.indexOf(' ('));
                     var budget_option_multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                     var budget_option_value = parseInt(budget_option.substring(budget_option.indexOf('(') + 1, budget_option.indexOf(')') - 1).replace(/,/g, '').replace('$', ''), 10);
                     var previous_budget_value;
