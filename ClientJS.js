@@ -38,7 +38,7 @@ $(document).ready(function () {
             '#009e73', '#f0e442', '#0072b2', 
             '#d55e00', '#9e9e9e', '#89882A'
         ],
-        // TODO: dictionary with user choices
+        // user choices 
         user_choices: {}
     };
 
@@ -222,7 +222,7 @@ $(document).ready(function () {
      */
     var previous_resource_name;
     var initial_resource_budget;
-    var event_set = false;
+    var is_event_set = false;
     function openBudgetPopupAlt(resource_name) {
         // check if value is in resources name
         var shouldReturn = true;
@@ -401,14 +401,11 @@ $(document).ready(function () {
             sanitize_input($(event.target).val());
         });
 
-        if (event_set) {
-            return;
-        } else {
+        if (is_event_set === false) {
             // event handler for second budget popup button 
             $('.popup-container-alt-2-button').on('click', function (event) {
-                event_set = true;
                 is_budget_popup_open = false;
-
+                is_event_set = true;
                 // check if number is valid
                 if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
                     // hide second popup
@@ -423,19 +420,6 @@ $(document).ready(function () {
                     createTabularView(true);
                     renderGoalDiv();
                     budgetChangesSubmitted = true;
-
-                    $('#startButton').off().on('click', function(){
-                        if($('#startButton').text().includes('Next')){
-                            generateHappiness(64);
-                            var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Sally L:</strong> Our local government is finally making good choices! </p>`); 
-                            var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Brandon W:</strong> exciting changes are happening in our local government! </p>`); 
-                            var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Paul S:</strong> but her emails! </p>`); 
-    
-                            $('.social-media-box').empty();
-                            $('.social-media-box').append(`<p style='font-weight: bold;'>Twitter Feed</p>`);
-                            $('.social-media-box').append(tweet1, tweet2, tweet3);
-                        }
-                    });
 
                     // obtain select option value
                     var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
@@ -555,7 +539,7 @@ $(document).ready(function () {
                     }
                 }
             });
-        }
+        } 
 
         /**
          * Creates new child nodes for the popup
@@ -1292,7 +1276,6 @@ $(document).ready(function () {
     function event_handlers() {
         var count = 1;
         $('#startButton').click(function () {
-            
             if ($('#startButton').text() === ' Start ') {
                 console.log('div hidden')
                 $('#tabular').hide()
@@ -1318,6 +1301,19 @@ $(document).ready(function () {
                     $('.media-container-box').append(message);
                 }
                 return;
+            }
+
+            // TODO: rob
+            if($('#startButton').text().includes('Next')){
+                console.log('fixed?');
+                generateHappiness(64);
+                var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Sally L:</strong> Our local government is finally making good choices! </p>`); 
+                var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Brandon W:</strong> exciting changes are happening in our local government! </p>`); 
+                var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Paul S:</strong> but her emails! </p>`); 
+
+                $('.social-media-box').empty();
+                $('.social-media-box').append(`<p style='font-weight: bold;'>Twitter Feed</p>`);
+                $('.social-media-box').append(tweet1, tweet2, tweet3);
             }
             
             $('#startButton').text("Next")
