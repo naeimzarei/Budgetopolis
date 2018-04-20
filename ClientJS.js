@@ -1305,7 +1305,6 @@ $(document).ready(function () {
 
             // TODO: rob
             if($('#startButton').text().includes('Next')){
-                console.log('fixed?');
                 generateHappiness(64);
                 var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Sally L:</strong> Our local government is finally making good choices! </p>`); 
                 var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Brandon W:</strong> exciting changes are happening in our local government! </p>`); 
