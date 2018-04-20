@@ -406,7 +406,6 @@ $(document).ready(function () {
         } else {
             // event handler for second budget popup button 
             $('.popup-container-alt-2-button').on('click', function (event) {
-                // TODO: rob 
                 event_set = true;
                 is_budget_popup_open = false;
 
@@ -477,12 +476,22 @@ $(document).ready(function () {
                         Client.user_choices['option'] = budget_option;
                         Client.user_choices['previous_budget_value'] = (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value);
                         Client.user_choices['new_budget_value'] = previous_budget_value;
+                        Client.user_choices['difference'] = manual_adjustment + (budget_option_multiplier * budget_option_value);
                     }
 
                     // clear adjustment input
                     $('.budget-table-2-values-adjustments').val('');
                     // clear modifier on second popup 
                     $('.popup-container-select-modifier').val('');
+
+                    // TODO: rob 
+                    // I have consoled it for you so you can see the output and 
+                    // get any information you need from there. 
+                    // Client.user_choices['option'] --> if the user picked any option (ie 'Close fire station')
+                    // previous_budget_value --> the value of the resource before budget was modified 
+                    // new_budget_value --> the value of the resource after budget modifications have been made 
+                    // difference --> the difference betweeen previous budget value and new budget value 
+                    console.log(Client.user_choices);
                 }
 
                 /**
