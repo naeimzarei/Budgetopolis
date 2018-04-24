@@ -478,6 +478,11 @@ $(document).ready(function () {
                     // new_budget_value --> the value of the resource after budget modifications have been made 
                     // difference --> the difference betweeen previous budget value and new budget value 
                     console.log(Client.user_choices);
+                    var selected_values = $(Client.selected_community_values);
+                    for (var i = 0; i < selected_values.length; i++) {
+                        var current_value = $(selected_values[i]).text();
+                        console.log('current-value', current_value);
+                    }
                 }
 
                 /**
@@ -717,10 +722,10 @@ $(document).ready(function () {
         current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
         // change adjustment value on first popup
         if (client_modified > current_modified) {
-            $('.budget-table-2-values-goal').text('+' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('.budget-table-2-values-goal').text('Increase by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('.budget-table-2-values-goal').css({ color: 'green' });
         } else if (client_modified < current_modified) {
-            $('.budget-table-2-values-goal').text('-' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('.budget-table-2-values-goal').text('Decrease by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('.budget-table-2-values-goal').css({ color: 'red' });
             if ($('.budget-table-adjustments').text() === '-$0.00') {
                 $('.budget-table-adjustments').text('No adjustments needed.');
@@ -1188,6 +1193,7 @@ $(document).ready(function () {
         // to only 2 places, truncate leading zeros 
         current_budget_sum = parseFloat(currentBudget.toFixed(2));
         // change adjustment value on first popup
+        // TODO: priority 
         if (client_modified > current_modified) {
             $('#goal').html('<b>Remaining:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'green'});
