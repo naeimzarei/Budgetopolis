@@ -471,12 +471,12 @@ svg > g > g:last-child {
 
 .popup-container-alt-2 {
     position: fixed;
-    width: 500px;
+    width: 650px;
     height: 260px;
     background-color: white;
     right: 10%;
     top: 50%;
-    margin-left: -250px;
+    margin-left: -325px;
     margin-top: -130px;
     border-radius: 5px;
     padding-left: 15px;
@@ -489,7 +489,6 @@ svg > g > g:last-child {
 
 .popup-container-title-alt-2 {
     position: relative;
-    width: 500px;
     font-size: 1.25em;
     padding-top: 10px;
     padding-bottom: 5px;
@@ -573,7 +572,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     width: 400px;
     height: 25px;
     position: absolute;
-    left: 42.5%;
+    left: 45%;
     top: 60%;
     margin-left: -200px;
     margin-top: -12.5px;
@@ -587,7 +586,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     position: absolute;
     width: 40px;
     height: 25px;
-    right: 5%;
+    right: 13%;
     top: 59%;
     margin-top: -10px;
     text-align: center;
@@ -595,7 +594,7 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
 
 .popup-container-select-modifier-value {
     position: absolute;
-    right: 14.5%;
+    right: 21%;
     top: 55%;
 }
 
@@ -716,4 +715,9 @@ table th, table td { overflow: hidden; }
 
 .highChange{
     color: darkred
+}
+
+.budget-table-2-values-plus-minus {
+    position: relative;
+    top: -5px;
 }
