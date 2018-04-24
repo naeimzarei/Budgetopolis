@@ -446,6 +446,7 @@ $(document).ready(function () {
                         Client.user_choices['previous_budget_value'] = previous_budget_value - manual_adjustment;
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = manual_adjustment;
+                        Client.user_choices['resource'] = resource_name;
                     }
                     // case 3: option selection
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -453,6 +454,7 @@ $(document).ready(function () {
                         Client.user_choices['previous_budget_value'] = previous_budget_value - (budget_option_multiplier * budget_option_value);
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = budget_option_multiplier * budget_option_value;
+                        Client.user_choices['resource'] = resource_name;
                     };
                     // case 4: both manual adjustment and option selection 
                     if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -460,6 +462,7 @@ $(document).ready(function () {
                         Client.user_choices['previous_budget_value'] = (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value);
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = manual_adjustment + (budget_option_multiplier * budget_option_value);
+                        Client.user_choices['resource'] = resource_name;
                     }
 
                     // clear adjustment input
