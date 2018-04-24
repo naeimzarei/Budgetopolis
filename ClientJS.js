@@ -1193,12 +1193,11 @@ $(document).ready(function () {
         // to only 2 places, truncate leading zeros 
         current_budget_sum = parseFloat(currentBudget.toFixed(2));
         // change adjustment value on first popup
-        // TODO: priority 
         if (client_modified > current_modified) {
-            $('#goal').html('<b>Remaining:  +' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Increase by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'green'});
         } else if (client_modified < current_modified) {
-            $('#goal').html('<b>Remaining:  -' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+            $('#goal').html('<b>Decrease by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
             $('#goal').css({color: 'red'});
             if ($('#goal').text() === '-$0.00') {
                 $('#goal').text('No adjustments needed.');
@@ -1411,26 +1410,18 @@ $(document).ready(function () {
                         var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                         var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                         var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
-                        // Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
                         // no values set for multiplier or budget breakdown
                         if (selected_value === '-' || isNaN(multiplier)) {
                             // change budget without further modification
                             Client.budget_breakdown[i].value += resource_value;
-                            // Client.user_choices['option'] = 'none';
-                            // Client.user_choices['budget_change'] = (resource_value).toString();
                         } else {
                             if (isNaN(adjustment)) {
                                 Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
-                                // Client.user_choices['option'] = 'none';
-                                // Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
                             } else {
                                 Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
                                 var choice = $('.popup-container-select').find(':selected').text().trim();
-                                // Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
-                                // Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                             }
                         }
-                        // Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                     }
                 }
             }
@@ -1488,26 +1479,18 @@ $(document).ready(function () {
                         var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                         var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                         var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
-                        // Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
                         // no values set for multiplier or budget breakdown
                         if (selected_value === '-' || isNaN(multiplier)) {
                             // change budget without further modification
                             Client.budget_breakdown[i].value += resource_value;
-                            // Client.user_choices['option'] = 'none';
-                            // Client.user_choices['budget_change'] = (resource_value).toString();
                         } else {
                             if (isNaN(adjustment)) {
                                 Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
-                                // Client.user_choices['option'] = 'none';
-                                // Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
                             } else {
                                 Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
                                 var choice = $('.popup-container-select').find(':selected').text().trim();
-                                // Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
-                                // Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                             }
                         }
-                        // Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                     }
                 }
             }
