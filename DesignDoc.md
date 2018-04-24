@@ -20,7 +20,7 @@ students (K-12).
 
 * __Purpose:__ To educate players in the strategy and importance of balancing between budgeting and appeasing their constituents. The game will expose the players to real life scenarios that face elected officials currently in office including (for example), cuts to funding for certain groups. This game will help teach players how to work together effectively as a group, efficiently allocate funds, along with illustrating how certain actions can disrupt the populace.
 
-* __Look and Feel:__ (will be revised) There will be a group (typically between 3-6 players) with a laptop that allows one player to input group budget decisions. The game will look similar to a board game, with an image of the game board showing the city or county's "resources", along with how much money is allocated for each. A radio button will allow players to change from the pie chart view to a tabular view of the budget information. In the middle of the game board are the group's chosen values, each having the ability for the user to obtain more information about the topic. Below the resources, there is a box where game scenarios are shown. On the right side of the screen, there is a box for social media responses. In this box, different media outlets will blast stories, messages, etc regarding the actions the group took (intended to simulate real media and their tendencies). 
+* __Look and Feel:__ There will be a group (typically between 3-6 players) with a laptop that allows one player to input group budget decisions. The game will look similar to a board game, with a pie chart showing the city or county's "resources", along with how much money is allocated for each. A radio button will allow players to change from the pie chart view to a tabular view of the budget information. The game board also has buttons for each of the group's chosen values, each having the ability for the user to obtain more information about the topic by clicking on it. After resources, there is a box where game scenarios are shown. Lastly, there is a box for social media responses. In this box, different media outlets will blast stories, messages, etc regarding the actions the group took (intended to simulate real media and their tendencies). 
 
 * __Intended Use:__ This game will be used in groups to begin training players about the basics of budgeting, along with how their actions can affect the populace they are "elected" to represent. It will also teach players how to work together effectively as a team, and become accustomed to certain group dynamics that are present in real life governmental roles.
 
@@ -37,7 +37,7 @@ students (K-12).
 * __Rules:__ The rules are centered around community values and budgeting. Therefore, the players are reminded
 of what roles they chose at the beginning of the game and must continously maintain them throughout the course
 of the game. If they make a decision that diverges from their original values, then they are reminded by the
-game logic. In addition, the players must remember that they only have a set budget that cannot be exceeded. 
+social media box and happiness bar indicator. In addition, the players must remember that they only have a set budget that cannot be exceeded. 
 In order to make budgeting work, the players have to effectively make budget cuts or increases. Again, the 
 group must ensure that they do not exceed the budget and that they should use as much of the budget as needed.
 The computer logic, of course, will take care of ensuring that this process is carried out the way it should. 
@@ -61,11 +61,7 @@ community values and budgetary decisions they will pursue.
 
 * __Combat:__ There is no combat in this game. 
 
-* __Screen Flow:__ The screen will show the gameboard in circular format, with the values displayed. As the
-game progresses, the screen will have options for the group to select whether or not they want to make 
-budget cuts or increases for certain values and options. A tabular view will also be shown that shows the current value, starting value, and percent change for all budget resources. Some sort of social media component will be 
-incorporated to simulate community feedback. The social media will be displayed in screen flow. For the 
-most part, the screen will be constant until some popup asks for input. When making budget adjustments, a popup will be displayed for players to increase or decrease spending to resources.
+* __Screen Flow:__ The game first starts out with a page asking the user to input a Faciltator ID (any 4 digits will do for now). Once entered, a new page appears asking to choose five values from the given list. After the user selects the group's five values, the game will continue to the main game board. This game board is the main window for Budgetopolis, providing the user the ability to start it (which will then populate a scenario in the main text box) and manipulate the budget. This main page also has a pie chart visualization of the current budget (by resource), a text box for scenarios/error messages, a happiness indicator to show the citizens' happiness with the current administration, and a social media text box that will populate with "posts" from "city residents". Budget changes can be done by clicking on the radio button above the pie chart visual, which will show a tabular view of the current budget. Here, by clicking on the resource name, the user can select options to increase/decrease the budget for that resource, along with a notification showing the "goal" or remaining budget that needs to be allocated.
 
 * __Game Options:__ The groups have the option to choose their community values and make their own
 budgetary decisions. The budget is affected as the group makes these decisions, which determines 
@@ -78,23 +74,21 @@ session they opened earlier, either through web caching or by inputting a random
 
 ## 5) Story and Narrative
 
-* __Back Story:__ The School of Government at UNC originally built this game to help newly elected city
-and council members to think about how to properly spend hte local government budget. This game was originally
-a board game and is now being transformed into a web app. 
+* __Back Story:__ The players are part of a newly elected city council to represent an assigned city/county. The city council is responsible for maintaining a well balanced budget that also holds their "values" to a high regard.
 
 * __Plot Elements:__ There is no clear plot in the game as it is instructional in manner. However, there are
 rounds of gameplay. Each round will consist of each group making budgetary decisions. There is no winner in the
 game, so there is no distinct conclusion. The game ends with the group reflecting on their budgetary choices and
 seeing how well they were able to maintain their community values. 
 
-* __Game Story Progression:__ There is no game story progression. There are only rounds.
+* __Game Story Progression:__ Each round, there are scenarios that are imposed on the "city council" (players) which will prompt them to make necessary changes to the budget; once the budget is changed, the group can move on to the next scenario. These scenarios are how the game progresses until the end.
 
 * __Cut Scenes:__ There will be no cut scenes. There will be rounds where the game pauses and waits for the
 group to make a decision. 
 
 ## 6) Game World
 
-* __General Look and Feel of the World:__ There is no real "world" in Budgetopolis.
+* __General Look and Feel of the World:__ The world is the city in which the players are governing. The "flavor" deals with the values that the group selected (which will influence game play- ex/social media posts, happiness bar indicator).
 
 * __Areas:__ The only areas for this online game is really the game board and the different parts of the webpage that can be interacted with.
 
