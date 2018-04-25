@@ -39,7 +39,13 @@ $(document).ready(function () {
             '#d55e00', '#9e9e9e', '#89882A'
         ],
         // user choices 
-        user_choices: {}
+        user_choices: {},
+        // TODO: priority 
+        // if increase or decrease checkbox has been selected 
+        checkboxes: {
+            isDecreaseSelected: false,
+            isIncreaseSelected: false
+        }
     };
 
     //prep server connection
@@ -408,18 +414,19 @@ $(document).ready(function () {
                 is_event_set = true;
                 // check if number is valid
                 if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
-                    // hide second popup
-                    $('.page2-popup-budget-alt-2').hide();
+                    // TODO: priority
+                    // // hide second popup
+                    // $('.page2-popup-budget-alt-2').hide();
                     // change adjustment title 
                     $('.budget-table-2-header-adjustments').text('Adjustments');
-                    // adjust budget accordingly
-                    perform_budget_logic();
-                    // unblur screen
-                    unblur();
+                    // // adjust budget accordingly
+                    // perform_budget_logic();
+                    // // unblur screen
+                    // unblur();
                     // update tabular view 
-                    createTabularView(true);
-                    renderGoalDiv();
-                    budgetChangesSubmitted = true;
+                    // createTabularView(true);
+                    // renderGoalDiv();
+                    // budgetChangesSubmitted = true;
 
                     // obtain select option value
                     var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
@@ -436,6 +443,8 @@ $(document).ready(function () {
                         }
                     }
 
+                    // TODO: priority 
+                    var should_analyze_checkboxes = false;
                     // case 1: nothing is adjusted 
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier)) {
                         // do nothing. keep for later on if needed. 
@@ -447,6 +456,7 @@ $(document).ready(function () {
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = manual_adjustment;
                         Client.user_choices['resource'] = resource_name;
+                        should_analyze_checkboxes = true;
                     }
                     // case 3: option selection
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -455,6 +465,7 @@ $(document).ready(function () {
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = budget_option_multiplier * budget_option_value;
                         Client.user_choices['resource'] = resource_name;
+                        should_analyze_checkboxes = true;
                     };
                     // case 4: both manual adjustment and option selection 
                     if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -463,7 +474,57 @@ $(document).ready(function () {
                         Client.user_choices['new_budget_value'] = previous_budget_value;
                         Client.user_choices['difference'] = manual_adjustment + (budget_option_multiplier * budget_option_value);
                         Client.user_choices['resource'] = resource_name;
+                        should_analyze_checkboxes = true;
                     }
+
+                     // Checks if the 'Increase' or 'Decrease' checkboxes
+                     // have been selected. Only one checkbox must be selected.
+                     // The user must select one checkbox.
+                     if (should_analyze_checkboxes) {
+                        // make sure user has selected 'Increase' or 'Decrease'
+                        var checkbox1 = $('.plus-minus-1');
+                        var checkbox2 = $('.plus-minus-2');
+                        // none are selected, make sure they make a selection 
+                        if ($(checkbox1).is(':checked') === false && $(checkbox2).is(':checked') === false) {
+                            $('.popup-container-title-alt-2').text('Please select whether you want to increase or decrease.');
+                            return;
+                        }
+                        // both are selected, return
+                        if ($(checkbox1).is(':checked') && $(checkbox2).is(':checked')) {
+                            $('.popup-container-title-alt-2').text('Please select only one checkbox.');
+                            return;
+                        }
+                        // increase checkbox selected 
+                        if ($(checkbox1).is(':checked')) {
+                            // unblur the screen
+                            unblur();
+                            // hide the second popup 
+                            $('.page2-popup-budget-alt-2').hide();
+                            // set checkbox global object 
+                            // TODO: priority
+                            Client.checkboxes.isIncreaseSelected = true;
+                            Client.checkboxes.isDecreaseSelected = false;
+                        // decrease checkbox selected 
+                        } else if ($(checkbox2).is(':checked')) {
+                            // unblur the screen
+                            unblur();
+                            // hide the second popup 
+                            $('.page2-popup-budget-alt-2').hide();
+                            // set checkbox global object 
+                            Client.checkboxes.isIncreaseSelected = false;
+                            Client.checkboxes.isDecreaseSelected = true;
+                        }
+                        // adjust budget accordingly
+                        perform_budget_logic();
+                        createTabularView(true);
+                        renderGoalDiv();
+                        budgetChangesSubmitted = true;
+                     } else {
+                        // unblur the screen
+                        unblur();
+                        // hide the second popup 
+                        $('.page2-popup-budget-alt-2').hide();
+                     }
 
                     // clear adjustment input
                     $('.budget-table-2-values-adjustments').val('');
@@ -477,11 +538,11 @@ $(document).ready(function () {
                     // previous_budget_value --> the value of the resource before budget was modified 
                     // new_budget_value --> the value of the resource after budget modifications have been made 
                     // difference --> the difference betweeen previous budget value and new budget value 
-                    console.log(Client.user_choices);
+                    // console.log(Client.user_choices);
                     var selected_values = $(Client.selected_community_values);
                     for (var i = 0; i < selected_values.length; i++) {
                         var current_value = $(selected_values[i]).text();
-                        console.log('current-value', current_value);
+                        // console.log('current-value', current_value);
                     }
                 }
 
@@ -523,26 +584,28 @@ $(document).ready(function () {
                             var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                             var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                             var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
-                            // Client.user_choices['resource_name'] = Client.budget_breakdown[i].name;
                             // no values set for multiplier or budget breakdown
                             if (selected_value === '-' || isNaN(multiplier)) {
                                 // change budget without further modification
                                 Client.budget_breakdown[i].value += resource_value;
-                                // Client.user_choices['option'] = 'none';
-                                // Client.user_choices['budget_change'] = (resource_value).toString();
                             } else {
+                                var mod = 1;
+                                // if increase checkbox is selected 
+                                if (Client.checkboxes.isIncreaseSelected) {
+                                    console.log('darn it here.');
+                                    mod = 1;
+                                // if decrease checkbox is selected 
+                                } else if (Client.checkboxes.isDecreaseSelected) {
+                                    mod = -1;
+                                }
+                                // TODO: priority 
                                 if (isNaN(adjustment)) {
-                                    Client.budget_breakdown[i].value = initial + (multiplier * selected_value);
-                                    // Client.user_choices['option'] = 'none';
-                                    // Client.user_choices['budget_change'] = (multiplier * selected_value).toString();
+                                    Client.budget_breakdown[i].value = initial + (multiplier * selected_value * mod);
                                 } else {
-                                    Client.budget_breakdown[i].value = initial + adjustment + (multiplier * selected_value);
+                                    Client.budget_breakdown[i].value = initial + ((adjustment + (multiplier * selected_value)) * mod);
                                     var choice = $('.popup-container-select').find(':selected').text().trim();
-                                    // Client.user_choices['option'] = choice.substring(0, choice.indexOf('(') - 1);
-                                    // Client.user_choices['budget_change'] = (adjustment + (multiplier * selected_value)).toString();
                                 }
                             }
-                            // Client.user_choices['combined_budget'] = Client.budget_breakdown[i].value.toFixed(2);
                         }
                     }
                 }
