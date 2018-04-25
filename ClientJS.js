@@ -1953,6 +1953,13 @@ $(document).ready(function () {
             }
         });
 
+        // prevents user from inputting '-' or 'e' values in modifier input box 
+        $('.popup-container-select-modifier').on('keydown', function(event) {
+            if (event.which === 189 || event.which === 69) {
+                return false;
+            }
+        });
+
         $('.popup-container-select').on('change', function (event) {
             // set current value
             var selected_budget_option = $('.popup-container-select').find(':selected').text().trim();
