@@ -102,7 +102,7 @@ group to make a decision.
 
 ## 8) Levels
 
-* __How Levels are Used:__ There are no levels in budgetopolis like in other games, but there will be different variations of the game based on who the players are. The vast majority of Budgetopolis players are adults, so the first priority will be to make the game with an adult audience in mind. This will mean allowing for more control over the budgeting decisions. In the default version, players would be able to distribute funds however they wanted, down to the last dollar while also dealing with pools of funds that more accurately represent what a town or municipality would deal with. In later versions of the game, there would be different settings to allow for a simpler version of the game intended for elementary or middle school students. In these versions, the pool of funds would be set at a lower amount (possibly $100 in total) in order to simplify and streamline the experience for a younger audience.
+* __How Levels are Used:__ The levels in this game are synonymous with the aforementioned scenarios; in addition, there will be different variations of the game based on who the players are. The vast majority of Budgetopolis players are adults, so the first priority will be to make the game with an adult audience in mind. This will mean allowing for more control over the budgeting decisions. In the default version, players would be able to distribute funds however they wanted, down to the last dollar while also dealing with pools of funds that more accurately represent what a town or municipality would deal with. In later versions of the game, there would be different settings to allow for a simpler version of the game intended for elementary or middle school students. In these versions, the pool of funds would be set at a lower amount (possibly $100 in total) in order to simplify and streamline the experience for a younger audience.
 
 * __Introductory Material:__ In the current Budgetopolis boardgame, there is an introductory information session about budgeting and community management. In the web application version, the information will be built in via collapsable tool tips. In the future, the clients in the school of goverment may want to implement more introductory educational material in the form of a video before the game begins.
 
@@ -114,7 +114,7 @@ group to make a decision.
 
 * __Menus:__ On the main landing page, players will be asked to enter in a 4 digit code that will link with the facilitators game session. The facilitator side of the game is not implemented yet, but ideally it would allow the facilitator to see the decisions made by each table of players. After entering in the 4 digit code, the user will be asked to select exactly 5 community values. After they are chosen, the game begins and the player will be taken to the main game page with the pie chart and scenario box. Upon completion of the game, a game summary will be shown that reviews the decisions that were made during the game along with the impact of those decisions through op-eds, social media responses, and news headlines.
 
-* __Camera Model:__ The camera in Budgetopolis will be an aerial view of the gameboard.
+* __Camera Model:__ There is no camera.
 
 * __Control System:__ As mentioned above, only one group member will input the budget decisions. They will do so by either typing the desired amount of funding or clicking on an arrow that decreases or increases funding for a particular resource.
 
