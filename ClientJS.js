@@ -40,7 +40,6 @@ $(document).ready(function () {
         ],
         // user choices 
         user_choices: {},
-        // TODO: priority 
         // if increase or decrease checkbox has been selected 
         checkboxes: {
             isDecreaseSelected: false,
@@ -407,6 +406,16 @@ $(document).ready(function () {
             sanitize_input($(event.target).val());
         });
 
+        /**
+         * Event handler for second budget popup adjustments that 
+         * prevents '-' or 'e' input 
+         */
+        $('.budget-table-2-values-adjustments').on('keydown', function(event) {
+            if (event.which === 189 || event.which === 69) {
+                return false;
+            }
+        });
+
         if (is_event_set === false) {
             // event handler for second budget popup button 
             $('.popup-container-alt-2-button').on('click', function (event) {
@@ -414,19 +423,7 @@ $(document).ready(function () {
                 is_event_set = true;
                 // check if number is valid
                 if (sanitize_input($('.budget-table-2-values-adjustments').val())) {
-                    // TODO: priority
-                    // // hide second popup
-                    // $('.page2-popup-budget-alt-2').hide();
-                    // change adjustment title 
                     $('.budget-table-2-header-adjustments').text('Adjustments');
-                    // // adjust budget accordingly
-                    // perform_budget_logic();
-                    // // unblur screen
-                    // unblur();
-                    // update tabular view 
-                    // createTabularView(true);
-                    // renderGoalDiv();
-                    // budgetChangesSubmitted = true;
 
                     // obtain select option value
                     var manual_adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
@@ -443,7 +440,6 @@ $(document).ready(function () {
                         }
                     }
 
-                    // TODO: priority 
                     var should_analyze_checkboxes = false;
                     // case 1: nothing is adjusted 
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier)) {
@@ -501,7 +497,6 @@ $(document).ready(function () {
                             // hide the second popup 
                             $('.page2-popup-budget-alt-2').hide();
                             // set checkbox global object 
-                            // TODO: priority
                             Client.checkboxes.isIncreaseSelected = true;
                             Client.checkboxes.isDecreaseSelected = false;
                         // decrease checkbox selected 
@@ -584,21 +579,21 @@ $(document).ready(function () {
                             var initial = parseFloat(Client.budget_breakdown[i].value.toFixed(2));
                             var multiplier = parseInt($('.popup-container-select-modifier').val(), 10);
                             var adjustment = parseFloat($('.budget-table-2-values-adjustments').val());
+
+                            var mod = 1;
+                            // if increase checkbox is selected 
+                            if (Client.checkboxes.isIncreaseSelected) {
+                                mod = 1;
+                            // if decrease checkbox is selected 
+                            } else if (Client.checkboxes.isDecreaseSelected) {
+                                mod = -1;
+                            }
+
                             // no values set for multiplier or budget breakdown
                             if (selected_value === '-' || isNaN(multiplier)) {
                                 // change budget without further modification
-                                Client.budget_breakdown[i].value += resource_value;
+                                Client.budget_breakdown[i].value += resource_value * mod;
                             } else {
-                                var mod = 1;
-                                // if increase checkbox is selected 
-                                if (Client.checkboxes.isIncreaseSelected) {
-                                    console.log('darn it here.');
-                                    mod = 1;
-                                // if decrease checkbox is selected 
-                                } else if (Client.checkboxes.isDecreaseSelected) {
-                                    mod = -1;
-                                }
-                                // TODO: priority 
                                 if (isNaN(adjustment)) {
                                     Client.budget_breakdown[i].value = initial + (multiplier * selected_value * mod);
                                 } else {
@@ -715,6 +710,7 @@ $(document).ready(function () {
                     break;
                 }
             }
+
             // values set for multipler and selected option 
             if (selected_value !== '-' && isNaN(multiplier) === false) {
                 if (isNaN(adjustment)) {
@@ -731,7 +727,8 @@ $(document).ready(function () {
                     return;
                 }
             }
-            $('.budget-table-2-values-current').text(sanitize_budget(new_current));
+
+            // $('.budget-table-2-values-current').text(sanitize_budget(new_current));
 
             // new current cannot exceed total budget 
             if (new_current > Client.total_budget) {
@@ -1620,7 +1617,8 @@ $(document).ready(function () {
                         return;
                     }
                 }
-                $('.budget-table-2-values-current').text(sanitize_budget(new_current));
+
+                // $('.budget-table-2-values-current').text(sanitize_budget(new_current));
 
                 // new current cannot exceed total budget 
                 if (new_current > Client.total_budget) {
@@ -1983,7 +1981,7 @@ $(document).ready(function () {
                 new_current = initial_resource_budget + adjustment + (multiplier * selected_value);
             }
 
-            $('.budget-table-2-values-current').text(sanitize_budget(new_current));
+            // $('.budget-table-2-values-current').text(sanitize_budget(new_current));
         })
 
         // Event handler for radio buttons 
