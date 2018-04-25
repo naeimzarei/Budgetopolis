@@ -12,7 +12,7 @@
 * Community values: the community values are the values that a particular group chooses to emphasize. By selecting five specific values, the group focuses on making important budgeting decisions in favor of those values. In terms of code, this translates to users inputting their budgeting choices via input boxes to change budget resources. As a result of these choices, the values of community values reflect on the screen as a function of the user choices. 
 * Scenarios: the scenarios are the randomly chosen events that occur that influence the user's budget decisions. Randomization is used to output a particular scenario. 
 * Social media: the social media component is the dynamically produced response to user actions. This translates to how the users make budget choices and how the social media reflects on these choices. In terms of code, the social media component requires analysis of budget values and a dynamic rendering of social media responses. 
-* Approval rating: the approval rating is a dynamically rendered component as well, just like the social media. It relies on how well the users maintain their community values. It depends on user budget choices. This dynamic component keeps track of user input and calculates the approval rating in terms of the overall budget. 
+* Approval rating: the approval rating is a dynamically rendered component as well, just like the social media. It relies on how well the users maintain their community values. It depends on user budget choices. This dynamic component keeps track of user input and calculates the approval rating in terms of the overall budget. It focuses on the lastest budgetary decision that the group made, not the overall choices of the group. 
 
 ## Decomposition
 
@@ -148,3 +148,7 @@
 * Google Fonts: used for the varous fonts used in the Budgetopolis application. 
 * Bootstrap: used for making the tables and fonts look more modern and to improve placement of elements on the page.
 * MangoDB Stitch: import needed to obtain database values from the JavaScript side of the web app. 
+
+### Moving Forward
+* Due to time constraints, much time and development has not been put into developing the Facilitator page, which is used to generate the session code as well as display the budgetary decisions of the group. 
+* The next group may choose to continue working on linking the Facilitator page with that of the Client page. 
