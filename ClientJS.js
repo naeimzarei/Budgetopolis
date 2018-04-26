@@ -228,7 +228,6 @@ $(document).ready(function () {
     var previous_resource_name;
     var initial_resource_budget;
     var is_event_set = false;
-    // TODO: priority 
     var adjustments_complete = false;
     function openBudgetPopupAlt(resource_name) {
         // check if value is in resources name
@@ -518,8 +517,6 @@ $(document).ready(function () {
                         perform_budget_logic();
                         createTabularView(true);
                         renderGoalDiv();
-                        // TODO: priority - logical error 
-                        // budgetChangesSubmitted = true;
                      } else {
                         // unblur the screen
                         unblur();
@@ -551,7 +548,6 @@ $(document).ready(function () {
                         client_modified = Math.floor(client_modified);
                     }
 
-                    // TODO: priority 
                     // to only 2 places, truncate leading zeros 
                     current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
                     // change adjustment value on first popup
