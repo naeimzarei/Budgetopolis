@@ -145,7 +145,7 @@ body {
 .values-2 {
     height: 85px;
     width: 85px;
-    border-radius: 37.5px;
+    border-radius: 42.5px;
     background-color: white;
     margin: 4px;
     text-align: center;
@@ -160,7 +160,8 @@ body {
     box-shadow: 0 0 0 1px gray;
     outline: none;
     border: 1px solid transparent;
-    text-shadow: 1px 1px black;
+    text-shadow: black 0px 0px 1px;
+    font-weight: bold;
 }
 
 .values-2:hover {

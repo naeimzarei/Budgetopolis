@@ -179,7 +179,9 @@ $(document).ready(function () {
      */
 
     function set_gameboard_values(values) {
-        var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
+        // TODO: priority 
+        // var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
+        var colors = ["#ffa389", "#dbba8e", "#813772", "#4ABDAC", "#86d0e0"];
 
         for (var i = 0; i < values.length; i++) {
             var current_value = $(values[i]).text();
