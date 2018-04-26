@@ -2067,15 +2067,37 @@ $(document).ready(function () {
             }
         });
 
-        // TODO: prioirty 
         $('.budget-table-2-values-plus-minus input').on('click', function(event) {
             var value = $(event.target).attr('value');
             if (value === 'Increase') {
-                // if value already selected, do nothing
-                console.log('checked?', $(event.target).is(':checked'));
-                // if value is not selected, select it 
+                // uncheck other checkbox 
+                $('.plus-minus-2').prop('checked', false);
             } else if (value === 'Decrease') {
+                // uncheck other checkbox 
+                $('.plus-minus-1').prop('checked', false);
+            }
+        });
 
+        $('.budget-table-2-values-plus-minus input').change(function(event) {
+            var value = $(event.target).attr('value');
+            if (value === 'Increase') {
+                // if value is already selected, do nothing 
+                if ($(event.target).is(':checked')) {
+                    return false;
+                // otherwise, check it
+                } else {
+                    $(event.target).prop('checked', true);
+                    $('.plus-minus-2').prop('checked', false);
+                }
+            } else if (value === 'Decrease') {
+                // if value is already selected, do nothing
+                if ($(event.target).is(':checked')) {
+                    return false;
+                // otherwise, check it 
+                } else {
+                    $(event.target).prop('checked', true);
+                    $('.plus-minus-1').prop('checked', false);
+                }
             }
         });
     }
