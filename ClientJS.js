@@ -1450,7 +1450,7 @@ $(document).ready(function () {
                 $(".media-container-box").html(
                     `<h1 style='text-align: center;'> Game Over </h1> 
                     <br/> 
-                    <p style='text-align: center;'>Please take the time to review your budgeting decisions with your group. </p>
+                    <p style='text-align: center;'>Please take the time to review your budgeting decisions with your group. Both the tabular view and the pie chart illustrate the changes made.</p>
                     <br/>
                     <p style='text-align: center;'>Want to play again? Click 'Play Again' below!</p>`
                 )
