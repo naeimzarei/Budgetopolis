@@ -38,8 +38,8 @@ $(document).ready(function () {
             '#009e73', '#f0e442', '#0072b2', 
             '#d55e00', '#9e9e9e', '#89882A'
         ],
-        // user choices 
-        user_choices: {},
+        // array of objects of user choices 
+        user_choices: [],
         // if increase or decrease checkbox has been selected 
         checkboxes: {
             isDecreaseSelected: false,
@@ -447,31 +447,37 @@ $(document).ready(function () {
                     }
                     // case 2: manual adjustment 
                     if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) && budget_option === '-') {
-                        Client.user_choices['option'] = 'none';
-                        Client.user_choices['previous_budget_value'] = previous_budget_value - manual_adjustment;
-                        Client.user_choices['new_budget_value'] = previous_budget_value;
-                        Client.user_choices['difference'] = manual_adjustment;
-                        Client.user_choices['resource'] = resource_name;
+                        Client.user_choices.push({
+                            'option': 'none',
+                            'previous_budget_value': previous_budget_value - manual_adjustment,
+                            'new_budget_value': previous_budget_value,
+                            'difference': manual_adjustment,
+                            'resource': resource_name
+                        });
                         should_analyze_checkboxes = true;
                         adjustments_complete = true;
                     }
                     // case 3: option selection
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
-                        Client.user_choices['option'] = budget_option;
-                        Client.user_choices['previous_budget_value'] = previous_budget_value - (budget_option_multiplier * budget_option_value);
-                        Client.user_choices['new_budget_value'] = previous_budget_value;
-                        Client.user_choices['difference'] = budget_option_multiplier * budget_option_value;
-                        Client.user_choices['resource'] = resource_name;
+                        Client.user_choices.push({
+                            'option': budget_option,
+                            'previous_budget_value': previous_budget_value - (budget_option_multiplier * budget_option_value),
+                            'new_budget_value': previous_budget_value,
+                            'difference': budget_option_multiplier * budget_option_value,
+                            'resource': resource_name
+                        });
                         should_analyze_checkboxes = true;
                         adjustments_complete = true;
                     };
                     // case 4: both manual adjustment and option selection 
                     if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
-                        Client.user_choices['option'] = budget_option;
-                        Client.user_choices['previous_budget_value'] = (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value);
-                        Client.user_choices['new_budget_value'] = previous_budget_value;
-                        Client.user_choices['difference'] = manual_adjustment + (budget_option_multiplier * budget_option_value);
-                        Client.user_choices['resource'] = resource_name;
+                        Client.user_choices.push({
+                            'option': budget_option,
+                            'previous_budget_value': (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value),
+                            'new_budget_value': previous_budget_value,
+                            'difference': manual_adjustment + (budget_option_multiplier * budget_option_value),
+                            'resource': resource_name
+                        });
                         should_analyze_checkboxes = true;
                         adjustments_complete = true;
                     }
@@ -580,7 +586,7 @@ $(document).ready(function () {
                     // previous_budget_value --> the value of the resource before budget was modified 
                     // new_budget_value --> the value of the resource after budget modifications have been made 
                     // difference --> the difference betweeen previous budget value and new budget value 
-                    // console.log(Client.user_choices);
+                    console.log(Client.user_choices);
                     var selected_values = $(Client.selected_community_values);
                     for (var i = 0; i < selected_values.length; i++) {
                         var current_value = $(selected_values[i]).text();
@@ -1392,6 +1398,11 @@ $(document).ready(function () {
     function event_handlers() {
         var count = 1;
         $('#startButton').click(function () {
+            // destroy reference to user_choices after each scenario
+            if (gameStarted) {
+                Client.user_choices = [];
+            }
+
             if ($('#startButton').text() === ' Start ') {
                 console.log('div hidden')
                 $('#tabular').hide()
