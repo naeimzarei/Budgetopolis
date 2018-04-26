@@ -127,7 +127,7 @@ body {
     right: 1%;
     top: 120px;
     left: 55%;
-    margin-left: -160px;
+    margin-left: -120px;
 }
 
 .values-container-cards-2 {
@@ -197,11 +197,11 @@ body {
 
 .values-container-title-text {
     position: fixed;
-    top: 140px;
+    top: 135px;
     font-size: 1.5em;
     left: 55%;
     width: 250px;
-    margin-left: -80px;
+    margin-left: -50px;
 }
 
 .community-info-title-container-text {
@@ -296,7 +296,7 @@ svg > g > g:last-child {
     border-radius: 5px;
     box-shadow: 0 0 0 1px black;
     left: 55%;
-    margin-left: -175px;
+    margin-left: -130px;
     overflow-y: hidden;
 }
 
@@ -628,19 +628,17 @@ input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer
     position: fixed;
     left: 55%;
     top: 515px;
-    margin-left: -40px;
+    margin-left: 10px;
 }
 
 #startButton, #playAgain{
-    /* position: fixed; */
     position: absolute;
     font-family: "Playfair Display";
     font-size: 14px;
-    /* right: 40%;
-    bottom: 20%; */
     padding: 15px 32px;
     background-color: #99badd;    
 }
+
 #submitBudgetButton{
     position: absolute;
     font-family: "Playfair Display";
@@ -725,5 +723,5 @@ table th, table td { overflow: hidden; }
 .powerpoint-viewer{
     position: fixed;
     bottom: 5px;
-    left: 35%;
+    right: 5%;
 }

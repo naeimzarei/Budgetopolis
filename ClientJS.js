@@ -179,8 +179,6 @@ $(document).ready(function () {
      */
 
     function set_gameboard_values(values) {
-        // TODO: priority 
-        // var colors = ["#FF3333", "#0080FF", "#7F00FF", "#009900", "#CC00CC"];
         var colors = ["#ffa389", "#dbba8e", "#813772", "#4ABDAC", "#86d0e0"];
 
         for (var i = 0; i < values.length; i++) {
@@ -189,7 +187,6 @@ $(document).ready(function () {
             var cardDiv = $("<div class='values-2' id = " + currentValId + " > " + current_value + "</div > ")
             $(".values-container-cards-2").append(cardDiv)
             $("#" + currentValId).css("background-color", colors[i])
-            //$(".values-container-cards-2").on('click', ".values-2", showValueDescription);
         }
     }
 
@@ -1275,6 +1272,7 @@ $(document).ready(function () {
                         return;   
                     }
                 }
+                
                 openBudgetPopupAlt($(event.target).text());
                 $('#tabular').show();
             });
@@ -1438,7 +1436,13 @@ $(document).ready(function () {
             var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
 
             if (Client.scenarios.length === 0) {
-                $(".media-container-box").html("<h1> Game Over </h1> <br> Want to play again? Click 'Play Again' below!")
+                $(".media-container-box").html(
+                    `<h1 style='text-align: center;'> Game Over </h1> 
+                    <br/> 
+                    <p style='text-align: center;'>Please take the time to review your budgeting decisions with your group. </p>
+                    <br/>
+                    <p style='text-align: center;'>Want to play again? Click 'Play Again' below!</p>`
+                )
                 $("#startButton").remove();
                 $('#playAgain').show();
                 return;
@@ -1838,6 +1842,8 @@ $(document).ready(function () {
                 connect({}, true, set_values_click_handler, createGooglePieChart);
                 // Update message container text value 
                 updateValuesContainerText('Select exactly 5 community values.');
+                // hide the Powerpoint 
+                $('.powerpoint-viewer').hide();
             }
         });
 
@@ -2054,11 +2060,22 @@ $(document).ready(function () {
                 $('#tabular').hide()
             } else if (radio.hasClass('radio2')) {
                 // hide the pie chart
-                
                 $('#game-container-board').hide(1, function () {
                     $('#goal').show();
                 });
                 createTabularView(true);
+            }
+        });
+
+        // TODO: prioirty 
+        $('.budget-table-2-values-plus-minus input').on('click', function(event) {
+            var value = $(event.target).attr('value');
+            if (value === 'Increase') {
+                // if value already selected, do nothing
+                console.log('checked?', $(event.target).is(':checked'));
+                // if value is not selected, select it 
+            } else if (value === 'Decrease') {
+
             }
         });
     }
