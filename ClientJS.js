@@ -228,6 +228,8 @@ $(document).ready(function () {
     var previous_resource_name;
     var initial_resource_budget;
     var is_event_set = false;
+    // TODO: priority 
+    var adjustments_complete = false;
     function openBudgetPopupAlt(resource_name) {
         // check if value is in resources name
         var shouldReturn = true;
@@ -453,6 +455,7 @@ $(document).ready(function () {
                         Client.user_choices['difference'] = manual_adjustment;
                         Client.user_choices['resource'] = resource_name;
                         should_analyze_checkboxes = true;
+                        adjustments_complete = true;
                     }
                     // case 3: option selection
                     if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -462,6 +465,7 @@ $(document).ready(function () {
                         Client.user_choices['difference'] = budget_option_multiplier * budget_option_value;
                         Client.user_choices['resource'] = resource_name;
                         should_analyze_checkboxes = true;
+                        adjustments_complete = true;
                     };
                     // case 4: both manual adjustment and option selection 
                     if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
@@ -471,6 +475,7 @@ $(document).ready(function () {
                         Client.user_choices['difference'] = manual_adjustment + (budget_option_multiplier * budget_option_value);
                         Client.user_choices['resource'] = resource_name;
                         should_analyze_checkboxes = true;
+                        adjustments_complete = true;
                     }
 
                      // Checks if the 'Increase' or 'Decrease' checkboxes
@@ -513,7 +518,8 @@ $(document).ready(function () {
                         perform_budget_logic();
                         createTabularView(true);
                         renderGoalDiv();
-                        budgetChangesSubmitted = true;
+                        // TODO: priority - logical error 
+                        // budgetChangesSubmitted = true;
                      } else {
                         // unblur the screen
                         unblur();
@@ -525,6 +531,52 @@ $(document).ready(function () {
                     $('.budget-table-2-values-adjustments').val('');
                     // clear modifier on second popup 
                     $('.popup-container-select-modifier').val('');
+
+                    var current_budget_sum = 0;
+                    for (var i = 0; i < Client.budget_breakdown.length; i++) {
+                        current_budget_sum += Client.budget_breakdown[i].value;
+                    }
+
+                    // new variables for comparison
+                    var client_modified = Number(Client.total_budget.toFixed(2));
+                    var current_modified = Number(current_budget_sum.toFixed(2));
+
+                    // fixes $0.01 bug
+                    var current_string = current_modified.toString();
+                    var current_other = client_modified.toString();
+                    if (current_string.substring(current_string.length - 2, current_string.length) === '01') {
+                        current_modified = Math.floor(current_modified);
+                    }
+                    if (current_other.substring(current_other.length - 2, current_other.length) === '01') {
+                        client_modified = Math.floor(client_modified);
+                    }
+
+                    // TODO: priority 
+                    // to only 2 places, truncate leading zeros 
+                    current_budget_sum = parseFloat(current_budget_sum.toFixed(2));
+                    // change adjustment value on first popup
+                    if (client_modified > current_modified) {
+                        $('.budget-table-2-values-goal').text('Increase by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+                        $('.budget-table-2-values-goal').css({ color: 'green' });
+                    } else if (client_modified < current_modified) {
+                        $('.budget-table-2-values-goal').text('Decrease by ' + sanitize_budget(Math.abs(Client.total_budget - current_budget_sum)));
+                        $('.budget-table-2-values-goal').css({ color: 'red' });
+                        if ($('.budget-table-adjustments').text() === '-$0.00') {
+                            if (adjustments_complete) {
+                                budgetChangesSubmitted = true;
+                                adjustments_complete = false;
+                            }
+                            $('.budget-table-adjustments').text('No adjustments needed.');
+                            $('.budget-table-adjustments').css({ color: 'black' });
+                        }
+                    } else {
+                        if (adjustments_complete) {
+                            budgetChangesSubmitted = true;
+                            adjustments_complete = false;
+                        }
+                        $('.budget-table-2-values-goal').text('No adjustments needed.');
+                        $('.budget-table-2-values-goal').css({ color: 'black' });
+                    }
 
                     // TODO: rob 
                     // I have consoled it for you so you can see the output and 
