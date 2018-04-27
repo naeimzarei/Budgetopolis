@@ -1659,8 +1659,9 @@ $(document).ready(function () {
             
             $('#startButton').text("Next")
 
+            console.log(JSON.stringify(Client.scenarios))
             var scenario = Client.scenarios[Math.floor(Math.random() * Client.scenarios.length)];
-
+            console.log('budget' + JSON.stringify(Client.budget_breakdown));
             if (Client.scenarios.length === 0) {
                 $(".media-container-box").html(
                     `<h1 style='text-align: center;'> Game Over </h1> 
@@ -1673,8 +1674,25 @@ $(document).ready(function () {
                 $('#playAgain').show();
                 return;
             }
-            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario + "</h3>")
+            $(".media-container-box").html("<h2 style='display:inline;'>Scenario " + count + "</h2> <br>" + "<h3>" + scenario[0] + "</h3>")
             count += 1;
+            if(scenario[1][0] === true){
+                
+                var totalBudget = 0;
+                Client.budget_breakdown.forEach(function(dict){
+                    totalBudget += dict['value'];
+                });
+                var deltaBudget = scenario[1][1];
+                console.log(deltaBudget)
+                if(Math.sign(deltaBudget) === -1){
+                    var goal = totalBudget+deltaBudget
+                    $('#goal').text("Decrease by " + goal).css("color", "red")
+                }else if(Math.sign(deltaBudget) === 1){
+                    var goal = totalBudget + deltaBudget
+                    $('#goal').text("Increase by " + goal).css("color", "green")                    
+                }
+                
+            }
             var index = Client.scenarios.indexOf(scenario)
             Client.scenarios.splice(index, 1)
             budgetChangesSubmitted = false;
