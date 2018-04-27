@@ -44,7 +44,25 @@ $(document).ready(function () {
         checkboxes: {
             isDecreaseSelected: false,
             isIncreaseSelected: false
-        }
+        },
+
+        // data linking community values to resources
+        associations_data: {
+            "Safe and Secure Community" : ["Police"],
+            "Low Unemployment Rate" : ["Planning and Economic Development"],
+            "Financially Conservative" : ["Reserves"],
+            "Affordable Housing" : ["Housing"],
+            "Environmentally Friendly" : ["Parks and Rec"],
+            "City Infrastructure Growth" : ["Streets"],
+            "Support Cultural Diversity" : ["Parks and Rec"],
+            "Preservation of Neighborhoods" : ["Solid Waste"],
+            "Family-Friendly City" : ["Parks and Rec"],
+            "Support Local Businesses" : ["Capital"],
+            "Support Public Education Growth" : ["Capital"]
+
+        },
+
+        happiness: 50
     };
 
     //prep server connection
@@ -54,6 +72,48 @@ $(document).ready(function () {
     var budgetChangesSubmitted = false;
     var initial_budget_breakdown = [];
     var gameStarted = false;
+    var bad_i = 0;
+    var good_i = 0;
+    var good_tweets = [
+        "<strong>Lizzie C:</strong>I'm finally feeling hopeful for the future of our town",
+        "<strong>Sally L:</strong> Our local government is finally making good choices!",
+        "<strong>Leslie K:</strong> I love spending time in the park with my son #MoreParksPlz",
+        "<strong>Jacob F:</strong> I love where I live!",
+        "<strong>Kelly L:</strong> So excited for my future here!",
+        "<strong>Harold K:</strong> We have the best first responders ever!",
+        "<strong>Tommy C:</strong> I'm so glad my vote finally had an impact on my community",
+        "<strong>Patrick L:</strong> Our local government is finally making good choices!",
+        "<strong>Megan K:</strong> I'm so happy with the policies my local representatives support",
+        "<strong>Madison W:</strong>So excited for my future here!",
+        "<strong>Taylor P:</strong> This is the best government I've seen!",
+        "<strong>Walter W:</strong> #GreatJobLocalGovernment",
+        "<strong>Jon S:</strong> I love where I live!",
+        "<strong>Amanda P:</strong> So excited for my future here!",
+        "<strong>Eugene K:</strong> Nothing is better than a relaxing walk in the neighborhood #HappyStreetsHappyMe",
+        "<strong>Melissa B:</strong> Definitely voting to keep my elected officials in place",
+        "<strong>William F:</strong> Our local government has been doing great recently!",
+        "<strong>Sandy C:</strong> I would love to see more support for science education"
+    ];
+    var bad_tweets = [
+        "<strong>Tom B:</strong> My dog could govern better than these clowns",
+        "<strong>Donald T:</strong> There need to be more stable geniuses in this city government!",
+        "<strong>Sarah W:</strong> The local government never supports its citizens",
+        "<strong>Chad O:</strong> Why does the government always take away what i like best :(",
+        "<strong>Whitney L:</strong> I wish that my local representatives cared about me",
+        "<strong>Sarah W:</strong> Can't wait to vote these people out of office...",
+        "<strong>Morgan E:</strong> Funding always get cut to my favorite programs",
+        "<strong>Vanessa C:</strong> What is our government coming to??",
+        "<strong>Mary C:</strong> The mental gymnastics shown by our local government to make these policy decisions never ceases to amaze me.",
+        "<strong>Arnold B:</strong> Who elected these people to run my town?",
+        "<strong>Russell W:</strong> The local government is so out of touch",
+        "<strong>Kristen A:</strong> Can't wait for the next election #VoteThemOut",
+        "<strong>Olivia H:</strong> This town has such terrible leadership",
+        "<strong>Justin H:</strong> My vote clearly didn't matter with these officials",
+        "<strong>Neil P:</strong> Anarchy would be better than what we have now",
+        "<strong>Isaiah K:</strong> All I want is to live my life without the government making decisions for me",
+        "<strong>John M:</strong> Why does our government do this??",
+        "<strong>Clark H:</strong> So ready to move away from here..."
+    ];
 
 
     /**
@@ -432,6 +492,7 @@ $(document).ready(function () {
                     var budget_option_value = parseInt(budget_option.substring(budget_option.indexOf('(') + 1, budget_option.indexOf(')') - 1).replace(/,/g, '').replace('$', ''), 10);
                     var previous_budget_value;
                     var resource_name = $('.popup-container-title-alt-2').text();
+                    var sign_mod = 0;
 
                     for (var i = 0; i < Client.budget_breakdown.length; i++) {
                         if (Client.budget_breakdown[i].name === resource_name) {
@@ -440,51 +501,9 @@ $(document).ready(function () {
                         }
                     }
 
-                    var should_analyze_checkboxes = false;
-                    // case 1: nothing is adjusted 
-                    if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier)) {
-                        // do nothing. keep for later on if needed. 
-                    }
-                    // case 2: manual adjustment 
-                    if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) && budget_option === '-') {
-                        Client.user_choices.push({
-                            'option': 'none',
-                            'previous_budget_value': previous_budget_value - manual_adjustment,
-                            'new_budget_value': previous_budget_value,
-                            'difference': manual_adjustment,
-                            'resource': resource_name
-                        });
-                        should_analyze_checkboxes = true;
-                        adjustments_complete = true;
-                    }
-                    // case 3: option selection
-                    if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
-                        Client.user_choices.push({
-                            'option': budget_option,
-                            'previous_budget_value': previous_budget_value - (budget_option_multiplier * budget_option_value),
-                            'new_budget_value': previous_budget_value,
-                            'difference': budget_option_multiplier * budget_option_value,
-                            'resource': resource_name
-                        });
-                        should_analyze_checkboxes = true;
-                        adjustments_complete = true;
-                    };
-                    // case 4: both manual adjustment and option selection 
-                    if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
-                        Client.user_choices.push({
-                            'option': budget_option,
-                            'previous_budget_value': (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value),
-                            'new_budget_value': previous_budget_value,
-                            'difference': manual_adjustment + (budget_option_multiplier * budget_option_value),
-                            'resource': resource_name
-                        });
-                        should_analyze_checkboxes = true;
-                        adjustments_complete = true;
-                    }
+                    var should_analyze_checkboxes = true;
 
-                     // Checks if the 'Increase' or 'Decrease' checkboxes
-                     // have been selected. Only one checkbox must be selected.
-                     // The user must select one checkbox.
+
                      if (should_analyze_checkboxes) {
                         // make sure user has selected 'Increase' or 'Decrease'
                         var checkbox1 = $('.plus-minus-1');
@@ -528,6 +547,115 @@ $(document).ready(function () {
                         // hide the second popup 
                         $('.page2-popup-budget-alt-2').hide();
                      }
+
+                     if(Client.checkboxes.isDecreaseSelected){
+                        sign_mod = -1;
+                     } else {
+                        sign_mod = 1;
+                     }
+
+                    // case 1: nothing is adjusted 
+                    if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier)) {
+                        // do nothing. keep for later on if needed. 
+                    }
+                    // case 2: manual adjustment 
+                    if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) && budget_option === '-') {
+                        
+                        /*Client.user_choices.push({
+                            'option': 'none',
+                            'previous_budget_value': previous_budget_value - manual_adjustment,
+                            'new_budget_value': previous_budget_value,
+                            'difference': manual_adjustment,
+                            'resource': resource_name
+                        }); */
+
+                        console.log("inc " + Client.checkboxes.isIncreaseSelected);
+                        console.log("dec " + Client.checkboxes.isDecreaseSelected);
+
+                        Client.user_choices.push({
+                            'option': 'none',
+                            'previous_budget_value': previous_budget_value,
+                            'new_budget_value': previous_budget_value + (manual_adjustment * sign_mod),
+                            'difference': manual_adjustment * sign_mod,
+                            'resource': resource_name
+                        });
+
+                        should_analyze_checkboxes = true;
+                        adjustments_complete = true;
+                    }
+                    // case 3: option selection
+                    if (isNaN(manual_adjustment) && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
+                        Client.user_choices.push({
+                            'option': budget_option,
+                            'previous_budget_value': previous_budget_value,
+                            'new_budget_value': previous_budget_value + (budget_option_multiplier * budget_option_value * sign_mod),
+                            'difference': budget_option_multiplier * budget_option_value * sign_mod,
+                            'resource': resource_name
+                        });
+                        should_analyze_checkboxes = true;
+                        adjustments_complete = true;
+                    };
+                    // case 4: both manual adjustment and option selection 
+                    if (isNaN(manual_adjustment) === false && isNaN(budget_option_multiplier) === false && budget_option !== '-') {
+                        Client.user_choices.push({
+                            'option': budget_option,
+                            'previous_budget_value': (previous_budget_value - manual_adjustment) - (budget_option_multiplier * budget_option_value),
+                            'new_budget_value': previous_budget_value,
+                            'difference': manual_adjustment + (budget_option_multiplier * budget_option_value),
+                            'resource': resource_name
+                        });
+                        should_analyze_checkboxes = true;
+                        adjustments_complete = true;
+                    }
+
+                     // Checks if the 'Increase' or 'Decrease' checkboxes
+                     // have been selected. Only one checkbox must be selected.
+                     // The user must select one checkbox.
+
+                     /*
+                     if (should_analyze_checkboxes) {
+                        // make sure user has selected 'Increase' or 'Decrease'
+                        var checkbox1 = $('.plus-minus-1');
+                        var checkbox2 = $('.plus-minus-2');
+                        // none are selected, make sure they make a selection 
+                        if ($(checkbox1).is(':checked') === false && $(checkbox2).is(':checked') === false) {
+                            $('.popup-container-title-alt-2').text('Please select whether you want to increase or decrease.');
+                            return;
+                        }
+                        // both are selected, return
+                        if ($(checkbox1).is(':checked') && $(checkbox2).is(':checked')) {
+                            $('.popup-container-title-alt-2').text('Please select only one checkbox.');
+                            return;
+                        }
+                        // increase checkbox selected 
+                        if ($(checkbox1).is(':checked')) {
+                            // unblur the screen
+                            unblur();
+                            // hide the second popup 
+                            $('.page2-popup-budget-alt-2').hide();
+                            // set checkbox global object 
+                            Client.checkboxes.isIncreaseSelected = true;
+                            Client.checkboxes.isDecreaseSelected = false;
+                        // decrease checkbox selected 
+                        } else if ($(checkbox2).is(':checked')) {
+                            // unblur the screen
+                            unblur();
+                            // hide the second popup 
+                            $('.page2-popup-budget-alt-2').hide();
+                            // set checkbox global object 
+                            Client.checkboxes.isIncreaseSelected = false;
+                            Client.checkboxes.isDecreaseSelected = true;
+                        }
+                        // adjust budget accordingly
+                        perform_budget_logic();
+                        createTabularView(true);
+                        renderGoalDiv();
+                     } else {
+                        // unblur the screen
+                        unblur();
+                        // hide the second popup 
+                        $('.page2-popup-budget-alt-2').hide();
+                     } */
 
                     // clear adjustment input
                     $('.budget-table-2-values-adjustments').val('');
@@ -586,12 +714,7 @@ $(document).ready(function () {
                     // previous_budget_value --> the value of the resource before budget was modified 
                     // new_budget_value --> the value of the resource after budget modifications have been made 
                     // difference --> the difference betweeen previous budget value and new budget value 
-                    console.log(Client.user_choices);
-                    var selected_values = $(Client.selected_community_values);
-                    for (var i = 0; i < selected_values.length; i++) {
-                        var current_value = $(selected_values[i]).text();
-                        // console.log('current-value', current_value);
-                    }
+                    console.log("user_choices: ", Client.user_choices);        
                 }
 
                 /**
@@ -1326,23 +1449,94 @@ $(document).ready(function () {
         }
     }
 
+    function getApproval(){
+        console.log("client choices: ", Client.user_choices);
+
+        var choices = $(Client.user_choices);
+        console.log("choices " + choices);
+        
+        var selected_values = $(Client.selected_community_values);
+
+        // sanitized array of selected community values
+        var value_arr = [];
+
+        // array of resources that are taken into account
+        var assoc_arr = [];
+
+        var delta = 0;
+        
+        for (var i = 0; i < selected_values.length; i++) {
+            var current_value = $(selected_values[i]).text();
+            // console.log('current-value', current_value);
+            value_arr.push(current_value);
+        }
+
+        console.log("community values: " + value_arr);
+
+        for(var element in Client.associations_data){
+            if(value_arr.includes(element)){ //finds overlap between selected_community_values and 
+                //console.log(element + " yes");
+                //populate assoc_array
+                assoc_arr.push(Client.associations_data[element]);
+                assoc_arr = assoc_arr.join().split(',');
+                //console.log("assoc_arr", assoc_arr);
+            }
+        }
+
+        console.log("watched resources: " + assoc_arr);
+
+        for(var i = 0; i < Client.user_choices.length; i++){
+            console.log(i, Client.user_choices[i]);
+            if(assoc_arr.includes(Client.user_choices[i].resource)){
+                console.log(Client.user_choices[i].resource + " is in both.");
+                //the names for previous and new budget values are backwards
+                delta = Client.user_choices[i].new_budget_value - Client.user_choices[i].previous_budget_value
+                if(delta >= 1000000){
+                    Client.happiness += 10;
+                } else if(delta >= 500000) {
+                    Client.happiness += 5;
+                } else if(delta >= 50000) {
+                    Client.happiness += 3;
+                } else if(delta >= -50000){
+                    //do nothing
+                } else if(delta >= -500000){
+                    Client.happiness -= 3;
+                } else if(delta >= -1000000){
+                    Client.happiness -= 5;
+                } else {
+                    Client.happiness -= 10;
+                }
+
+            }
+        }
+
+        if(Client.happiness > 100){
+            Client.happiness = 100;
+        }
+
+        if(Client.happiness < 0){
+            Client.happiness = 0;
+        }
+
+        generateHappiness(Client.happiness);
+    }
 
 
     var generateHappiness = function (happiness) {
-        if (happiness >= 81) {
+        if (happiness >= 65) {
             //display super happy face
             console.log("super Happy");
             $('#face').attr("src", "./images/superHappy.png");
             createHappyPopup(happiness);
-        } else if (happiness >= 61 && happiness < 81) {
+        } else if (happiness >= 55) {
             //display happy face
             $('#face').attr("src", "./images/happy.png");
             createHappyPopup(happiness);
-        } else if (happiness >= 41 && happiness < 61) {
+        } else if (happiness >= 45) {
             //display neutral face
             $('#face').attr("src", "./images/neutral.png");
             createHappyPopup(happiness);
-        } else if (happiness >= 21 && happiness < 41) {
+        } else if (happiness >= 40) {
             //display sad face
             $('#face').attr("src", "./images/sad.png");
             createHappyPopup(happiness);
@@ -1399,9 +1593,10 @@ $(document).ready(function () {
         var count = 1;
         $('#startButton').click(function () {
             // destroy reference to user_choices after each scenario
+            /*
             if (gameStarted) {
                 Client.user_choices = [];
-            }
+            } */
 
             if ($('#startButton').text() === ' Start ') {
                 console.log('div hidden')
@@ -1432,10 +1627,30 @@ $(document).ready(function () {
 
             // TODO: rob
             if($('#startButton').text().includes('Next')){
-                generateHappiness(64);
-                var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Sally L:</strong> Our local government is finally making good choices! </p>`); 
-                var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Brandon W:</strong> exciting changes are happening in our local government! </p>`); 
-                var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> <strong>Paul S:</strong> but her emails! </p>`); 
+                
+                console.log("next button pressed");
+
+                console.log("user choices in click handler ", Client.user_choices);
+                getApproval();
+                
+                if (gameStarted) {
+                    Client.user_choices = [];
+                }
+
+                var r1 = Math.floor(Math.random() * good_tweets.length);
+                var r2 = Math.floor(Math.random() * good_tweets.length);
+                var r3 = Math.floor(Math.random() * good_tweets.length);
+
+
+                if(Client.happiness > 50){
+                    var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + good_tweets[r1] + `</p>`);
+                    var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + good_tweets[r2] + `</p>`); 
+                    var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + good_tweets[r3] + `</p>`);  
+                } else {
+                    var tweet1 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + bad_tweets[r1] + `</p>`);
+                    var tweet2 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + bad_tweets[r2] + `</p>`); 
+                    var tweet3 = $(`<p style='color: black; text-align: left; padding: 3px; border: thin solid black; background-color: #99ceff; border-radius: 3px;'> ` + bad_tweets[r3] + `</p>`);  
+                }
 
                 $('.social-media-box').empty();
                 $('.social-media-box').append(`<p style='font-weight: bold;'>Twitter Feed</p>`);
@@ -2122,7 +2337,7 @@ $(document).ready(function () {
         // Add event handlers. Note: add more event handlers
         // as needed in event_handlers() function
         event_handlers();
-        generateHappiness(50)
+        generateHappiness(50);
 
         // Hide other pages besides startup page
         for (var i = 2; i <= get_num_pages(); i++) {
