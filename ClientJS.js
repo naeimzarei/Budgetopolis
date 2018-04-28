@@ -1683,12 +1683,25 @@ $(document).ready(function () {
                     totalBudget += dict['value'];
                 });
                 var deltaBudget = scenario[1][1];
-                console.log(deltaBudget)
+                console.log(Math.sign(deltaBudget) === -1) //evals to true, still showing increase instead of dec.
                 if(Math.sign(deltaBudget) === -1){
                     var goal = totalBudget+deltaBudget
+                    
+                    for(var i = 0; i < Client.budget_breakdown.length; i++){
+                        //removes deltaBudget from Capital resource 
+                        if(Client.budget_breakdown[i]["name"] === "Capital"){
+                            Client.budget_breakdown[i]["value"] += deltaBudget;
+                        }
+                    }
                     $('#goal').text("Decrease by " + goal).css("color", "red")
-                }else if(Math.sign(deltaBudget) === 1){
+                }else{
                     var goal = totalBudget + deltaBudget
+                    for(var i = 0; i < Client.budget_breakdown.length; i++){
+                        //adds deltaBudget from Capital resource 
+                        if(Client.budget_breakdown[i]["name"] === "Capital"){
+                            Client.budget_breakdown[i]["value"] += deltaBudget;
+                        }
+                    }
                     $('#goal').text("Increase by " + goal).css("color", "green")                    
                 }
                 
