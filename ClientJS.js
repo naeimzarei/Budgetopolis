@@ -279,6 +279,8 @@ $(document).ready(function () {
         $('.page2-popup').show();
     }
 
+
+
     /**
      * Opens a popup, allowing the user to make 
      * changes to the budget of each resource. 
@@ -379,6 +381,8 @@ $(document).ready(function () {
                 }
             }
         }
+
+
 
         /**
          * Adds event handler for the popup 
@@ -1590,6 +1594,15 @@ $(document).ready(function () {
      * Sets up event handlers during startup.
      */
     function event_handlers() {
+
+        $('.main-menu-container-element').click(function () {
+
+            window.open("https://drive.google.com/file/d/1byNrem6Z6z0FkVrlj2XB6Do8iHxJ1Thb/preview", '_blank')
+            
+         });
+        
+        
+
         var count = 1;
         $('#startButton').click(function () {
             // destroy reference to user_choices after each scenario
