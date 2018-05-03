@@ -722,6 +722,13 @@ table th, table td { overflow: hidden; }
 }
 .powerpoint-viewer{
     position: fixed;
+    bottom: 25px;
+    right: 34%;
+}
+#note{
+    position: fixed;
     bottom: 5px;
-    right: 5%;
+    left: 20%;
+    font-family: "Poppins";
+    font-size: 12px;
 }

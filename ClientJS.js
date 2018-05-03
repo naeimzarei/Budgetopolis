@@ -2347,10 +2347,10 @@ $(document).ready(function () {
         });
     }
 
-    window.addEventListener('load',function(){
-        alert("Welcome to Budgetopolis! If this is your first time playing, please select 'load unsafe scripts' in the top right (if you are in Chrome) and refresh the page before continuing.")
+    // window.addEventListener('load',function(){
+    //     alert("Welcome to Budgetopolis! If this is your first time playing, please select 'load unsafe scripts' in the top right (if you are in Chrome) and refresh the page before continuing.")
         
-    })
+    // })
 
     /**
      * Main Method
