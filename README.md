@@ -4,6 +4,11 @@
 * Target audience: city and county council members
 * Developer: UNC School of Government 
 * Medium: originally a physcial board game, now through a web app
+* Live at: https://budgetopolis-bf134.firebaseapp.com
+* Game Trailer: TBD
+* Game Design Doc: https://github.com/naeimzarei/Budgetopolis/blob/master/DesignDoc.md
+* Software Doc: https://github.com/naeimzarei/Budgetopolis/blob/master/SoftwareDoc.md
+
 
 ## Contact Information
 *Team Members*
