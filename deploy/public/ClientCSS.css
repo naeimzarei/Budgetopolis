@@ -1,0 +1,734 @@
+body {
+    background-color: #F1F1F2;
+    font-family: "EB Garamond";
+    font-size: 18px;
+    position: fixed;
+    user-select: none;
+}
+
+.title-container {
+    font-family: "Cookie";
+    font-size: 6em;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+}
+
+.values-container {
+    width: 675px;
+    height: 500px;
+    position: fixed;
+    overflow: auto;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-left: 75px;
+}
+
+.values-container-cards {
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: black;
+    padding: 10px;
+    flex-wrap: wrap;
+    width: 500px;
+}
+
+.values {
+    height: 95px;
+    width: 95px;
+    background-color: white;
+    border-radius: 47.5px;
+    margin: 10px;
+    text-align: center;
+    font-size: 0.80em;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: gray;
+    box-sizing: border-box;
+}
+
+.values:hover {
+    cursor: pointer;
+    box-shadow: 0 0 0 1px blue;
+}
+
+.startup-message-container {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    top: 175px;
+}
+
+.startup-message-container-text {
+    background-color: #3a3e3f;
+    width: 90%;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    align-items: center;
+    font-size: 0.95em;
+    border-radius: 10px;
+}
+
+.session-container {
+    position: fixed;
+    z-index: 1;
+    top: 250px;
+    left: 50%;
+    margin-left: -50px;
+}
+
+.session-container-id {
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.game-container {
+    position: fixed;
+    top: 250px;
+    left: -7.5%;
+    width: 500px;
+    height: 500px;
+}
+
+.game-container-board {
+    border-radius: 150px;
+    box-shadow: 0 0 0 1px #555;
+}
+
+.title-container-2 {
+    font-family: "Cookie";
+    font-size: 6em;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.values-container-2 {
+    display: flex;
+    justify-content: center;
+    width: 350px;
+    height: 250px;
+    position: fixed;
+    right: 1%;
+    top: 120px;
+    left: 55%;
+    margin-left: -120px;
+}
+
+.values-container-cards-2 {
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    color: white;
+    padding: 10px;
+    text-shadow: 1px 1px black;
+
+}
+
+.values-2 {
+    height: 85px;
+    width: 85px;
+    border-radius: 42.5px;
+    background-color: white;
+    margin: 4px;
+    text-align: center;
+    font-size: 13px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: white;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 1px gray;
+    outline: none;
+    border: 1px solid transparent;
+    text-shadow: black 0px 0px 1px;
+    font-weight: bold;
+}
+
+.values-2:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.main-menu-container-element {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    margin: 15px;
+    position: fixed;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.main-menu-container-element:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+.values-container-title-text {
+    position: fixed;
+    top: 135px;
+    font-size: 1.5em;
+    left: 55%;
+    width: 250px;
+    margin-left: -50px;
+}
+
+.community-info-title-container-text {
+    position: fixed;
+    top: 120px;
+    left: 5%;
+    font-size: 1.5em;
+    z-index: 3;
+    border: 1px;
+    border-color: red;
+    display: inline-block;
+}
+
+.community-info-title-container{
+    border: 1px;
+    border-color: black;
+    text-align: center;}
+
+.play-game-container-button {
+    position: fixed;
+    width: 75px;
+    height: 50px;
+    margin-left: -37.5px;
+    margin-top: -25px;
+    left: 50%;
+    bottom: 4%;
+    border-radius: 10px;
+    outline: none;
+    background-color: blue;
+    z-index: 1;
+    border: 1px solid transparent;
+    font-size: 0.80em;
+    color: white;
+}
+
+.play-game-container-button:hover {
+    cursor: pointer;
+    background-color: white;
+    box-shadow: 0 0 0 1px black;
+    color: blue;
+}
+
+#budget-container-bar {
+    box-shadow: 0 0 0 1px #555555;
+    position: fixed;
+    bottom: 3%;
+    left: 50%;
+    margin-left: -40%;
+}
+
+svg > g > g:last-child { 
+    pointer-events: none 
+}
+
+#happyBox {
+    position: fixed;
+    right: 30px;
+}
+
+#happyPopup {
+    position: fixed;
+    font-family: "Playfair Display";
+    font-size: 18px;
+    font-size: 0.8em;
+    top: 25px;
+    right: 130px;
+    width: 250px;
+    border-radius: 5px;
+    background-color: white;
+    text-align: center;
+}
+
+.media-container-box {
+    position: fixed;
+    font-family: "Playfair Display";
+    resize: none;
+    font-size: 18px;
+    width: 375px;
+    height: 225px;
+    right: 2%;
+    top: 275px;
+    outline: none;
+    text-align: left;
+    font-size: 0.8em;
+    text-align: center;
+    background-color: white;
+    text-align: left;
+    overflow: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px black;
+    left: 55%;
+    margin-left: -110px;
+    overflow-y: hidden;
+}
+
+.popup {
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+.popup-budget {
+    position: fixed;
+    width: 600px;
+    height: 450px;
+    background-color: white;
+    left: 50%;
+    top: 40%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-value {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-description {
+    padding: 10px;
+}
+
+.popup-button{
+    position: absolute;
+    left: 50%;
+    margin-left: -25px;
+    width: 50px;
+    height: 50px;
+    bottom: 5%;
+    border-radius: 25px;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.popup-button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+.popup-1 {
+    position: fixed;
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -150px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-1 button {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    bottom: 5%;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+    margin-left: -30px;
+    text-align: center;
+}
+
+.popup-1 button:hover {
+    cursor: pointer;
+}
+
+.popup-1 button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+}
+
+.popup-1-button-select {
+    left: 40%;
+}
+
+.popup-1-button-cancel {
+    left: 60%;
+}
+
+.popup-1-value {
+    position: relative;
+    width: 500px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.popup-1-description {
+    padding: 10px;
+}
+.add-budget{
+    background-color:green;
+    color:white;
+}
+.subtract-budget{
+    background-color:red;
+    color:white;
+}
+
+.popup-container-alt {
+    position: fixed;
+    width: 600px;
+    height: 400px;
+    background-color: white;
+    left: 50%;
+    top: 50%;
+    margin-left: -300px;
+    margin-top: -200px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    box-shadow: 0 0 0 1px black;
+}
+
+.popup-container-title-alt {
+    position: relative;
+    width: 600px;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.budget-table {
+    margin: auto;
+}
+
+.budget-table-row-name:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.popup-container-alt-2 {
+    position: fixed;
+    width: 650px;
+    height: 260px;
+    background-color: white;
+    right: 4%;
+    top: 50%;
+    margin-left: -325px;
+    margin-top: -130px;
+    border-radius: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    text-align: left;
+    box-shadow: 0 0 0 1px black;
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+.popup-container-title-alt-2 {
+    position: relative;
+    font-size: 1.25em;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.budget-table-2 {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 25px 0; 
+} 
+
+.budget-table-2-header-current, 
+.budget-table-2-header-adjustments,
+.budget-table-2-header-goal {
+    text-decoration: underline;
+}
+
+.budget-table-2-values-adjustments {
+    width: 100px;
+}
+
+.popup-container-alt-2-button {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
+    left: 42.5%;
+    top: 70%;
+    border-radius: 25px;
+    margin: 15px;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+.popup-container-alt-2-button:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+
+.budget-table-goals {
+    margin: auto;
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
+.popup-container-close-alt {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 12.5px;
+    left: 95%;
+    top: 2%;
+    box-shadow: 0 0 0 1px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.popup-container-close-alt:hover {
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+.popup-container-select {
+    width: 400px;
+    height: 25px;
+    position: absolute;
+    left: 45%;
+    top: 60%;
+    margin-left: -200px;
+    margin-top: -12.5px;
+}
+
+.popup-container-select option {
+    font-size: 18px;
+}
+
+.popup-container-select-modifier {
+    position: absolute;
+    width: 40px;
+    height: 25px;
+    right: 13%;
+    top: 59%;
+    margin-top: -10px;
+    text-align: center;
+}
+
+.popup-container-select-modifier-value {
+    position: absolute;
+    right: 21%;
+    top: 55%;
+}
+
+.social-media-box {
+    position: fixed;
+    font-family: "Playfair Display";
+    resize: none;
+    font-size: 18px;
+    width: 250px;
+    height: 380px;
+    right: 1%;
+    top: 120px;
+    outline: none;
+    text-align: left;
+    font-size: 0.8em;
+    text-align: center;
+    background-color: white;
+    text-align: left;
+    overflow: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px black;
+    margin-left: -125px;
+    text-align: center;
+}
+
+.button-div {
+    position: fixed;
+    left: 55%;
+    top: 515px;
+    margin-left: 10px;
+}
+
+#startButton, #playAgain{
+    position: absolute;
+    font-family: "Playfair Display";
+    font-size: 14px;
+    padding: 15px 32px;
+    background-color: #99badd;    
+}
+
+#submitBudgetButton{
+    position: absolute;
+    font-family: "Playfair Display";
+    font-size: 14px;
+    right: 2%;
+    top: 2%;
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    z-index: 1;
+    background-color: white;
+    box-shadow: 0 0 0 1px #555;
+    outline: none;
+    border: 1px solid transparent;
+}
+
+#submitBudgetButton:hover{
+    box-shadow: 0 0 0 1px black;
+    background-color: #3a3e3f;
+    color: white;
+    cursor: pointer;
+}
+
+.radio-buttons {
+    position: absolute;
+    /* display: inline; */
+    top: -10%;
+    z-index: 3;
+    left: 5%;
+}
+
+.radio1 {
+    left: 280px;
+}
+
+.radio2 {
+    left: 305px;
+
+}
+
+#tabularView{
+    position: fixed;
+    left: 5px;
+    top: 32%;
+    width: 38%;
+}
+
+#tabularView td:hover, #tabularView th:hover {
+    cursor: pointer;
+}
+
+#goal{
+    position: fixed;
+    left: 260px;
+    top: 27%;
+}
+.thead-dark{
+    color: #fff;
+    background-color: #373a3c;
+}
+table { table-layout: fixed; }
+table th, table td { overflow: hidden; }
+
+.lowChange{
+    color: green
+}
+
+.medChange {
+    color: "#f49242"
+}
+
+.highChange{
+    color: darkred
+}
+
+.budget-table-2-values-plus-minus {
+    position: relative;
+    top: -5px;
+}
+.powerpoint-viewer{
+    position: fixed;
+    bottom: 25px;
+    right: 34%;
+}
+#note{
+    position: fixed;
+    bottom: 5px;
+    left: 20%;
+    font-family: "Poppins";
+    font-size: 12px;
+}
