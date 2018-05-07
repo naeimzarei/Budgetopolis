@@ -5,7 +5,7 @@
 * Developer: UNC School of Government 
 * Medium: originally a physcial board game, now through a web app
 * Live at: https://budgetopolis-bf134.firebaseapp.com
-* Game Trailer: TBD
+* Game Trailer: https://youtu.be/L5jfZVJS9sM
 * Game Design Doc: https://github.com/naeimzarei/Budgetopolis/blob/master/DesignDoc.md
 * Software Doc: https://github.com/naeimzarei/Budgetopolis/blob/master/SoftwareDoc.md
 
